@@ -19,6 +19,7 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
   const isSpecialPage =
     location.pathname === "/" ||
     location.pathname === "/account" ||
+    location.pathname === "/notifications" ||
     location.pathname === "/websites/create-new" ||
     location.pathname === "/incidents/create-new" ||
     /^\/website\/\d+($|\/edit$)/.test(location.pathname);
@@ -44,6 +45,10 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
 
   const handleAccountSettings = () => {
     navigate("/account");
+    handleMenuClose();
+  };
+  const handleNotificationsPage = () => {
+    navigate("/notifications");
     handleMenuClose();
   };
 
@@ -99,6 +104,7 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
         </Box>
         <Divider />
         <MenuItem onClick={handleAccountSettings}>Account</MenuItem>
+        <MenuItem onClick={handleNotificationsPage}>Notifications</MenuItem>
         <Divider />
         <MenuItem onClick={handleLogout}>Log out</MenuItem>
       </Menu>
