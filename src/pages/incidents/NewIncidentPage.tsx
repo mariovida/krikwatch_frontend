@@ -84,7 +84,16 @@ const NewIncidentPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
-        setWebsites(response.data.websites);
+        if (response) {
+          const sortedWebsites = response.data.websites.sort(
+            (a: any, b: any) => {
+              return a.name.localeCompare(b.name, "hr", {
+                sensitivity: "base",
+              });
+            }
+          );
+          setWebsites(sortedWebsites);
+        }
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
