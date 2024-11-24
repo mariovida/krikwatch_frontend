@@ -1,37 +1,16 @@
 .custom-more-menu {
-    .MuiPaper-root {
-        min-width: 180px;
-        background-color: $c-1;
-        box-shadow: rgba(0, 0, 0, 0.04) 0px 5px 22px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  .MuiPaper-root {
+    min-width: 180px;
+    background-color: $c-1;
+    box-shadow:
+      rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,
+      rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 
-        .MuiList-root {
-            padding: 6px;
+    .MuiList-root {
+      padding: 6px;
 
-            li {
-                font-family: 'Plus Jakarta Sans', sans-serif;
-                font-size: 15px;
-                font-weight: 500;
-                padding: 7px 8px;
-                margin-bottom: 6px;
-                border-radius: 4px;
-
-                &:last-of-type {
-                    margin: 0;
-                }
-            }
-        }
-    }
-
-    .more-menu-red {
-        color: $vz-red;
-    }
-}
-
-.MuiList-root {
-    padding: 6px !important;
-
-    li {
-        font-family: 'Plus Jakarta Sans', sans-serif;
+      li {
+        font-family: "Plus Jakarta Sans", sans-serif;
         font-size: 15px;
         font-weight: 500;
         padding: 7px 8px;
@@ -39,7 +18,30 @@
         border-radius: 4px;
 
         &:last-of-type {
-            margin: 0;
+          margin: 0;
         }
+      }
     }
+  }
+
+  .more-menu-red {
+    color: $vz-red;
+  }
+}
+
+.MuiList-root {
+  padding: 6px !important;
+
+  li {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 7px 8px;
+    margin-bottom: 6px;
+    border-radius: 4px;
+
+    &:last-of-type {
+      margin: 0;
+    }
+  }
 }
