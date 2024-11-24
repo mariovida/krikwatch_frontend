@@ -31,6 +31,7 @@ import EditWebsitePage from "./pages/websites/EditWebsitePage";
 import ClientsPage from "./pages/clients/ClientsPage";
 import UsersPage from "./pages/users/UsersPage";
 import AccountPage from "./pages/AccountPage";
+import NotificationsPage from "./pages/NotificationsPage";
 
 import PrivateRoute from "./auth/PrivateRoute";
 
@@ -156,6 +157,17 @@ function App() {
                   <>
                     <Navigation />
                     <AccountPage />
+                  </>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/notifications"
+              element={
+                <PrivateRoute>
+                  <>
+                    <Navigation />
+                    <NotificationsPage />
                   </>
                 </PrivateRoute>
               }
