@@ -20,6 +20,7 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
     location.pathname === "/" ||
     location.pathname === "/account" ||
     location.pathname === "/websites/create-new" ||
+    location.pathname === "/incidents/create-new" ||
     /^\/website\/\d+($|\/edit$)/.test(location.pathname);
   const addSpace = location.pathname === "/";
 
