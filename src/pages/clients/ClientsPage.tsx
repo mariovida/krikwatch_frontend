@@ -13,6 +13,7 @@ import {
   Typography,
 } from "@mui/material";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
+import MoreMenuIcon from "../../assets/icons/more-menu.svg";
 
 const ClientsPage = () => {
   let backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -240,7 +241,7 @@ const ClientsPage = () => {
                               onClick={(e) => handleMenuOpen(e, client)}
                               sx={{ padding: "4px" }}
                             >
-                              <MoreVertIcon />
+                              <img src={MoreMenuIcon} />
                             </IconButton>
                           </Box>
                           <Typography
