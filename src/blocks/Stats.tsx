@@ -3,18 +3,20 @@ import { Link } from "react-router-dom";
 import AttentionIcon from "../assets/icons/attention.svg";
 import WebsitesIcon from "../assets/icons/websites.svg";
 import UsersIcon from "../assets/icons/users.svg";
-//import ArrowRightIcon from "../assets/icons/arrow-right.svg";
+import MonitorsIcon from "../assets/icons/bell.svg";
 
 import CountUp from "react-countup";
 
 interface StatsProps {
-  openIncidents: number;
-  totalWebsites: number;
-  totalClients: number;
+  monitorsDown: number;
+  totalIncidents?: number;
+  totalWebsites?: number;
+  totalClients?: number;
 }
 
 const Stats: React.FC<StatsProps> = ({
-  openIncidents,
+  monitorsDown,
+  totalIncidents,
   totalWebsites,
   totalClients,
 }) => {
@@ -23,17 +25,50 @@ const Stats: React.FC<StatsProps> = ({
       <div className="wrapper">
         <div className="row">
           <div className="col-12 col-md-4">
+            <div
+              className="stats-box"
+              style={{
+                backgroundColor: monitorsDown > 0 ? "#fceae9" : "#FFFFFF",
+                outline: monitorsDown > 0 ? "2px solid #bb241a" : "none",
+              }}
+            >
+              <div className="stats-box_flex">
+                <div className="stats-box_icon">
+                  <img src={MonitorsIcon} alt="Open Incidents Icon" />
+                </div>
+                <div>
+                  <h6>Monitors down</h6>
+                  <p
+                    style={{ color: monitorsDown > 0 ? "#bb241a" : "#1b2431" }}
+                  >
+                    <CountUp start={0} end={monitorsDown} duration={1} />
+                  </p>
+                </div>
+              </div>
+              <div className="stats-box_btn">
+                <Link
+                  to="/incidents"
+                  style={{
+                    backgroundColor: monitorsDown > 0 ? "#bb241a" : "#EEEEEE",
+                    color: monitorsDown > 0 ? "#ffffff" : "#1b2431",
+                  }}
+                >
+                  See all
+                </Link>
+              </div>
+            </div>
+          </div>
+
+          <div className="col-12 col-md-4">
             <div className="stats-box">
               <div className="stats-box_flex">
                 <div className="stats-box_icon">
-                  <img src={AttentionIcon} alt="Open Incidents Icon" />
+                  <img src={AttentionIcon} alt="Websites Icon" />
                 </div>
                 <div>
-                  <h6>Open reports</h6>
-                  <p
-                    style={{ color: openIncidents > 0 ? "#bb241a" : "#107569" }}
-                  >
-                    <CountUp start={0} end={openIncidents} duration={1} />
+                  <h6>Incidents</h6>
+                  <p>
+                    <CountUp start={0} end={totalIncidents || 0} duration={1} />
                   </p>
                 </div>
               </div>
@@ -52,7 +87,7 @@ const Stats: React.FC<StatsProps> = ({
                 <div>
                   <h6>Websites</h6>
                   <p>
-                    <CountUp start={0} end={totalWebsites} duration={1} />
+                    <CountUp start={0} end={totalWebsites || 0} duration={1} />
                   </p>
                 </div>
               </div>
@@ -62,24 +97,26 @@ const Stats: React.FC<StatsProps> = ({
             </div>
           </div>
 
-          <div className="col-12 col-md-4">
-            <div className="stats-box">
-              <div className="stats-box_flex">
-                <div className="stats-box_icon">
-                  <img src={UsersIcon} alt="Clients Icon" />
+          {totalClients && (
+            <div className="col-12 col-md-4">
+              <div className="stats-box">
+                <div className="stats-box_flex">
+                  <div className="stats-box_icon">
+                    <img src={UsersIcon} alt="Clients Icon" />
+                  </div>
+                  <div>
+                    <h6>Clients</h6>
+                    <p>
+                      <CountUp start={0} end={totalClients || 0} duration={1} />
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <h6>Clients</h6>
-                  <p>
-                    <CountUp start={0} end={totalClients} duration={1} />
-                  </p>
+                <div className="stats-box_btn">
+                  <Link to="/clients">See all</Link>
                 </div>
-              </div>
-              <div className="stats-box_btn">
-                <Link to="/clients">See all</Link>
               </div>
             </div>
-          </div>
+          )}
         </div>
       </div>
     </section>
