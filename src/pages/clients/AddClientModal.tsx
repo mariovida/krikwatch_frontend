@@ -115,7 +115,7 @@ const AddClientModal: React.FC<AddClientModalProps> = ({
             variant="filled"
             inputProps={{ maxLength: 50 }}
           />
-          <Box>
+          {/* <Box>
             <TextField
               type="file"
               inputProps={{ accept: "image/*" }}
@@ -153,7 +153,7 @@ const AddClientModal: React.FC<AddClientModalProps> = ({
                 />
               </Box>
             )}
-          </Box>
+          </Box> */}
         </Box>
       </DialogContent>
       <DialogActions>
