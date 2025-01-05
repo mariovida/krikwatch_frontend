@@ -230,6 +230,7 @@ input {
 }
 
 .MuiTabs-root {
+  min-height: 40px !important;
   .MuiTabs-flexContainer {
     gap: 16px;
   }
