@@ -4,7 +4,9 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import { Box, Menu, MenuItem, IconButton } from "@mui/material";
 import EyeIcon from "../../assets/icons/eye.svg";
+import MoreMenuIcon from "../../assets/icons/more-menu.svg";
 
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
 
@@ -18,7 +20,10 @@ const IncidentsPage = () => {
   const [incidents, setIncidents] = useState<any[]>([]);
   const [filteredIncidents, setFilteredIncidents] = useState<any[]>([]);
 
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedIncident, setSelectedIncident] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     const fetchIncidents = async () => {
@@ -53,6 +58,57 @@ const IncidentsPage = () => {
     });
 
     setFilteredIncidents(filtered);
+  };
+
+  const handleMenuOpen = (
+    event: React.MouseEvent<HTMLElement>,
+    incident: any
+  ) => {
+    setAnchorEl(event.currentTarget);
+    console.log(incident);
+    setSelectedIncident(incident);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedIncident(null);
+  };
+
+  const handleChangeStatus = async (incidentId: number, newStatus: number) => {
+    try {
+      const token = localStorage.getItem("accessToken");
+      const statusResponse = await axios.put(
+        `${backendUrl}/api/incidents/${incidentId}/status`,
+        { status: newStatus },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const fetchIncidents = async () => {
+        try {
+          const token = localStorage.getItem("accessToken");
+          const response = await axios.get(`${backendUrl}/api/incidents`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          });
+          if (response && response.data && response.data.incidents) {
+            setIncidents(response.data.incidents);
+            setFilteredIncidents(response.data.incidents);
+          }
+        } catch (error) {
+          console.error("Error fetching data:", error);
+        }
+      };
+
+      fetchIncidents();
+      handleMenuClose();
+    } catch (error) {
+      console.error("Error updating incident status:", error);
+    }
   };
 
   const handleAddNewButton = () => {
@@ -140,17 +196,33 @@ const IncidentsPage = () => {
                           <td>{formatDateWithClock(incident.created_at)}</td>
                           <td
                             style={{
-                              width: "60px",
+                              width: "100px",
                             }}
                           >
-                            <button
-                              onClick={() =>
-                                handleDetailsClick(incident.incident_key)
-                              }
-                              style={{ marginLeft: "12px" }}
+                            <Box
+                              sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                              }}
                             >
-                              <img src={EyeIcon} />
-                            </button>
+                              <button
+                                onClick={() =>
+                                  handleDetailsClick(incident.incident_key)
+                                }
+                              >
+                                <img src={EyeIcon} />
+                              </button>
+                              <IconButton
+                                aria-label="more"
+                                id={`menu-button-${incident.id}`}
+                                aria-controls={`menu-${incident.id}`}
+                                aria-haspopup="true"
+                                onClick={(e) => handleMenuOpen(e, incident)}
+                                sx={{ marginLeft: "12px", padding: "4px" }}
+                              >
+                                <img src={MoreMenuIcon} />
+                              </IconButton>
+                            </Box>
                           </td>
                         </tr>
                       ))
@@ -170,6 +242,29 @@ const IncidentsPage = () => {
           </div>
         </section>
       )}
+
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleMenuClose}
+        MenuListProps={{
+          "aria-labelledby": "long-button",
+        }}
+        className="custom-more-menu"
+      >
+        <MenuItem>Edit incident</MenuItem>
+        {selectedIncident && selectedIncident.status === 1 && (
+          <MenuItem onClick={() => handleChangeStatus(selectedIncident.id, 2)}>
+            Set as in progress
+          </MenuItem>
+        )}
+
+        {selectedIncident && selectedIncident.status !== 3 && (
+          <MenuItem onClick={() => handleChangeStatus(selectedIncident.id, 3)}>
+            Set as resolved
+          </MenuItem>
+        )}
+      </Menu>
     </>
   );
 };
