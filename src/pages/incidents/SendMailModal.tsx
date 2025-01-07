@@ -38,6 +38,7 @@ const UseTemplateButton = styled(Button)({
 interface SendMailModalProps {
   open: boolean;
   onClose: () => void;
+  onSuccess: () => void;
   contactsData: any;
   incidentData: any;
 }
@@ -45,6 +46,7 @@ interface SendMailModalProps {
 const SendMailModal: React.FC<SendMailModalProps> = ({
   open,
   onClose,
+  onSuccess,
   contactsData,
   incidentData,
 }) => {
@@ -100,7 +102,12 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
       const token = localStorage.getItem("accessToken");
       const response = await axios.post(
         `${backendUrl}/api/contacts/send-email`,
-        { email: selectedEmail, message, incidentId: incidentData.id },
+        {
+          contactId: selectedContactId,
+          email: selectedEmail,
+          message,
+          incidentId: incidentData.id,
+        },
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -144,7 +151,7 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
       >
         <DialogTitle>Notify contact</DialogTitle>
         <DialogContent>
-          <Box className="form-fields">
+          <div className="form-fields">
             {contactsData && contactsData.length > 0 && (
               <FormControl fullWidth variant="filled" required>
                 <InputLabel id="client-select-label">Select contact</InputLabel>
@@ -224,7 +231,7 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
                   There are no contacts added for this website.
                 </Typography>
               ))}
-          </Box>
+          </div>
         </DialogContent>
         <DialogActions>
           <div>
@@ -241,8 +248,14 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
       </Dialog>
       <ConfirmationModal
         open={messageSent}
-        onClose={handleClose}
-        onConfirm={handleClose}
+        onClose={() => {
+          handleClose();
+          onSuccess();
+        }}
+        onConfirm={() => {
+          handleClose();
+          onSuccess();
+        }}
         confirmText="Message was sent successfully."
         confirmTitle="Message sent"
         buttonText="Confirm"
