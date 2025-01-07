@@ -5,20 +5,20 @@ import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
 import {
-    Box,
-    Button,
-    FormControl,
-    InputLabel,
-    MenuItem,
-    Select,
-    Snackbar,
-    TextField,
-    Typography,
+  Box,
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  Snackbar,
+  TextField,
+  Typography,
 } from "@mui/material";
 import ArrowLeftIcon from "../../assets/icons/arrow-left.svg";
 
 const NewWebsitePage = () => {
-const navigate = useNavigate();
+  const navigate = useNavigate();
   let backendUrl = import.meta.env.VITE_BACKEND_URL;
   if (import.meta.env.VITE_ENV === "production") {
     backendUrl = import.meta.env.VITE_BACKEND_URL_PROD;
@@ -69,14 +69,23 @@ const navigate = useNavigate();
 
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.post(`${backendUrl}/api/websites`, newWebsite, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        `${backendUrl}/api/websites`,
+        newWebsite,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      if(response && response.data && response.data.message && response.data.message === 'Website with this name already exists') {
+      if (
+        response &&
+        response.data &&
+        response.data.message &&
+        response.data.message === "Website with this name already exists"
+      ) {
         setShowDuplicateError(true);
       }
 
@@ -98,93 +107,105 @@ const navigate = useNavigate();
   const handleSnackbarClose = () => {
     setShowError(false);
     setShowDuplicateError(false);
-  };  
+  };
 
   return (
-  <>
-    <Helmet>
-      <title>New website | KrikWatch</title>
-    </Helmet>
+    <>
+      <Helmet>
+        <title>New website | KrikWatch</title>
+      </Helmet>
 
-    <section>
+      <section>
         <div className="wrapper">
-            <div className="row">
-                <div className="col-12">
-                    <Button className="go-back-btn" onClick={handleClose}><img src={ArrowLeftIcon} />All websites</Button>
-                    <Typography 
-                        variant="h3"
-                        sx={{
-                            fontFamily: "Plus Jakarta Sans, sans-serif",
-                            marginBottom: '24px'
-                        }}>
-                        Create new
-                    </Typography>
-                    <form onSubmit={handleSubmit} className="custom-form">
-                        <Box className="form-fields" sx={{ marginTop: '0 !important' }}>
-                            <TextField
-                                label="Website name"
-                                name="websiteName"
-                                value={websiteName}
-                                onChange={(e) => setWebsiteName(e.target.value)}
-                                fullWidth
-                                variant="filled"
-                                required
-                            />
-                            <TextField
-                                label="Website URL"
-                                name="websiteName"
-                                value={websiteUrl}
-                                onChange={(e) => setWebsiteUrl(e.target.value)}
-                                fullWidth
-                                variant="filled"
-                            />
-                            <FormControl fullWidth variant="filled" required>
-                                <InputLabel id="client-select-label">Select client</InputLabel>
-                                <Select
-                                    labelId="client-select-label"
-                                    value={selectedClient}
-                                    onChange={(e) => setSelectedClient(e.target.value)}
-                                    label="Select client"
-                                >
-                                <MenuItem value="" disabled>Select client</MenuItem>
-                                {clients.map((client) => (
-                                    <MenuItem key={client.id} value={client.id}>
-                                    {client.name}
-                                    </MenuItem>
-                                ))}
-                                </Select>
-                            </FormControl>
-                        </Box>
-                        <Box className="action-btns">
-                            <Button onClick={handleClose} className="cancel-btn">
-                                Cancel
-                            </Button>
-                            <Button onClick={handleSubmit} className="submit-btn" disabled={loading}>
-                                Create
-                            </Button>
-                        </Box>
-                    </form>
-                </div>
+          <div className="row">
+            <div className="col-12">
+              <Button className="go-back-btn" onClick={handleClose}>
+                <img src={ArrowLeftIcon} />
+                All websites
+              </Button>
+              <Typography
+                variant="h3"
+                sx={{
+                  fontFamily: "Plus Jakarta Sans, sans-serif",
+                  marginBottom: "24px",
+                }}
+              >
+                Create new
+              </Typography>
+              <form onSubmit={handleSubmit} className="custom-form">
+                <Box className="form-fields" sx={{ marginTop: "0 !important" }}>
+                  <TextField
+                    label="Website name"
+                    name="websiteName"
+                    value={websiteName}
+                    onChange={(e) => setWebsiteName(e.target.value)}
+                    fullWidth
+                    variant="filled"
+                    required
+                  />
+                  <TextField
+                    label="Website URL"
+                    name="websiteName"
+                    value={websiteUrl}
+                    onChange={(e) => setWebsiteUrl(e.target.value)}
+                    fullWidth
+                    variant="filled"
+                  />
+                  <FormControl fullWidth variant="filled" required>
+                    <InputLabel id="client-select-label">
+                      Select client
+                    </InputLabel>
+                    <Select
+                      labelId="client-select-label"
+                      value={selectedClient}
+                      onChange={(e) => setSelectedClient(e.target.value)}
+                      label="Select client"
+                    >
+                      <MenuItem value="" disabled>
+                        Select client
+                      </MenuItem>
+                      {clients.map((client) => (
+                        <MenuItem key={client.id} value={client.id}>
+                          {client.name}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                </Box>
+                <Box className="action-btns">
+                  <Button onClick={handleClose} className="cancel-btn">
+                    Cancel
+                  </Button>
+                  <Button
+                    onClick={handleSubmit}
+                    className="submit-btn"
+                    disabled={loading}
+                  >
+                    Create
+                  </Button>
+                </Box>
+              </form>
             </div>
+          </div>
         </div>
-    </section>
-    <Snackbar
+      </section>
+      <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={showError}
         onClose={handleSnackbarClose}
         message="All fields are required."
         className="snackbar snackbar-error"
-        //autoHideDuration={4000}
-    />
-    <Snackbar
+        autoHideDuration={4000}
+      />
+      <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={showDuplicateError}
         onClose={handleSnackbarClose}
         message="Website with this name already exists."
         className="snackbar snackbar-error"
-        //autoHideDuration={4000}
-    />
-  </>
+        autoHideDuration={4000}
+      />
+    </>
   );
 };
 

@@ -13,6 +13,7 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [errorVerification, setErrorVerification] = useState(false);
   const [errorMail, setErrorMail] = useState(false);
+  const [errorDisabled, setErrorDisabled] = useState(false);
   const [error, setError] = useState(false);
   const [backendStatus, setBackendStatus] = useState(false);
   const navigate = useNavigate();
@@ -67,6 +68,7 @@ const LoginPage = () => {
     } else {
       setErrorMail(data.error === "User not found");
       setErrorVerification(data.error === "Account not verified");
+      setErrorDisabled(data.error === "Account disabled");
       setError(data.error === "Invalid");
     }
   };
@@ -95,6 +97,11 @@ const LoginPage = () => {
               {errorVerification && (
                 <div className="verification-error">
                   Your account hasn't been verified.
+                </div>
+              )}
+              {errorDisabled && (
+                <div className="verification-error">
+                  This account is disabled.
                 </div>
               )}
               {errorMail && (

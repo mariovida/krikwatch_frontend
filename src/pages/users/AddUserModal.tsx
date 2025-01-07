@@ -1,4 +1,7 @@
 import React, { useState, useEffect } from "react";
+import { useUser } from "../../context/UserContext";
+import axios from "axios";
+
 import {
   Box,
   Dialog,
@@ -18,7 +21,17 @@ interface AddUserModalProps {
     email: string;
   }) => void;
   editMode: boolean;
-  user?: { first_name: string; last_name: string; email: string } | null | undefined;
+  user?:
+    | {
+        id: number;
+        first_name: string;
+        last_name: string;
+        email: string;
+        is_verified: number;
+        verified: boolean;
+      }
+    | null
+    | undefined;
   firstName: string;
   lastName: string;
   email: string;
@@ -40,11 +53,17 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
   setLastName,
   setEmail,
 }) => {
+  let backendUrl = import.meta.env.VITE_BACKEND_URL;
+  if (import.meta.env.VITE_ENV === "production") {
+    backendUrl = import.meta.env.VITE_BACKEND_URL_PROD;
+  }
+
   const [errors, setErrors] = useState({
     first_name: "",
     last_name: "",
     email: "",
   });
+  const { user: currentUser } = useUser();
 
   useEffect(() => {
     if (editMode && user) {
@@ -52,7 +71,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
       setLastName(user.last_name || "");
       setEmail(user.email || "");
     }
-    if(!editMode) {
+    if (!editMode) {
       setFirstName("");
       setLastName("");
       setEmail("");
@@ -108,12 +127,35 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
 
   const handleClose = () => {
     setErrors({ first_name: "", last_name: "", email: "" });
-    if(!editMode) {
+    if (!editMode) {
       setFirstName("");
       setLastName("");
       setEmail("");
     }
     onClose();
+  };
+
+  const handleDisableUser = async () => {
+    try {
+      if (user) {
+        const token = localStorage.getItem("accessToken");
+        const response = await axios.put(
+          `${backendUrl}/api/users/${user.id}/toggle-verification`,
+          {},
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          window.location.reload();
+        }
+      }
+    } catch (error) {
+      console.error("Error toggling the user's verification status:", error);
+    }
   };
 
   return (
@@ -123,7 +165,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
       className="custom-modal"
       sx={{
         "& .MuiPaper-root": {
-          maxWidth: "500px",
+          maxWidth: "540px",
           width: "100%",
         },
       }}
@@ -141,6 +183,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
             fullWidth
             variant="filled"
             inputProps={{ maxLength: 50 }}
+            required
           />
           <TextField
             label="Last name"
@@ -152,6 +195,7 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
             fullWidth
             variant="filled"
             inputProps={{ maxLength: 50 }}
+            required
           />
           <TextField
             label="Email"
@@ -163,16 +207,42 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
             fullWidth
             variant="filled"
             disabled={editMode}
+            required
           />
         </Box>
       </DialogContent>
-      <DialogActions>
-        <Button onClick={handleClose} className="cancel-btn">
-          Cancel
-        </Button>
-        <Button onClick={handleSubmit} className="submit-btn">
-          {editMode ? "Save changes" : "Create"}
-        </Button>
+      <DialogActions
+        sx={{
+          justifyContent: "space-between !important",
+        }}
+      >
+        {user && currentUser && currentUser.email !== user.email ? (
+          user.is_verified === 1 ? (
+            <Button className="delete-btn" onClick={handleDisableUser}>
+              Disable user
+            </Button>
+          ) : user.verified ? (
+            <Button
+              className="delete-btn"
+              sx={{ color: "#1b2431 !important" }}
+              onClick={handleDisableUser}
+            >
+              Enable user
+            </Button>
+          ) : (
+            <Button className="delete-btn"></Button>
+          )
+        ) : (
+          <Button className="delete-btn"></Button>
+        )}
+        <div>
+          <Button onClick={handleClose} className="cancel-btn">
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit} className="submit-btn">
+            {editMode ? "Save changes" : "Create"}
+          </Button>
+        </div>
       </DialogActions>
     </Dialog>
   );

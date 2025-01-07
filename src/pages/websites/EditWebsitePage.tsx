@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import ArrowLeftIcon from "../../assets/icons/arrow-left.svg";
 
-import ConfirmationDeleteModal from '../../blocks/ConfirmDeleteModal';
+import ConfirmationDeleteModal from "../../blocks/ConfirmDeleteModal";
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
 
 const EditWebsitePage = () => {
@@ -76,7 +76,7 @@ const EditWebsitePage = () => {
       }
     };
 
-    if(id) {
+    if (id) {
       fetchWebsite();
       fetchClients();
     }
@@ -98,12 +98,16 @@ const EditWebsitePage = () => {
 
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.put(`${backendUrl}/api/websites/${id}`, updatedWebsite, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.put(
+        `${backendUrl}/api/websites/${id}`,
+        updatedWebsite,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response.status === 200) {
         navigate(`/websites`);
@@ -139,22 +143,26 @@ const EditWebsitePage = () => {
   };
 
   return (
-  <>
-    <Helmet>
-      <title>{website ? website.name : ''} | KrikWatch</title>
-    </Helmet>
+    <>
+      <Helmet>
+        <title>{website ? website.name : "Edit website"} | KrikWatch</title>
+      </Helmet>
 
-    <section>
-      <div className="wrapper">
+      <section>
+        <div className="wrapper">
           <div className="row">
             <div className="col-12">
-              <Button className="go-back-btn" onClick={handleClose}><img src={ArrowLeftIcon} />All websites</Button>
-              <Typography 
+              <Button className="go-back-btn" onClick={handleClose}>
+                <img src={ArrowLeftIcon} />
+                All websites
+              </Button>
+              <Typography
                 variant="h3"
                 sx={{
-                    fontFamily: "Plus Jakarta Sans, sans-serif",
-                    marginBottom: '24px'
-                }}>
+                  fontFamily: "Plus Jakarta Sans, sans-serif",
+                  marginBottom: "24px",
+                }}
+              >
                 Edit website
               </Typography>
               <form onSubmit={handleSubmit} className="custom-form">
@@ -171,17 +179,19 @@ const EditWebsitePage = () => {
                   <TextField
                     label="Website URL"
                     name="websiteUrl"
-                    value={websiteUrl || ''}
+                    value={websiteUrl || ""}
                     onChange={(e) => setWebsiteUrl(e.target.value)}
                     fullWidth
                     variant="filled"
                     required
                   />
                   <FormControl fullWidth variant="filled" required>
-                    <InputLabel id="client-select-label">Select Client</InputLabel>
+                    <InputLabel id="client-select-label">
+                      Select Client
+                    </InputLabel>
                     <Select
                       labelId="client-select-label"
-                      value={selectedClient }
+                      value={selectedClient}
                       onChange={(e) => setSelectedClient(e.target.value)}
                       label="Select Client"
                     >
@@ -197,7 +207,13 @@ const EditWebsitePage = () => {
                   </FormControl>
                 </Box>
 
-                <Box className="action-btns" sx={{ justifyContent: 'space-between !important' }}>
+                <Box
+                  className="action-btns"
+                  sx={{
+                    justifyContent: "space-between !important",
+                    alignItems: "center",
+                  }}
+                >
                   <Button onClick={handleDelete} className="delete-btn">
                     Delete website
                   </Button>
@@ -227,7 +243,7 @@ const EditWebsitePage = () => {
         confirmText="Are you sure you want to delete this website?"
         confirmTitle="Confirm delete"
       />
-  </>
+    </>
   );
 };
 

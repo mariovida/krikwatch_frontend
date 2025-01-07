@@ -30,7 +30,6 @@ const UsersPage = () => {
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [modalModeEdit, setModalModeEdit] = useState<boolean>(false);
 
-
   useEffect(() => {
     const fetchUsers = async () => {
       setLoading(true);
@@ -70,12 +69,11 @@ const UsersPage = () => {
     setFilteredUsers(filtered);
   };
 
-
   const handleOpenModal = () => {
     setModalModeEdit(false);
     setSelectedUser(null);
     setOpenModal(true);
-  };  
+  };
   const handleCloseModal = () => setOpenModal(false);
   const handleSnackbarClose = () => setUserExistsError(false);
 
@@ -125,7 +123,7 @@ const UsersPage = () => {
       email: email,
     };
 
-    if(selectedUser) {
+    if (selectedUser) {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.put(
@@ -138,7 +136,7 @@ const UsersPage = () => {
             },
           }
         );
-    
+
         if (response.status === 200) {
           setUsers((prevUsers) =>
             prevUsers.map((user) =>
@@ -157,13 +155,13 @@ const UsersPage = () => {
         console.error("Error updating user:", error);
       }
     }
-  };  
+  };
 
   const handleEditUser = (user: React.SetStateAction<null>) => {
     setSelectedUser(user);
     setModalModeEdit(true);
     setOpenModal(true);
-  };  
+  };
 
   return (
     <>
@@ -234,9 +232,9 @@ const UsersPage = () => {
                             <td>{user.email}</td>
                             <td>{formatDateWithClock(user.date_created)}</td>
                             <td style={{ width: "100px" }}>
-                            <button onClick={() => handleEditUser(user)}>
-                              <img src={ChevronUp} />
-                            </button>
+                              <button onClick={() => handleEditUser(user)}>
+                                <img src={ChevronUp} />
+                              </button>
                             </td>
                           </tr>
                         ))
