@@ -69,6 +69,7 @@ const NewIncidentPage = () => {
   const [websites, setWebsites] = useState<any[]>([]);
   const [incidentTitle, setIncidentTitle] = useState<string>("");
   const [incidentDescription, setIncidentDescription] = useState<string>("");
+  const [incidentNote, setIncidentNote] = useState<string>("");
   const [selectedWebsite, setSelectedWebsite] = useState<string>("");
   const [incidentStart, setIncidentStart] = useState<any>(null);
   const [incidentEnd, setIncidentEnd] = useState<any>(null);
@@ -151,6 +152,7 @@ const NewIncidentPage = () => {
     const newIncident = {
       title: incidentTitle,
       description: incidentDescription,
+      note: incidentNote,
       website_id: selectedWebsite,
       status: selectedStatus,
       user_id: userId || null,
@@ -200,7 +202,7 @@ const NewIncidentPage = () => {
         <title>New incident | KrikWatch</title>
       </Helmet>
 
-      <section>
+      <section style={{ paddingBottom: "80px" }}>
         <div className="wrapper">
           <div className="row">
             <div className="col-12">
@@ -270,6 +272,16 @@ const NewIncidentPage = () => {
                       name="incidentDescription"
                       value={incidentDescription}
                       onChange={(e) => setIncidentDescription(e.target.value)}
+                      fullWidth
+                      multiline
+                      rows={6}
+                      variant="filled"
+                    />
+                    <TextField
+                      label="Note"
+                      name="incidentNote"
+                      value={incidentNote}
+                      onChange={(e) => setIncidentNote(e.target.value)}
                       fullWidth
                       multiline
                       rows={6}
