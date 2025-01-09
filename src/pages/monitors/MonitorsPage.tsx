@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Skeleton, Typography } from "@mui/material";
 
 const MonitorsPage = () => {
   let backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -81,6 +81,22 @@ const MonitorsPage = () => {
         <title>Monitors | KrikWatch</title>
       </Helmet>
 
+      {!uptimeData ||
+        (uptimeData && uptimeData.length < 1 && (
+          <section>
+            <div className="wrapper">
+              <div className="row">
+                <div className="col-12">
+                  <Typography component="div" variant="h2">
+                    <Skeleton />
+                    <Skeleton />
+                    <Skeleton />
+                  </Typography>
+                </div>
+              </div>
+            </div>
+          </section>
+        ))}
       {uptimeData && uptimeData.length > 0 && (
         <section style={{ paddingBottom: "80px" }}>
           <div className="wrapper">
