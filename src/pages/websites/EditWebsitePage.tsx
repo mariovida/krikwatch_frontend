@@ -187,16 +187,16 @@ const EditWebsitePage = () => {
                   />
                   <FormControl fullWidth variant="filled" required>
                     <InputLabel id="client-select-label">
-                      Select Client
+                      Select client
                     </InputLabel>
                     <Select
                       labelId="client-select-label"
                       value={selectedClient}
                       onChange={(e) => setSelectedClient(e.target.value)}
-                      label="Select Client"
+                      label="Select client"
                     >
                       <MenuItem value="" disabled>
-                        Select Client
+                        Select client
                       </MenuItem>
                       {clients.map((client) => (
                         <MenuItem key={client.id} value={client.id}>

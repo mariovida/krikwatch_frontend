@@ -4,7 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
-import ChevronRight from "../../assets/icons/arrow-right.svg";
+import ChevronUp from "../../assets/icons/arrow-up-right.svg";
+import EyeIcon from "../../assets/icons/eye.svg";
 
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
 
@@ -58,110 +59,128 @@ const WebsitesPage = () => {
   };
 
   const handleAddNewButton = () => {
-      navigate(`/websites/create-new`);
+    navigate(`/websites/create-new`);
   };
 
-  const handleDetailsClick = (id: string) => {
+  const handleEditClick = (id: string) => {
     navigate(`/website/${id}/edit`);
   };
 
+  const handleDetailsClick = (id: string) => {
+    navigate(`/website/${id}`);
+  };
+
   return (
-  <>
-    <Helmet>
-      <title>Websites | KrikWatch</title>
-    </Helmet>
-    <section className="search-container">
-      <div className="wrapper">
-        <div className="row">
-          <div className="col-12">
-            <div className="search-container_box">
-              <input
-                type="text"
-                placeholder="Search websites"
-                value={searchQuery}
-                onChange={handleSearch}
-              />
-              <a className="create-btn" onClick={handleAddNewButton}>
-                Add new
-              </a>
+    <>
+      <Helmet>
+        <title>Websites | KrikWatch</title>
+      </Helmet>
+      <section className="search-container">
+        <div className="wrapper">
+          <div className="row">
+            <div className="col-12">
+              <div className="search-container_box">
+                <input
+                  type="text"
+                  placeholder="Search websites"
+                  value={searchQuery}
+                  onChange={handleSearch}
+                />
+                <a className="create-btn" onClick={handleAddNewButton}>
+                  Add new
+                </a>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </section>
+      </section>
 
-    <section className="users-table">
-      <div className="wrapper">
-        <div className="row">
-          <div className="col-12">
-            <table className="custom-table">
-              <thead>
-                <tr>
-                  <th>Status</th>
-                  <th>Website</th>
-                  <th>URL</th>
-                  <th>Client</th>
-                  <th>Created at</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <tbody>
-                {filteredWebsites.length > 0 ? (
-                  filteredWebsites.map((website) => (
-                    <tr key={website.id}>
-                      <td>
-                        {website ? (
-                          website.status === 1 ? (
-                            <span className="status-badge status-badge_active">
-                              ACTIVE
-                            </span>
+      <section className="users-table">
+        <div className="wrapper">
+          <div className="row">
+            <div className="col-12">
+              <table className="custom-table">
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Website</th>
+                    <th>URL</th>
+                    <th>Client</th>
+                    <th>Created at</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {filteredWebsites.length > 0 ? (
+                    filteredWebsites.map((website) => (
+                      <tr key={website.id}>
+                        <td>
+                          {website ? (
+                            website.status === 1 ? (
+                              <span className="status-badge status-badge_active">
+                                ACTIVE
+                              </span>
+                            ) : (
+                              <span className="status-badge status-badge_inactive">
+                                INACTIVE
+                              </span>
+                            )
+                          ) : null}
+                        </td>
+                        <td>{website.name}</td>
+                        <td>
+                          {website.website_url ? (
+                            <a
+                              href={website.website_url}
+                              style={{
+                                width: "unset",
+                                height: "unset",
+                                padding: "unset",
+                                backgroundColor: "transparent",
+                                textDecoration: "none",
+                              }}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              {website.website_url}
+                            </a>
                           ) : (
-                            <span className="status-badge status-badge_inactive">
-                              INACTIVE
-                            </span>
-                          )
-                        ) : null}
-                      </td>
-                      <td>{website.name}</td>
-                      <td>
-                        {website.website_url ? (
-                          <a href={website.website_url} style={{ 
-                            width: 'unset', 
-                            height: 'unset', 
-                            padding: 'unset', 
-                            backgroundColor: 'transparent',
-                            textDecoration: 'none',
-                            }}
-                            target="_blank" rel="noopener noreferrer">
-                            {website.website_url}
-                          </a>
-                        ) : (
-                          '-'
-                        )}
-                      </td>
-                      <td>{website.client_name}</td>
-                      <td>{formatDateWithClock(website.created_at)}</td>
-                      <td style={{ width: "80px" }}>
-                        <button onClick={() => handleDetailsClick(website.id)}>
-                          <img src={ChevronRight} />
-                        </button>
+                            "-"
+                          )}
+                        </td>
+                        <td>{website.client_name}</td>
+                        <td>{formatDateWithClock(website.created_at)}</td>
+                        <td
+                          style={{
+                            width: "100px",
+                          }}
+                        >
+                          <button onClick={() => handleEditClick(website.id)}>
+                            <img src={ChevronUp} />
+                          </button>
+                          <button
+                            onClick={() => handleDetailsClick(website.id)}
+                            style={{ marginLeft: "12px" }}
+                          >
+                            <img src={EyeIcon} />
+                          </button>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={6} style={{ textAlign: "center" }}>
+                        No websites found with the query
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={6} style={{ textAlign: "center" }}>
-                      No websites found with the query
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
+                  )}
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-  </>
+      </section>
+    </>
   );
 };
 

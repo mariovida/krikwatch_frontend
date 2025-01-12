@@ -213,7 +213,7 @@ const UsersPage = () => {
                             <td>
                               {user ? (
                                 user.verified === false ? (
-                                  <span className="status-badge status-badge_inactive">
+                                  <span className="status-badge status-badge_closed">
                                     NOT VERIFIED
                                   </span>
                                 ) : user.is_verified === 1 ? (

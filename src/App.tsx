@@ -1,8 +1,4 @@
-import {
-  BrowserRouter as Router,
-  Route,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
 import { UserProvider } from "./context/UserContext";
 
@@ -28,6 +24,7 @@ import Home from "./pages/Home";
 import IncidentsPage from "./pages/incidents/IncidentsPage";
 import WebsitesPage from "./pages/websites/WebsitesPage";
 import NewWebsitePage from "./pages/websites/NewWebsitePage";
+import WebsiteDetailsPage from "./pages/websites/WebsiteDetailsPage";
 import EditWebsitePage from "./pages/websites/EditWebsitePage";
 import ClientsPage from "./pages/clients/ClientsPage";
 import UsersPage from "./pages/users/UsersPage";
@@ -79,6 +76,17 @@ function App() {
                   <>
                     <Navigation pageTitle="Websites" />
                     <WebsitesPage />
+                  </>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/website/:id"
+              element={
+                <PrivateRoute>
+                  <>
+                    <Navigation />
+                    <WebsiteDetailsPage />
                   </>
                 </PrivateRoute>
               }
