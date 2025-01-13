@@ -7,6 +7,8 @@ import axios from "axios";
 import { Box, Menu, MenuItem, IconButton } from "@mui/material";
 import EyeIcon from "../../assets/icons/eye.svg";
 import MoreMenuIcon from "../../assets/icons/more-menu.svg";
+import ChevronLeftIcon from "../../assets/icons/ChevronLeft";
+import ChevronRightIcon from "../../assets/icons/ChevronRight";
 
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
 
@@ -24,6 +26,24 @@ const IncidentsPage = () => {
   const [selectedIncident, setSelectedIncident] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const open = Boolean(anchorEl);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+  const totalPages = Math.ceil(filteredIncidents.length / itemsPerPage);
+
+  const currentIncidents = filteredIncidents.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+  const goToPreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+  };
 
   useEffect(() => {
     const fetchIncidents = async () => {
@@ -49,6 +69,7 @@ const IncidentsPage = () => {
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
+    setCurrentPage(1);
 
     const filtered = incidents.filter((incident) => {
       return (
@@ -65,7 +86,6 @@ const IncidentsPage = () => {
     incident: any
   ) => {
     setAnchorEl(event.currentTarget);
-    console.log(incident);
     setSelectedIncident(incident);
   };
 
@@ -162,8 +182,8 @@ const IncidentsPage = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {filteredIncidents.length > 0 ? (
-                      filteredIncidents.map((incident) => (
+                    {currentIncidents.length > 0 ? (
+                      currentIncidents.map((incident) => (
                         <tr key={incident.id}>
                           <td>
                             {incident ? (
@@ -238,6 +258,35 @@ const IncidentsPage = () => {
                   </tbody>
                 </table>
               </div>
+              {currentIncidents.length > 0 && (
+                <div className="col-12">
+                  <div className="pagination">
+                    <button
+                      className="pagination-prev"
+                      onClick={goToPreviousPage}
+                      disabled={currentPage === 1}
+                    >
+                      <ChevronLeftIcon />
+                    </button>
+                    {[...Array(totalPages).keys()].map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => goToPage(page + 1)}
+                        className={currentPage === page + 1 ? "active" : ""}
+                      >
+                        {page + 1}
+                      </button>
+                    ))}
+                    <button
+                      className="pagination-next"
+                      onClick={goToNextPage}
+                      disabled={currentPage === totalPages}
+                    >
+                      <ChevronRightIcon />
+                    </button>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </section>
