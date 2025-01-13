@@ -31,9 +31,10 @@ body {
   font-weight: 500;
   background-color: $c-3;
   color: $c-11;
+  overflow-x: hidden;
 
   &.login-page {
-    background-image: url("./login-bg.png");
+    background-image: url("./login-bg-smaller.png");
     background-position: center;
     background-size: cover;
     background-repeat: no-repeat;
@@ -83,6 +84,13 @@ h3 {
   font-size: 36px !important;
   font-weight: 700 !important;
   line-height: 40px !important;
+  margin: 0;
+}
+h4 {
+  font-size: 28px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0;
+  line-height: 32px !important;
   margin: 0;
 }
 h6 {
