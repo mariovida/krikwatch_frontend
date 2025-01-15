@@ -65,11 +65,16 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
   });
   const { user: currentUser } = useUser();
 
+  const [initialFirstName, setInitialFirstName] = useState<string>("");
+  const [initialLastName, setInitialLastName] = useState<string>("");
+
   useEffect(() => {
     if (editMode && user) {
       setFirstName(user.first_name || "");
       setLastName(user.last_name || "");
       setEmail(user.email || "");
+      setInitialFirstName(user.first_name || "");
+      setInitialLastName(user.last_name || "");
     }
     if (!editMode) {
       setFirstName("");
@@ -131,6 +136,9 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
       setFirstName("");
       setLastName("");
       setEmail("");
+    } else {
+      setFirstName(user?.first_name || "");
+      setLastName(user?.last_name || "");
     }
     onClose();
   };
@@ -157,6 +165,9 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
       console.error("Error toggling the user's verification status:", error);
     }
   };
+
+  const isSaveDisabled =
+    firstName === initialFirstName && lastName === initialLastName;
 
   return (
     <Dialog
@@ -239,7 +250,11 @@ const AddUserModal: React.FC<AddUserModalProps> = ({
           <Button onClick={handleClose} className="cancel-btn">
             Cancel
           </Button>
-          <Button onClick={handleSubmit} className="submit-btn">
+          <Button
+            onClick={handleSubmit}
+            className="submit-btn"
+            disabled={isSaveDisabled}
+          >
             {editMode ? "Save changes" : "Create"}
           </Button>
         </div>

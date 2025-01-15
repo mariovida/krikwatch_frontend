@@ -4,8 +4,15 @@ import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
 import AddClientModal from "./AddClientModal";
-import { Box, IconButton, Menu, MenuItem, Snackbar, Typography } from "@mui/material";
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+import {
+  Box,
+  IconButton,
+  Menu,
+  MenuItem,
+  Snackbar,
+  Typography,
+} from "@mui/material";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const ClientsPage = () => {
   let backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -23,11 +30,10 @@ const ClientsPage = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedClient, setSelectedClient] = useState<any>(null);
   const [modalModeEdit, setModalModeEdit] = useState<boolean>(false);
-  
-  const [name , setName] = useState("");
+
+  const [name, setName] = useState("");
 
   const open = Boolean(anchorEl);
-
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -56,15 +62,16 @@ const ClientsPage = () => {
     setSearchQuery(query);
 
     const filtered = clients.filter((client) => {
-      return (
-        client.name.toLowerCase().includes(query)
-      );
+      return client.name.toLowerCase().includes(query);
     });
 
     setFilteredClients(filtered);
   };
 
-  const handleMenuOpen = (event: React.MouseEvent<HTMLElement>, client: any) => {
+  const handleMenuOpen = (
+    event: React.MouseEvent<HTMLElement>,
+    client: any
+  ) => {
     setAnchorEl(event.currentTarget);
     setSelectedClient(client);
   };
@@ -89,12 +96,16 @@ const ClientsPage = () => {
 
     try {
       const token = localStorage.getItem("accessToken");
-      const response = await axios.post(`${backendUrl}/api/clients`, newClient, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await axios.post(
+        `${backendUrl}/api/clients`,
+        newClient,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
       if (response && response.data) {
         if (
@@ -122,7 +133,7 @@ const ClientsPage = () => {
       name: name,
     };
 
-    if(selectedClient) {
+    if (selectedClient) {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.put(
@@ -135,7 +146,7 @@ const ClientsPage = () => {
             },
           }
         );
-    
+
         if (response.status === 200) {
           /*setClients((prevClients) =>
             prevClients.map((client) =>
@@ -158,129 +169,143 @@ const ClientsPage = () => {
     setSelectedClient(client);
     setModalModeEdit(true);
     setOpenModal(true);
-  };  
+  };
 
   return (
-  <>
-    <Helmet>
-      <title>Clients | KrikWatch</title>
-    </Helmet>
+    <>
+      <Helmet>
+        <title>Clients | KrikWatch</title>
+      </Helmet>
 
-    {clients && !loading && (
-      <>
-      <section className="search-container">
-        <div className="wrapper">
-          <div className="row">
-            <div className="col-12">
-              <div className="search-container_box">
-                <input
-                  type="text"
-                  placeholder="Search clients"
-                  value={searchQuery}
-                  onChange={handleSearch}
-                />
-                <a className="create-btn" onClick={handleOpenModal}>
-                  Add new
-                </a>
+      {clients && !loading && (
+        <>
+          <section className="search-container">
+            <div className="wrapper">
+              <div className="row">
+                <div className="col-12">
+                  <div className="search-container_box">
+                    <input
+                      type="text"
+                      placeholder="Search clients"
+                      value={searchQuery}
+                      onChange={handleSearch}
+                    />
+                    <a className="create-btn" onClick={handleOpenModal}>
+                      Add new
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-      <section className="clients-list">
-        <div className="wrapper">
-          <div className="row">
-            {clients.length > 0 ? (
-              <Box sx={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(200px, 1fr))', gap: '24px' }}>
-                {filteredClients.map((client) => (
-                  <Box className="custom-box" key={client.id}>
-                    <div className="clients-list_box">
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Typography
-                          variant="h6"
-                          sx={{
-                            fontFamily: "Plus Jakarta Sans, sans-serif",
-                            fontSize: "18px",
-                            fontWeight: 700,
-                            letterSpacing: "0.5px",
-                            color: "#1b2431",
-                            cursor: "default",
-                          }}
-                        >
-                          {client.name}
-                        </Typography>
-                        <IconButton
-                          aria-label="more"
-                          id={`menu-button-${client.id}`}
-                          aria-controls={`menu-${client.id}`}
-                          aria-haspopup="true"
-                          onClick={(e) => handleMenuOpen(e, client)}
-                          sx={{ padding: '4px' }}
-                        >
-                          <MoreVertIcon />
-                        </IconButton>
+          </section>
+          <section className="clients-list">
+            <div className="wrapper">
+              <div className="row">
+                {clients.length > 0 ? (
+                  <Box
+                    sx={{
+                      display: "grid",
+                      gridTemplateColumns: "repeat(4, minmax(200px, 1fr))",
+                      gap: "24px",
+                    }}
+                  >
+                    {filteredClients.map((client) => (
+                      <Box className="custom-box" key={client.id}>
+                        <div className="clients-list_box">
+                          <Box
+                            sx={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                            }}
+                          >
+                            <Typography
+                              variant="h6"
+                              sx={{
+                                fontFamily: "Plus Jakarta Sans, sans-serif",
+                                fontSize: "18px",
+                                fontWeight: 700,
+                                letterSpacing: "0.5px",
+                                color: "#1b2431",
+                                cursor: "default",
+                              }}
+                            >
+                              {client.name}
+                            </Typography>
+                            <IconButton
+                              aria-label="more"
+                              id={`menu-button-${client.id}`}
+                              aria-controls={`menu-${client.id}`}
+                              aria-haspopup="true"
+                              onClick={(e) => handleMenuOpen(e, client)}
+                              sx={{ padding: "4px" }}
+                            >
+                              <MoreVertIcon />
+                            </IconButton>
+                          </Box>
+                          <Typography
+                            sx={{ color: "#495057", cursor: "default" }}
+                          >
+                            {client.website_count}{" "}
+                            {client.website_count === 1
+                              ? "website"
+                              : "websites"}
+                          </Typography>
+                        </div>
                       </Box>
-                      <Typography sx={{ color: '#495057', cursor: 'default' }}>
-                        {client.website_count}{" "}
-                        {client.website_count === 1 ? "website" : "websites"}
-                      </Typography>
-                    </div>
+                    ))}
                   </Box>
-                ))}
-              </Box>
-            ) : (
-              <div className="col-12">
-                <p>No clients found.</p>
+                ) : (
+                  <div className="col-12">
+                    <p>No clients found.</p>
+                  </div>
+                )}
               </div>
+            </div>
+          </section>
+
+          <Menu
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleMenuClose}
+            MenuListProps={{
+              "aria-labelledby": "long-button",
+            }}
+            className="custom-more-menu"
+          >
+            <MenuItem
+              onClick={() => {
+                handleEditUser(selectedClient);
+                handleMenuClose();
+              }}
+            >
+              Edit client
+            </MenuItem>
+            {selectedClient?.website_count < 1 && (
+              <MenuItem className="more-menu-red">Delete client</MenuItem>
             )}
-          </div>
-        </div>
-      </section>
+          </Menu>
 
-      <Menu
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleMenuClose}
-        MenuListProps={{
-          "aria-labelledby": "long-button",
-        }}
-        className="custom-more-menu"
-      >
-        <MenuItem
-          onClick={() => {
-            handleEditUser(selectedClient);
-            handleMenuClose();
-          }}
-        >Edit client</MenuItem>
-        <MenuItem className="more-menu-red">Delete client</MenuItem>
-      </Menu>
-
-      <AddClientModal
-        open={openModal}
-        onClose={handleCloseModal}
-        onSubmit={modalModeEdit ? handleUpdateClient : handleCreateClient}
-        editMode={modalModeEdit}
-        client={selectedClient}
-        name={name}
-        setName={setName}
-      />
-      <Snackbar
-        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-        open={clientExistsError}
-        onClose={handleSnackbarClose}
-        message="Client with this name already exists."
-        className="snackbar snackbar-error"
-        autoHideDuration={4000}
-      />
-      </>
-    )}
-  </>
+          <AddClientModal
+            open={openModal}
+            onClose={handleCloseModal}
+            onSubmit={modalModeEdit ? handleUpdateClient : handleCreateClient}
+            editMode={modalModeEdit}
+            client={selectedClient}
+            name={name}
+            setName={setName}
+          />
+          <Snackbar
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            open={clientExistsError}
+            onClose={handleSnackbarClose}
+            message="Client with this name already exists."
+            className="snackbar snackbar-error"
+            autoHideDuration={4000}
+          />
+        </>
+      )}
+    </>
   );
 };
 
