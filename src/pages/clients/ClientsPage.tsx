@@ -87,6 +87,7 @@ const ClientsPage = () => {
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
+    setCurrentPage(1);
 
     const filtered = clients.filter((client) => {
       return client.name.toLowerCase().includes(query);
