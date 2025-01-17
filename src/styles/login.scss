@@ -39,6 +39,11 @@
       background-color: $vz-purple-1;
       border: 0;
       transition: 0.2s;
+
+      &:disabled {
+        opacity: 0.8;
+        cursor: default;
+      }
     }
   }
 

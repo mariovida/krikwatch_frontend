@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useUser } from "../context/UserContext";
+import { Helmet } from "react-helmet-async";
 
 const LoginPage = () => {
   let backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -79,6 +80,9 @@ const LoginPage = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Login | KrikWatch</title>
+      </Helmet>
       {backendStatus ? (
         <section className="backend-status">
           <span className="loader"></span>

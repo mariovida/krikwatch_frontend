@@ -2,15 +2,24 @@ import React, { useState } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 
-import { Box, Menu, MenuItem, IconButton, Avatar, Divider } from "@mui/material";
+import LogoImage from "../assets/logo.svg";
+import {
+  Box,
+  Menu,
+  MenuItem,
+  IconButton,
+  Avatar,
+  Divider,
+} from "@mui/material";
 
 const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
   const { user, setUser } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
-  const isSpecialPage = location.pathname === "/" || 
-    location.pathname === '/account' || 
-    location.pathname === '/websites/create-new' || 
+  const isSpecialPage =
+    location.pathname === "/" ||
+    location.pathname === "/account" ||
+    location.pathname === "/websites/create-new" ||
     /^\/website\/\d+($|\/edit$)/.test(location.pathname);
   const addSpace = location.pathname === "/";
 
@@ -44,7 +53,9 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
           <div className="col-12">
             <div className="nav-btns">
               <div>
-                <NavLink to="/">Home</NavLink>
+                <NavLink to="/">
+                  <img className="nav-btns_logo" src={LogoImage} />
+                </NavLink>
                 <NavLink to="/incidents">Incidents</NavLink>
                 <NavLink to="/websites">Websites</NavLink>
                 <NavLink to="/clients">Clients</NavLink>
@@ -63,7 +74,7 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
         <div className="row">
           <div className="col-12">
             {!isSpecialPage && <h1>{pageTitle}</h1>}
-            {addSpace && (<div className="spacer"></div>)}
+            {addSpace && <div className="spacer"></div>}
           </div>
         </div>
       </div>
@@ -76,11 +87,13 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
           "aria-labelledby": "avatar-button",
         }}
         className="avatar-menu"
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
+        transformOrigin={{ horizontal: "right", vertical: "top" }}
+        anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
       >
         <Box className="user-info">
-          <p>{user?.first_name} {user?.last_name}</p>
+          <p>
+            {user?.first_name} {user?.last_name}
+          </p>
           <p>{user?.email}</p>
         </Box>
         <Divider />
