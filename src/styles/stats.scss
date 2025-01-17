@@ -1,61 +1,81 @@
 .stats {
-    position: relative;
-    //top: -88px;
-    margin-top: -88px;
-    padding-bottom: 60px;
+  position: relative;
+  //top: -88px;
+  margin-top: -88px;
+  padding-bottom: 60px;
 
-    &-box {
-        display: flex;
-        flex-direction: column;
-        height: 100%;
-        background-color: $c-1;
-        padding: 24px;
-        box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
-        box-shadow: rgba(0, 0, 0, 0.04) 0px 5px 22px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-        border-radius: 16px;
-        cursor: default;
+  &-box {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    background-color: $c-1;
+    padding: 24px;
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+    box-shadow:
+      rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,
+      rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    border-radius: 16px;
+    cursor: default;
 
-        &_flex {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-
-        &_icon {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 10px;
-            border-radius: 24px;
-            box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
-
-            img {
-                width: 30px;
-                height: 30px;
-            }
-        }
-
-        p {
-            font-size: 36px;
-            line-height: 40px;
-            font-weight: 800;
-        }
-
-        &_btn {
-            align-self: flex-end;
-            margin-top: 8px;
-
-            a {
-                display: inline-block;
-                font-size: 14px;
-                font-weight: 600;
-                text-decoration: none;
-                padding: 6px 16px;
-                color: $vz-dark-blue;
-                background-color: $c-4;
-                border-radius: 16px;
-                transition: 0.2s;
-            }
-        }
+    &_flex {
+      display: flex;
+      align-items: center;
+      gap: 24px;
     }
+
+    &_icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 10px;
+      border-radius: 24px;
+      box-shadow:
+        rgba(0, 0, 0, 0.05) 0px 6px 24px 0px,
+        rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+
+      img {
+        width: 30px;
+        height: 30px;
+      }
+    }
+
+    p {
+      font-size: 36px;
+      line-height: 40px;
+      font-weight: 800;
+    }
+
+    &_btn {
+      align-self: flex-end;
+      margin-top: 8px;
+
+      a {
+        display: inline-block;
+        font-size: 14px;
+        font-weight: 600;
+        text-decoration: none;
+        padding: 6px 16px;
+        color: $vz-dark-blue;
+        background-color: $c-4;
+        border-radius: 16px;
+        transition: 0.2s;
+      }
+    }
+  }
+}
+
+.monitor-status {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  cursor: default;
+
+  &_down {
+    background-color: $vz-red;
+  }
+
+  &_up {
+    background-color: $vz-green-success;
+  }
 }

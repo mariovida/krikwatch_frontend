@@ -12,11 +12,9 @@ import {
 interface AddClientModalProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (client: {
-    name: string;
-  }) => void;
+  onSubmit: (client: { name: string; logo?: File }) => void;
   editMode: boolean;
-  client?: { name: string } | null | undefined;
+  client?: { name: string; logo?: string } | null | undefined;
   name: string;
   setName: React.Dispatch<React.SetStateAction<string>>;
 }
@@ -33,13 +31,20 @@ const AddClientModal: React.FC<AddClientModalProps> = ({
   const [errors, setErrors] = useState({
     name: "",
   });
+  const [logo, setLogo] = useState<File | null>(null);
+  const [logoPreview, setLogoPreview] = useState<string | null>(null);
 
   useEffect(() => {
     if (editMode && client) {
       setName(client.name || "");
+      if (client.logo) {
+        setLogoPreview(client.logo);
+      }
     }
-    if(!editMode) {
-        setName("");
+    if (!editMode) {
+      setName("");
+      setLogo(null);
+      setLogoPreview(null);
     }
   }, [editMode, client, setName]);
 
@@ -48,10 +53,10 @@ const AddClientModal: React.FC<AddClientModalProps> = ({
     const newErrors = { name: "" };
 
     if (!name.trim()) {
-      newErrors.name = "First name is required.";
+      newErrors.name = "Name is required.";
       isValid = false;
     } else if (name.length > 50) {
-      newErrors.name = "First name must be less than 50 characters.";
+      newErrors.name = "Name must be less than 50 characters.";
       isValid = false;
     }
 
@@ -66,16 +71,20 @@ const AddClientModal: React.FC<AddClientModalProps> = ({
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
+  const handleLogoChange = (e: React.ChangeEvent<HTMLInputElement>) => {};
+
   const handleSubmit = () => {
     if (validateFields()) {
-      onSubmit({ name: name });
+      onSubmit({ name, logo: logo || undefined });
     }
   };
 
   const handleClose = () => {
     setErrors({ name: "" });
-    if(!editMode) {
+    if (!editMode) {
       setName("");
+      setLogo(null);
+      setLogoPreview(null);
     }
     onClose();
   };
@@ -106,6 +115,45 @@ const AddClientModal: React.FC<AddClientModalProps> = ({
             variant="filled"
             inputProps={{ maxLength: 50 }}
           />
+          <Box>
+            <TextField
+              type="file"
+              inputProps={{ accept: "image/*" }}
+              onChange={handleLogoChange}
+              fullWidth
+              variant="filled"
+              sx={{
+                "& .MuiFilledInput-root": {
+                  backgroundColor: "#f5f5f5",
+                  borderRadius: "8px",
+                  padding: "8px 12px",
+                },
+                "& .upload-button": {
+                  display: "inline-block",
+                  padding: "8px 16px",
+                  backgroundColor: "#3f51b5",
+                  color: "#fff",
+                  borderRadius: "4px",
+                  cursor: "pointer",
+                  textAlign: "center",
+                  width: "100%",
+                },
+              }}
+            />
+            {logoPreview && (
+              <Box mt={2}>
+                <img
+                  src={logoPreview}
+                  alt="Logo preview"
+                  style={{
+                    width: "100px",
+                    height: "100px",
+                    objectFit: "cover",
+                  }}
+                />
+              </Box>
+            )}
+          </Box>
         </Box>
       </DialogContent>
       <DialogActions>

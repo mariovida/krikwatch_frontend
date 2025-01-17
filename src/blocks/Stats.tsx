@@ -5,7 +5,7 @@ import WebsitesIcon from "../assets/icons/websites.svg";
 import UsersIcon from "../assets/icons/users.svg";
 //import ArrowRightIcon from "../assets/icons/arrow-right.svg";
 
-import CountUp from 'react-countup';
+import CountUp from "react-countup";
 
 interface StatsProps {
   openIncidents: number;
@@ -13,7 +13,11 @@ interface StatsProps {
   totalClients: number;
 }
 
-const Stats: React.FC<StatsProps> = ({ openIncidents, totalWebsites, totalClients }) => {
+const Stats: React.FC<StatsProps> = ({
+  openIncidents,
+  totalWebsites,
+  totalClients,
+}) => {
   return (
     <section className="stats">
       <div className="wrapper">
@@ -25,25 +29,20 @@ const Stats: React.FC<StatsProps> = ({ openIncidents, totalWebsites, totalClient
                   <img src={AttentionIcon} alt="Open Incidents Icon" />
                 </div>
                 <div>
-                  <h6>Open incidents</h6>
-                  <p style={{ color: openIncidents > 0 ? "#bb241a" : "#107569" }}>
-                    <CountUp
-                      start={0}
-                      end={openIncidents}
-                      duration={1}
-                    />
+                  <h6>Open reports</h6>
+                  <p
+                    style={{ color: openIncidents > 0 ? "#bb241a" : "#107569" }}
+                  >
+                    <CountUp start={0} end={openIncidents} duration={1} />
                   </p>
                 </div>
               </div>
               <div className="stats-box_btn">
-                <Link to="/incidents">
-                  See all
-                </Link>
+                <Link to="/incidents">See all</Link>
               </div>
             </div>
           </div>
 
-          {/* Total Websites Stat */}
           <div className="col-12 col-md-4">
             <div className="stats-box">
               <div className="stats-box_flex">
@@ -53,23 +52,16 @@ const Stats: React.FC<StatsProps> = ({ openIncidents, totalWebsites, totalClient
                 <div>
                   <h6>Websites</h6>
                   <p>
-                    <CountUp
-                      start={0}
-                      end={totalWebsites}
-                      duration={1}
-                    />
+                    <CountUp start={0} end={totalWebsites} duration={1} />
                   </p>
                 </div>
               </div>
               <div className="stats-box_btn">
-                <Link to="/websites">
-                  See all
-                </Link>
+                <Link to="/websites">See all</Link>
               </div>
             </div>
           </div>
 
-          {/* Total Clients Stat */}
           <div className="col-12 col-md-4">
             <div className="stats-box">
               <div className="stats-box_flex">
@@ -79,18 +71,12 @@ const Stats: React.FC<StatsProps> = ({ openIncidents, totalWebsites, totalClient
                 <div>
                   <h6>Clients</h6>
                   <p>
-                    <CountUp
-                      start={0}
-                      end={totalClients}
-                      duration={1}
-                    />
+                    <CountUp start={0} end={totalClients} duration={1} />
                   </p>
                 </div>
               </div>
               <div className="stats-box_btn">
-                <Link to="/clients">
-                  See all
-                </Link>
+                <Link to="/clients">See all</Link>
               </div>
             </div>
           </div>
