@@ -20,6 +20,7 @@ import LoginPage from "./pages/LoginPage";
 import SetPasswordPage from "./pages/SetPasswordPage";
 import SetPasswordSuccessPage from "./pages/SetPasswordSuccessPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Home from "./pages/Home";
 import IncidentsPage from "./pages/incidents/IncidentsPage";
 import WebsitesPage from "./pages/websites/WebsitesPage";
@@ -47,6 +48,7 @@ function App() {
               element={<SetPasswordSuccessPage />}
             />
             <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/password-reset" element={<ResetPasswordPage />} />
             <Route
               path="/"
               element={
