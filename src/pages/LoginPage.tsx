@@ -93,7 +93,7 @@ const LoginPage = () => {
         </section>
       )}
       <div className="row">
-        <div className="col-12 col-md-6"></div>
+        <div className="col-12 col-md-6 d-none d-md-block"></div>
         <div className="col-12 col-md-6 d-flex align-items-center justify-content-center">
           <div className="login-box">
             <h2>Log in</h2>
