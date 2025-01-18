@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 
+import { Typography } from "@mui/material";
 import Stats from "../blocks/Stats";
 
 import ChevronLeftIcon from "../assets/icons/ChevronLeft";
@@ -21,6 +22,7 @@ const Home = () => {
   //const [totalWebsites, setTotalWebsites] = useState(0);
   const [allSitesUp, setAllSitesUp] = useState(true);
   const [uptimeData, setUptimeData] = useState<any>([]);
+  const [timeUntilNextFetch, setTimeUntilNextFetch] = useState(300);
   const [filteredUptimeData, setFilteredUptimeData] = useState<any>([]);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -47,6 +49,8 @@ const Home = () => {
           setUptimeData(monitors);
           setFilteredUptimeData(monitors);
 
+          setTimeUntilNextFetch(300);
+
           //setTotalWebsites(monitors.length);
 
           const incidents = monitors.filter(
@@ -67,7 +71,19 @@ const Home = () => {
     };
 
     fetchUptimeData();
-  }, []);
+
+    const interval = setInterval(() => {
+      fetchUptimeData();
+      console.log("Fetched data from API");
+    }, 300000);
+    const countdownInterval = setInterval(() => {
+      setTimeUntilNextFetch((prev) => (prev > 0 ? prev - 1 : 300));
+    }, 1000);
+    return () => {
+      clearInterval(interval);
+      clearInterval(countdownInterval);
+    };
+  }, [backendUrl]);
 
   const sortedData = filteredUptimeData.sort((a: any, b: any) => {
     if (a.status === 9 && b.status !== 9) return -1;
@@ -115,6 +131,36 @@ const Home = () => {
 
       {uptimeData && uptimeData.length > 0 && (
         <>
+          <section style={{ marginBottom: "8px" }}>
+            <div className="wrapper">
+              <div className="row">
+                <div className="col-12">
+                  <div>
+                    <Typography
+                      sx={{
+                        fontSize: "14px",
+                        textAlign: "right",
+                        color: "#495057",
+                        cursor: "default",
+                      }}
+                    >
+                      Next API fetch in:{" "}
+                      <span
+                        style={{
+                          display: "inline-block",
+                          width: "96px",
+                          fontWeight: 500,
+                          color: "#333333",
+                        }}
+                      >
+                        {timeUntilNextFetch} seconds
+                      </span>
+                    </Typography>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
           <section className="search-container">
             <div className="wrapper">
               <div className="row">
@@ -146,68 +192,78 @@ const Home = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {currentMonitors.map((monitor: any) => (
-                        <tr key={monitor.id}>
-                          <td style={{ width: "48px" }}>
-                            {monitor.status === 2 ? (
-                              <span className="monitor-status monitor-status_up"></span>
-                            ) : monitor.status === 9 ? (
-                              <span className="monitor-status monitor-status_down"></span>
-                            ) : (
-                              "Unknown"
-                            )}
-                          </td>
-                          <td>{monitor.friendly_name}</td>
-                          <td>
-                            <a
-                              href={monitor.url}
-                              style={{
-                                width: "unset",
-                                height: "unset",
-                                padding: "unset",
-                                backgroundColor: "transparent",
-                                textDecoration: "none",
-                              }}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {monitor.url}
-                            </a>
-                          </td>
-                          <td>
-                            {new Date(monitor.create_datetime * 1000)
-                              .toLocaleDateString("en-GB")
-                              .replace(/\//g, ".")}
+                      {currentMonitors.length > 0 ? (
+                        currentMonitors.map((monitor: any) => (
+                          <tr key={monitor.id}>
+                            <td style={{ width: "48px" }}>
+                              {monitor.status === 2 ? (
+                                <span className="monitor-status monitor-status_up"></span>
+                              ) : monitor.status === 9 ? (
+                                <span className="monitor-status monitor-status_down"></span>
+                              ) : (
+                                "Unknown"
+                              )}
+                            </td>
+                            <td>{monitor.friendly_name}</td>
+                            <td>
+                              <a
+                                href={monitor.url}
+                                style={{
+                                  width: "unset",
+                                  height: "unset",
+                                  padding: "unset",
+                                  backgroundColor: "transparent",
+                                  textDecoration: "none",
+                                }}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                {monitor.url}
+                              </a>
+                            </td>
+                            <td>
+                              {new Date(monitor.create_datetime * 1000)
+                                .toLocaleDateString("en-GB")
+                                .replace(/\//g, ".")}
+                            </td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={6} style={{ textAlign: "center" }}>
+                            No monitors found with the query
                           </td>
                         </tr>
-                      ))}
+                      )}
                     </tbody>
                   </table>
-                  <div className="pagination">
-                    <button
-                      className="pagination-prev"
-                      onClick={goToPreviousPage}
-                      disabled={currentPage === 1}
-                    >
-                      <ChevronLeftIcon />
-                    </button>
-                    {[...Array(totalPages).keys()].map((page) => (
+                  {currentMonitors.length > 0 && (
+                    <div className="pagination">
                       <button
-                        key={page}
-                        onClick={() => goToPage(page + 1)}
-                        className={currentPage === page + 1 ? "active" : ""}
+                        className="pagination-prev"
+                        onClick={goToPreviousPage}
+                        disabled={currentPage === 1}
                       >
-                        {page + 1}
+                        <ChevronLeftIcon />
                       </button>
-                    ))}
-                    <button
-                      className="pagination-next"
-                      onClick={goToNextPage}
-                      disabled={currentPage === totalPages}
-                    >
-                      <ChevronRightIcon />
-                    </button>
-                  </div>
+                      {[...Array(totalPages).keys()].map((page) => (
+                        <button
+                          key={page}
+                          onClick={() => goToPage(page + 1)}
+                          className={currentPage === page + 1 ? "active" : ""}
+                        >
+                          {page + 1}
+                        </button>
+                      ))}
+                      <button
+                        className="pagination-next"
+                        onClick={goToNextPage}
+                        disabled={currentPage === totalPages}
+                      >
+                        <ChevronRightIcon />
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -193,7 +193,7 @@ const NewWebsitePage = () => {
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         open={showError}
         onClose={handleSnackbarClose}
-        message="All fields are required."
+        message="Fill required fields."
         className="snackbar snackbar-error"
         autoHideDuration={4000}
       />
