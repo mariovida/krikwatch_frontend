@@ -23,6 +23,7 @@ import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
 import Home from "./pages/Home";
 import IncidentsPage from "./pages/incidents/IncidentsPage";
+import IncidentDetailsPage from "./pages/incidents/IncidentDetailsPage";
 import NewIncidentPage from "./pages/incidents/NewIncidentPage";
 import WebsitesPage from "./pages/websites/WebsitesPage";
 import NewWebsitePage from "./pages/websites/NewWebsitePage";
@@ -81,6 +82,17 @@ function App() {
                   <>
                     <Navigation />
                     <NewIncidentPage />
+                  </>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/incident/:id"
+              element={
+                <PrivateRoute>
+                  <>
+                    <Navigation />
+                    <IncidentDetailsPage />
                   </>
                 </PrivateRoute>
               }
