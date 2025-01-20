@@ -4,6 +4,8 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
+import EyeIcon from "../../assets/icons/eye.svg";
+
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
 
 const IncidentsPage = () => {
@@ -28,7 +30,6 @@ const IncidentsPage = () => {
           },
         });
         if (response && response.data && response.data.incidents) {
-          console.log(response.data.incidents);
           setIncidents(response.data.incidents);
           setFilteredIncidents(response.data.incidents);
         }
@@ -56,6 +57,10 @@ const IncidentsPage = () => {
 
   const handleAddNewButton = () => {
     navigate(`/incidents/create-new`);
+  };
+
+  const handleDetailsClick = (id: string) => {
+    navigate(`/incident/${id}`);
   };
 
   return (
@@ -97,7 +102,7 @@ const IncidentsPage = () => {
                       <th>Website</th>
                       <th>Author</th>
                       <th>Created at</th>
-                      {/* <th></th> */}
+                      <th></th>
                     </tr>
                   </thead>
                   <tbody>
@@ -133,11 +138,20 @@ const IncidentsPage = () => {
                               incident.created_by_last_name}
                           </td>
                           <td>{formatDateWithClock(incident.created_at)}</td>
-                          {/* <td
+                          <td
                             style={{
-                              width: "100px",
+                              width: "60px",
                             }}
-                          ></td> */}
+                          >
+                            <button
+                              onClick={() =>
+                                handleDetailsClick(incident.incident_key)
+                              }
+                              style={{ marginLeft: "12px" }}
+                            >
+                              <img src={EyeIcon} />
+                            </button>
+                          </td>
                         </tr>
                       ))
                     ) : (
