@@ -1,0 +1,100 @@
+nav {
+  width: 100%;
+  height: 100%;
+  padding: 20px 0;
+  margin-bottom: 60px;
+  color: $c-3;
+  background-color: $vz-dark-blue;
+
+  .nav-btns {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    > div {
+      display: flex;
+      gap: 24px;
+    }
+
+    button {
+      padding: 3px;
+      border: 2px solid $c-3;
+
+      .MuiAvatar-root {
+        width: 40px;
+        height: 40px;
+        font-size: 15px;
+        font-weight: 500;
+        line-height: 16px !important;
+        background-color: $c-3;
+        color: $vz-dark-blue;
+      }
+    }
+  }
+
+  a,
+  button {
+    display: inline-flex;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    text-decoration: none;
+    color: $c-3;
+    background-color: transparent;
+    border: 0;
+    cursor: pointer;
+  }
+}
+
+.avatar-menu .MuiPaper-root {
+  min-width: 210px;
+
+  .MuiList-root {
+    padding: 6px;
+
+    .user-info {
+      padding: 14px 6px 20px 6px;
+      cursor: default;
+      
+      p {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 16px;
+        color: $vz-dark-blue;
+
+        &:last-child {
+          font-size: 14px;
+          line-height: 18px;
+          font-weight: 400;
+          color: $c-7;
+          margin-top: 4px;
+        }
+      }
+    }
+    
+    .MuiDivider-root {
+      border-width: 1px;
+      border-color: $c-5;
+      margin: 0;
+      //margin-bottom: 8px;
+    }
+
+    li {
+      display: block;
+      font-family: "Plus jakarta Sans", sans-serif;
+      font-size: 16px;
+      font-weight: 400;
+      text-align: left;
+      padding: 4px 8px;
+      margin: 6px 0;
+      color: $vz-dark-blue;
+
+      &:last-of-type {
+        font-size: 14px;
+        font-weight: 700;
+        text-align: center;
+        margin: 6px 0 0 0;
+      }
+    }
+  }
+}

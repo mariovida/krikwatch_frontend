@@ -1,0 +1,167 @@
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+// Base
+@import "./styles/colors.scss";
+
+// Pages
+@import "./styles/login.scss";
+
+// Blocks
+@import "./styles/navigation.scss";
+@import "./styles/modals.scss";
+@import "./styles/snackbars.scss";
+@import "./styles/stats.scss";
+@import "./styles/search.scss";
+@import "./styles/custom-table.scss";
+@import "./styles/custom-form.scss";
+@import "./styles/custom-box.scss";
+@import "./styles/custom-more-menu.scss";
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+body {
+  min-height: 100vh;
+  position: relative;
+  font-family: "Plus Jakarta Sans", sans-serif;
+  font-size: 16px;
+  font-weight: 500;
+  background-color: $c-3;
+  color: $c-11;
+
+  &.login-page {
+    background-image: url("./login-bg.png");
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: $vz-background;
+
+    .row {
+      min-height: 100vh;
+      height: 100%;
+      margin: 0;
+    }
+  }
+}
+#root {
+  min-height: 100vh;
+}
+.wrapper {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.spacer {
+  display: block;
+  height: 60px;
+}
+
+/* Typography */
+h1,
+h2,
+h3,
+h4 {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  cursor: default;
+}
+h1 {
+  font-weight: 700;
+  font-size: 46px;
+  line-height: 52px;
+  margin: 50px 0;
+}
+h2 {
+  font-size: 42px;
+  font-weight: 700;
+  line-height: 52px;
+  margin: 0;
+}
+h3 {
+  font-size: 36px !important;
+  font-weight: 600 !important;
+  line-height: 40px !important;
+  margin: 0;
+}
+h6 {
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 21px;
+  margin: 0;
+}
+p {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  font-size: 16px;
+  margin: 0;
+
+  /*@media screen and (max-width: 768px) {
+    font-size: 15px;
+  }*/
+}
+button,
+input {
+  font-family: "Plus Jakarta Sans", sans-serif !important;
+  outline: 0;
+}
+
+.go-back-btn {
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  font-size: 16px !important;
+  line-height: 21px !important;
+  font-weight: 600 !important;
+  color: $vz-dark-blue !important;
+  background-color: transparent !important;
+  text-transform: none !important;
+  text-decoration: none !important;
+  margin-bottom: 40px !important;
+  padding: 0 !important;
+  border: 0 !important;
+}
+
+.backend-status {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+
+  .loader {
+    width: 28px;
+    height: 28px;
+    display: inline-block;
+    position: relative;
+  }
+  .loader::after,
+  .loader::before {
+    content: "";
+    box-sizing: border-box;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: $vz-green;
+    position: absolute;
+    left: 0;
+    top: 0;
+    animation: animloader 2s linear infinite;
+  }
+
+  &_failed {
+    .loader::after,
+    .loader::before {
+      background: $vz-red;
+    }
+  }
+
+  @keyframes animloader {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 0;
+    }
+  }
+}

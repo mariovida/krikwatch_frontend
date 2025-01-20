@@ -1,0 +1,107 @@
+.custom-form {
+    background-color: $c-1;
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: rgba(0, 0, 0, 0.04) 0px 5px 22px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+      
+    .MuiInputBase-root {
+        font-weight: 400;
+        line-height: 1.4375em;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        color: rgb(17, 25, 39) !important;
+        box-sizing: border-box;
+        display: inline-flex;
+        -webkit-box-align: center;
+        align-items: center;
+        width: 100%;
+        position: relative;
+        background-color: transparent;
+        border-radius: 8px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        transition:
+        border-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+        box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        border-color: rgb(229, 231, 235);
+
+        &:before,
+        &:after {
+            border: 0;
+        }
+
+        &:hover {
+            background-color: transparent;
+
+            &:before,
+            &:after {
+                border: 0 !important;
+            }
+        }
+    }
+  
+    .MuiInputLabel-root, .MuiSelect-root {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      background-color: transparent !important;
+      color: $c-7;
+  
+      &.Mui-focused {
+        color: $c-7;
+      }
+    }
+  
+    .form-fields {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      margin: 24px 0 40px 0;
+  
+      .MuiFormHelperText-root {
+        margin-top: 4px;
+        margin-left: 0;
+      }
+    }
+  
+    .action-btns {
+        display: flex;
+        justify-content: flex-end;
+        gap: 16px;
+    }
+
+    .submit-btn,
+    .cancel-btn,
+    .delete-btn {
+      font-size: 15px;
+      font-weight: 600;
+      line-height: 17px;
+      text-transform: none;
+      color: $c-10;
+      padding: 12px 16px;
+      border: 1px solid $c-10;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+  
+    .submit-btn {
+      color: $c-1;
+      background-color: $vz-purple-1;
+      border-color: $vz-purple-1;
+  
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+
+    .delete-btn {
+        color: $vz-red;
+        padding: 0;
+        border: 1px solid transparent;
+
+        &:hover {
+            background-color: transparent;
+            text-decoration: underline;
+        }
+    }
+  }
+  

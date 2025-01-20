@@ -1,0 +1,16 @@
+.snackbar {
+  .MuiSnackbarContent {
+    &-root {
+      background-color: $vz-red-light;
+
+      padding: 0;
+    }
+    &-message {
+      font-family: "Plus Jakarta Sans", sans-serif;
+      font-size: 15px;
+      line-height: 20px;
+      color: $vz-red;
+      padding: 18px 24px;
+    }
+  }
+}

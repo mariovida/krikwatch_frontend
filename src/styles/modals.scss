@@ -1,0 +1,103 @@
+.custom-modal {
+  .MuiPaper-root {
+    max-width: unset;
+    margin: 0;
+    padding: 24px;
+    border-radius: 10px;
+    background-color: $c-1;
+
+    h2,
+    .MuiDialogContent-root,
+    .MuiDialogActions-root {
+      padding: 0;
+    }
+
+    .MuiDialogTitle-root {
+      font-family: "Plus jakarta Sans", sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+    }
+
+    .MuiDialogContent-root {
+      .MuiInputBase-root {
+        font-weight: 400;
+        line-height: 1.4375em;
+        font-family: "Plus Jakarta Sans", sans-serif;
+        color: rgb(17, 25, 39);
+        box-sizing: border-box;
+        display: inline-flex;
+        -webkit-box-align: center;
+        align-items: center;
+        width: 100%;
+        position: relative;
+        background-color: transparent;
+        border-radius: 8px;
+        border-style: solid;
+        border-width: 1px;
+        overflow: hidden;
+        transition:
+          border-color 300ms cubic-bezier(0.4, 0, 0.2, 1),
+          box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1);
+        border-color: rgb(229, 231, 235);
+
+        &:before,
+        &:after {
+          border: 0;
+        }
+      }
+    }
+  }
+
+  .MuiDialogActions-root {
+    button {
+      &:last-of-type {
+        margin-left: 16px;
+      }
+    }
+  }
+
+  .MuiInputLabel-root {
+    font-family: "Plus Jakarta Sans", sans-serif;
+    color: $c-7;
+
+    &.Mui-focused {
+      color: $c-7;
+    }
+  }
+
+  .form-fields {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin: 24px 0 40px 0;
+
+    .MuiFormHelperText-root {
+      margin-top: 4px;
+      margin-left: 0;
+    }
+  }
+
+  .submit-btn,
+  .cancel-btn {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 17px;
+    text-transform: none;
+    color: $c-10;
+    padding: 12px 16px;
+    border: 1px solid $c-10;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: 0.2s;
+  }
+
+  .submit-btn {
+    color: $c-1;
+    background-color: $vz-purple-1;
+    border-color: $vz-purple-1;
+
+    &:hover {
+      opacity: 0.9;
+    }
+  }
+}
