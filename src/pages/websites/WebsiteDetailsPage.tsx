@@ -290,7 +290,7 @@ const WebsiteDetailsPage = () => {
                       </span>
                     </Typography>
                   </Box>
-                  <Box>
+                  {/* <Box>
                     {website.status === 1 ? (
                       <span className="status-badge status-badge_active">
                         ACTIVE
@@ -300,7 +300,7 @@ const WebsiteDetailsPage = () => {
                         INACTIVE
                       </span>
                     )}
-                  </Box>
+                  </Box> */}
                 </WebsiteDetails>
               </div>
               <div className="col-12">
