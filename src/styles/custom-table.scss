@@ -137,7 +137,9 @@
 }
 
 .status-badge {
+  min-width: 40px;
   display: inline-flex;
+  justify-content: center;
   font-size: 13px;
   font-weight: 700;
   line-height: 22px;
@@ -169,5 +171,41 @@
   &_closed {
     background-color: $c-4;
     color: $c-8;
+  }
+}
+
+// Table pagination
+.pagination {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 6px;
+  width: 100%;
+  margin-top: 24px;
+
+  button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border: 0;
+    background-color: transparent;
+    color: $vz-dark-blue;
+    font-size: 15px;
+    font-weight: 600;
+    padding: 0;
+    border-radius: 16px;
+    transition: 0.2s;
+
+    &:disabled {
+      color: $c-6;
+      cursor: default;
+    }
+
+    &.active {
+      background-color: $vz-dark-blue;
+      color: $c-1;
+    }
   }
 }

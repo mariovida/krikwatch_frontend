@@ -5,6 +5,8 @@ import WebsitesIcon from "../assets/icons/websites.svg";
 import UsersIcon from "../assets/icons/users.svg";
 //import ArrowRightIcon from "../assets/icons/arrow-right.svg";
 
+import CountUp from 'react-countup';
+
 interface StatsProps {
   openIncidents: number;
   totalWebsites: number;
@@ -25,7 +27,11 @@ const Stats: React.FC<StatsProps> = ({ openIncidents, totalWebsites, totalClient
                 <div>
                   <h6>Open incidents</h6>
                   <p style={{ color: openIncidents > 0 ? "#bb241a" : "#107569" }}>
-                    {openIncidents}
+                    <CountUp
+                      start={0}
+                      end={openIncidents}
+                      duration={1}
+                    />
                   </p>
                 </div>
               </div>
@@ -46,7 +52,13 @@ const Stats: React.FC<StatsProps> = ({ openIncidents, totalWebsites, totalClient
                 </div>
                 <div>
                   <h6>Websites</h6>
-                  <p>{totalWebsites}</p>
+                  <p>
+                    <CountUp
+                      start={0}
+                      end={totalWebsites}
+                      duration={1}
+                    />
+                  </p>
                 </div>
               </div>
               <div className="stats-box_btn">
@@ -66,7 +78,13 @@ const Stats: React.FC<StatsProps> = ({ openIncidents, totalWebsites, totalClient
                 </div>
                 <div>
                   <h6>Clients</h6>
-                  <p>{totalClients}</p>
+                  <p>
+                    <CountUp
+                      start={0}
+                      end={totalClients}
+                      duration={1}
+                    />
+                  </p>
                 </div>
               </div>
               <div className="stats-box_btn">
