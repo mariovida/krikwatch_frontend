@@ -13,8 +13,9 @@ import {
   Snackbar,
   Typography,
 } from "@mui/material";
-import MoreVertIcon from "@mui/icons-material/MoreVert";
 import MoreMenuIcon from "../../assets/icons/more-menu.svg";
+import ChevronLeftIcon from "../../assets/icons/ChevronLeft";
+import ChevronRightIcon from "../../assets/icons/ChevronRight";
 
 const ClientsPage = () => {
   let backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -37,6 +38,29 @@ const ClientsPage = () => {
   const [name, setName] = useState("");
 
   const open = Boolean(anchorEl);
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const clientsPerPage = 12;
+  const indexOfLastClient = currentPage * clientsPerPage;
+  const indexOfFirstClient = indexOfLastClient - clientsPerPage;
+  const currentClients = filteredClients.slice(
+    indexOfFirstClient,
+    indexOfLastClient
+  );
+
+  const totalPages = Math.ceil(filteredClients.length / clientsPerPage);
+
+  const handleNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+
+  const handlePrevPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+  };
 
   useEffect(() => {
     const fetchClients = async () => {
@@ -239,7 +263,7 @@ const ClientsPage = () => {
                       gap: "24px",
                     }}
                   >
-                    {filteredClients.map((client) => (
+                    {currentClients.map((client) => (
                       <Box className="custom-box" key={client.id}>
                         <div className="clients-list_box">
                           <Box
@@ -293,6 +317,41 @@ const ClientsPage = () => {
               </div>
             </div>
           </section>
+          {currentClients.length > 0 && (
+            <section>
+              <div className="wrapper">
+                <div className="row">
+                  <div className="col-12">
+                    <div className="pagination">
+                      <button
+                        className="pagination-prev"
+                        onClick={handlePrevPage}
+                        disabled={currentPage === 1}
+                      >
+                        <ChevronLeftIcon />
+                      </button>
+                      {[...Array(totalPages).keys()].map((page) => (
+                        <button
+                          key={page}
+                          onClick={() => goToPage(page + 1)}
+                          className={currentPage === page + 1 ? "active" : ""}
+                        >
+                          {page + 1}
+                        </button>
+                      ))}
+                      <button
+                        className="pagination-next"
+                        onClick={handleNextPage}
+                        disabled={currentPage === totalPages}
+                      >
+                        <ChevronRightIcon />
+                      </button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          )}
 
           <Menu
             anchorEl={anchorEl}
