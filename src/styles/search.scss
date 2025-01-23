@@ -1,46 +1,55 @@
 .search-container {
-    margin-bottom: 32px;
+  margin-bottom: 32px;
 
-    &_box {
-        display: flex;
-        justify-content: space-between;
-        gap: 24px;
+  &_box {
+    display: flex;
+    justify-content: space-between;
+    gap: 24px;
 
-        input {
-            width: 100%;
-            background-color: $c-1;
-            font-size: 15px;
-            padding: 12px;
-            border: 1px solid $c-3;
-            border: 0;
-            border-radius: 6px;
-            box-shadow: rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,
-              rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+    input {
+      width: 100%;
+      background-color: $c-1;
+      font-size: 15px;
+      padding: 12px;
+      border: 1px solid $c-3;
+      border: 0;
+      border-radius: 6px;
+      box-shadow:
+        rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,
+        rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
 
-            &:focus {
-            outline: 0;
-            }
-        }
-
-        .create-btn {
-            flex: none;
-            display: inline-flex;
-            align-items: center;
-            color: $c-1;
-            font-size: 15px;
-            font-weight: 600;
-            text-decoration: none;
-            background-color: $vz-dark-blue;
-            padding: 0 16px;
-            border-radius: 6px;
-            box-shadow: rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,
-              rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
-            transition: 0.2s;
-            cursor: pointer;
-
-            &:hover {
-                opacity: 0.9;
-            }
-        }
+      &:focus {
+        outline: 0;
+      }
     }
+
+    .create-btn {
+      flex: none;
+      display: inline-flex;
+      align-items: center;
+      color: $c-1;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      background-color: $vz-dark-blue;
+      padding: 0 16px;
+      border-radius: 6px;
+      box-shadow:
+        rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,
+        rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+      transition: 0.2s;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.9;
+      }
+    }
+  }
+}
+
+.MuiListSubheader-root {
+  input {
+    line-height: 20px;
+    padding: 0;
+  }
 }

@@ -173,3 +173,25 @@ input {
     }
   }
 }
+
+.MuiMultiSectionDigitalClockSection-root {
+  &::-webkit-scrollbar {
+    width: 6px;
+    background-color: transparent;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+    border-radius: 5px;
+    margin: 6px 0;
+  }
+  &::-webkit-scrollbar-thumb {
+    background-color: #ababab;
+    border-radius: 5px;
+  }
+}
+
+.error-message {
+  font-size: 14px;
+  color: $vz-red;
+  border-radius: 5px;
+}
