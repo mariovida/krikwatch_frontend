@@ -31,6 +31,38 @@ const Home = () => {
 
   const totalPages = Math.ceil(filteredUptimeData.length / itemsPerPage);
 
+  const handleSendSMS = async () => {
+    try {
+      const to = "";
+      const from = "";
+      const text = "Message sent!";
+
+      const response = await fetch(`${backendUrl}/api/send-sms`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          to: to,
+          from: from,
+          text: text,
+        }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("SMS sent successfully:", data);
+        alert("SMS sent successfully!");
+      } else {
+        console.error("Error sending SMS:", response.statusText);
+        alert("Error sending SMS");
+      }
+    } catch (error) {
+      console.error("Error sending SMS:", error);
+      alert("Error sending SMS");
+    }
+  };
+
   useEffect(() => {
     const fetchUptimeData = async () => {
       try {
@@ -128,6 +160,16 @@ const Home = () => {
         totalWebsites={totalWebsites}
         totalClients={totalClients}
       />
+
+      <section>
+        <div className="wrapper">
+          <div className="row">
+            <div className="col-12">
+              <button>Send SMS</button>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {uptimeData && uptimeData.length > 0 && (
         <>
