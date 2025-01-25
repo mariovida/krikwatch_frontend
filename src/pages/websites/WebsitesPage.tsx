@@ -4,8 +4,10 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
-import ChevronUp from "../../assets/icons/arrow-up-right.svg";
+import EditIcon from "../../assets/icons/edit.svg";
 import EyeIcon from "../../assets/icons/eye.svg";
+import ChevronLeftIcon from "../../assets/icons/ChevronLeft";
+import ChevronRightIcon from "../../assets/icons/ChevronRight";
 
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
 
@@ -20,6 +22,11 @@ const WebsitesPage = () => {
   const [filteredWebsites, setFilteredWebsites] = useState<any[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(10);
+
+  const totalPages = Math.ceil(filteredWebsites.length / itemsPerPage);
+
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
@@ -32,8 +39,11 @@ const WebsitesPage = () => {
             Authorization: `Bearer ${token}`,
           },
         });
+        const sortedWebsites = response.data.websites.sort((a: any, b: any) => {
+          return a.name.localeCompare(b.name, "hr", { sensitivity: "base" });
+        });
         setWebsites(response.data.websites);
-        setFilteredWebsites(response.data.websites);
+        setFilteredWebsites(sortedWebsites);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -44,9 +54,24 @@ const WebsitesPage = () => {
     fetchWebsites();
   }, [backendUrl]);
 
+  const currentWebsites = filteredWebsites.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  );
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+  const goToPreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+  };
+
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     const query = event.target.value.toLowerCase();
     setSearchQuery(query);
+    setCurrentPage(1);
 
     const filtered = websites.filter((website) => {
       return (
@@ -95,15 +120,15 @@ const WebsitesPage = () => {
         </div>
       </section>
 
-      <section className="users-table">
+      <section style={{ paddingBottom: "100px" }}>
         <div className="wrapper">
           <div className="row">
             <div className="col-12">
               <table className="custom-table">
                 <thead>
                   <tr>
-                    <th>Status</th>
-                    <th>Website</th>
+                    {/* <th>Status</th> */}
+                    <th style={{ width: "unset" }}>Website</th>
                     <th>URL</th>
                     <th>Client</th>
                     <th>Created at</th>
@@ -111,10 +136,10 @@ const WebsitesPage = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {filteredWebsites.length > 0 ? (
-                    filteredWebsites.map((website) => (
+                  {currentWebsites.length > 0 ? (
+                    currentWebsites.map((website) => (
                       <tr key={website.id}>
-                        <td>
+                        {/* <td>
                           {website ? (
                             website.status === 1 ? (
                               <span className="status-badge status-badge_active">
@@ -126,8 +151,8 @@ const WebsitesPage = () => {
                               </span>
                             )
                           ) : null}
-                        </td>
-                        <td>{website.name}</td>
+                        </td> */}
+                        <td style={{ width: "unset" }}>{website.name}</td>
                         <td>
                           {website.website_url ? (
                             <a
@@ -156,7 +181,7 @@ const WebsitesPage = () => {
                           }}
                         >
                           <button onClick={() => handleEditClick(website.id)}>
-                            <img src={ChevronUp} />
+                            <img src={EditIcon} />
                           </button>
                           <button
                             onClick={() => handleDetailsClick(website.id)}
@@ -176,6 +201,33 @@ const WebsitesPage = () => {
                   )}
                 </tbody>
               </table>
+              {currentWebsites.length > 0 && (
+                <div className="pagination">
+                  <button
+                    className="pagination-prev"
+                    onClick={goToPreviousPage}
+                    disabled={currentPage === 1}
+                  >
+                    <ChevronLeftIcon />
+                  </button>
+                  {[...Array(totalPages).keys()].map((page) => (
+                    <button
+                      key={page}
+                      onClick={() => goToPage(page + 1)}
+                      className={currentPage === page + 1 ? "active" : ""}
+                    >
+                      {page + 1}
+                    </button>
+                  ))}
+                  <button
+                    className="pagination-next"
+                    onClick={goToNextPage}
+                    disabled={currentPage === totalPages}
+                  >
+                    <ChevronRightIcon />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </div>
