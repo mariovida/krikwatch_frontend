@@ -12,6 +12,7 @@ import {
   MenuItem,
   Select,
   Snackbar,
+  Stack,
   TextField,
   Typography,
 } from "@mui/material";
@@ -27,6 +28,7 @@ const NewWebsitePage = () => {
   const [clients, setClients] = useState<any[]>([]);
   const [websiteName, setWebsiteName] = useState<string>("");
   const [websiteUrl, setWebsiteUrl] = useState<string>("");
+  const [uptimeId, setUptimeId] = useState<string>("");
   const [selectedClient, setSelectedClient] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [showError, setShowError] = useState<boolean>(false);
@@ -65,6 +67,7 @@ const NewWebsitePage = () => {
       name: websiteName,
       url: websiteUrl,
       client_id: selectedClient,
+      uptime_id: uptimeId,
     };
 
     try {
@@ -118,7 +121,7 @@ const NewWebsitePage = () => {
       <section>
         <div className="wrapper">
           <div className="row">
-            <div className="col-12">
+            <div className="col-12 col-md-8 offset-md-2">
               <Button className="go-back-btn" onClick={handleClose}>
                 <img src={ArrowLeftIcon} />
                 All websites
@@ -145,32 +148,42 @@ const NewWebsitePage = () => {
                   />
                   <TextField
                     label="Website URL"
-                    name="websiteName"
+                    name="websiteUrl"
                     value={websiteUrl}
                     onChange={(e) => setWebsiteUrl(e.target.value)}
                     fullWidth
                     variant="filled"
                   />
-                  <FormControl fullWidth variant="filled" required>
-                    <InputLabel id="client-select-label">
-                      Select client
-                    </InputLabel>
-                    <Select
-                      labelId="client-select-label"
-                      value={selectedClient}
-                      onChange={(e) => setSelectedClient(e.target.value)}
-                      label="Select client"
-                    >
-                      <MenuItem value="" disabled>
+                  <Stack direction="row" sx={{ gap: "16px" }}>
+                    <FormControl fullWidth variant="filled" required>
+                      <InputLabel id="client-select-label">
                         Select client
-                      </MenuItem>
-                      {clients.map((client) => (
-                        <MenuItem key={client.id} value={client.id}>
-                          {client.name}
+                      </InputLabel>
+                      <Select
+                        labelId="client-select-label"
+                        value={selectedClient}
+                        onChange={(e) => setSelectedClient(e.target.value)}
+                        label="Select client"
+                      >
+                        <MenuItem value="" disabled>
+                          Select client
                         </MenuItem>
-                      ))}
-                    </Select>
-                  </FormControl>
+                        {clients.map((client) => (
+                          <MenuItem key={client.id} value={client.id}>
+                            {client.name}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                    </FormControl>
+                    <TextField
+                      label="Uptime ID"
+                      name="uptimeId"
+                      value={uptimeId}
+                      onChange={(e) => setUptimeId(e.target.value)}
+                      fullWidth
+                      variant="filled"
+                    />
+                  </Stack>
                 </Box>
                 <Box className="action-btns">
                   <Button onClick={handleClose} className="cancel-btn">
