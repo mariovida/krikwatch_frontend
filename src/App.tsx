@@ -32,6 +32,7 @@ import ClientsPage from "./pages/clients/ClientsPage";
 import UsersPage from "./pages/users/UsersPage";
 import AccountPage from "./pages/AccountPage";
 import NotificationsPage from "./pages/NotificationsPage";
+import MonitorsPage from "./pages/monitors//MonitorsPage";
 
 import PrivateRoute from "./auth/PrivateRoute";
 
@@ -168,6 +169,17 @@ function App() {
                   <>
                     <Navigation />
                     <NotificationsPage />
+                  </>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/monitors"
+              element={
+                <PrivateRoute>
+                  <>
+                    <Navigation pageTitle="Monitors" />
+                    <MonitorsPage />
                   </>
                 </PrivateRoute>
               }
