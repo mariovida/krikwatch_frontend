@@ -241,7 +241,7 @@ const UsersPage = () => {
                       ) : (
                         <tr>
                           <td colSpan={6} style={{ textAlign: "center" }}>
-                            No user found with the query
+                            No users found with the query
                           </td>
                         </tr>
                       )}

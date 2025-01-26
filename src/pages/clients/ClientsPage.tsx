@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
 import AddClientModal from "./AddClientModal";
+import ConfirmationDeleteModal from "../../blocks/ConfirmDeleteModal";
 import {
   Box,
   IconButton,
@@ -31,6 +32,7 @@ const ClientsPage = () => {
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedClient, setSelectedClient] = useState<any>(null);
   const [modalModeEdit, setModalModeEdit] = useState<boolean>(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   const [name, setName] = useState("");
 
@@ -172,6 +174,33 @@ const ClientsPage = () => {
     setOpenModal(true);
   };
 
+  const handleDeleteClient = (client: React.SetStateAction<null>) => {
+    setSelectedClient(client);
+    setOpenConfirmModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (selectedClient) {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const response = await axios.delete(
+          `${backendUrl}/api/clients/delete-client/${selectedClient.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          window.location.reload();
+        }
+      } catch (error) {
+        console.error("Error deleting website:", error);
+      }
+    }
+  };
+
   return (
     <>
       <Helmet>
@@ -283,7 +312,15 @@ const ClientsPage = () => {
               Edit client
             </MenuItem>
             {selectedClient?.website_count < 1 && (
-              <MenuItem className="more-menu-red">Delete client</MenuItem>
+              <MenuItem
+                className="more-menu-red"
+                onClick={() => {
+                  handleDeleteClient(selectedClient);
+                  handleMenuClose();
+                }}
+              >
+                Delete client
+              </MenuItem>
             )}
           </Menu>
 
@@ -303,6 +340,13 @@ const ClientsPage = () => {
             message="Client with this name already exists."
             className="snackbar snackbar-error"
             autoHideDuration={4000}
+          />
+          <ConfirmationDeleteModal
+            open={openConfirmModal}
+            onClose={() => setOpenConfirmModal(false)}
+            onConfirm={confirmDelete}
+            confirmText="Are you sure you want to delete this client?"
+            confirmTitle="Confirm delete"
           />
         </>
       )}
