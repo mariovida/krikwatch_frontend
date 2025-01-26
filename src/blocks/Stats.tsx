@@ -47,7 +47,7 @@ const Stats: React.FC<StatsProps> = ({
               </div>
               <div className="stats-box_btn">
                 <Link
-                  to="/incidents"
+                  to="/monitors"
                   style={{
                     backgroundColor: monitorsDown > 0 ? "#bb241a" : "#EEEEEE",
                     color: monitorsDown > 0 ? "#ffffff" : "#1b2431",
