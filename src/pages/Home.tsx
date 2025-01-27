@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
+import axios from "axios";
 
-import { Typography } from "@mui/material";
+import { Typography, Skeleton } from "@mui/material";
 import Stats from "../blocks/Stats";
 
 import ChevronLeftIcon from "../assets/icons/ChevronLeft";
@@ -14,13 +15,14 @@ const Home = () => {
     backendUrl = import.meta.env.VITE_BACKEND_URL_PROD;
   }
 
-  const openIncidents = 5;
-  const totalWebsites = 12;
+  //const openIncidents = 5;
+  //const totalWebsites = 12;
   const totalClients = 8;
 
-  //const [openIncidents, setOpenIncidents] = useState(0);
-  //const [totalWebsites, setTotalWebsites] = useState(0);
+  const [monitorsDown, setMonitorsDown] = useState(0);
+  const [totalWebsites, setTotalWebsites] = useState(0);
   const [allSitesUp, setAllSitesUp] = useState(true);
+  const [websites, setWebsites] = useState<any[]>([]);
   const [uptimeData, setUptimeData] = useState<any>([]);
   const [timeUntilNextFetch, setTimeUntilNextFetch] = useState(300);
   const [filteredUptimeData, setFilteredUptimeData] = useState<any>([]);
@@ -64,6 +66,24 @@ const Home = () => {
   };
 
   useEffect(() => {
+    const fetchWebsites = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const response = await axios.get(`${backendUrl}/api/websites`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setWebsites(response.data.websites);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchWebsites();
+  }, [backendUrl]);
+
+  useEffect(() => {
     const fetchUptimeData = async () => {
       try {
         const response = await fetch(`${backendUrl}/api/uptimerobot`, {
@@ -78,17 +98,22 @@ const Home = () => {
           const data = await response.json();
           const monitors = data.monitors;
 
-          setUptimeData(monitors);
-          setFilteredUptimeData(monitors);
+          const filteredMonitors = monitors.filter((monitor: { id: number }) =>
+            websites.some((website) => monitor.id === Number(website.uptime_id))
+          );
+
+          //console.log(monitors);
+
+          setUptimeData(filteredMonitors);
+          setFilteredUptimeData(filteredMonitors);
+          setTotalWebsites(filteredMonitors.length);
 
           setTimeUntilNextFetch(300);
 
-          //setTotalWebsites(monitors.length);
-
-          const incidents = monitors.filter(
+          const incidents = filteredMonitors.filter(
             (monitor: { status: number }) => monitor.status !== 2
           );
-          //setOpenIncidents(incidents.length);
+          setMonitorsDown(incidents.length);
 
           setAllSitesUp(incidents.length === 0);
         } else {
@@ -102,22 +127,23 @@ const Home = () => {
       }
     };
 
-    fetchUptimeData();
-
-    const interval = setInterval(() => {
+    if (websites.length > 0) {
       fetchUptimeData();
-      console.log("Fetched data from API");
-    }, 300000);
-    const countdownInterval = setInterval(() => {
-      setTimeUntilNextFetch((prev) => (prev > 0 ? prev - 1 : 300));
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-      clearInterval(countdownInterval);
-    };
-  }, [backendUrl]);
 
-  const sortedData = filteredUptimeData.sort((a: any, b: any) => {
+      const interval = setInterval(() => {
+        fetchUptimeData();
+      }, 300000);
+      const countdownInterval = setInterval(() => {
+        setTimeUntilNextFetch((prev) => (prev > 0 ? prev - 1 : 300));
+      }, 1000);
+      return () => {
+        clearInterval(interval);
+        clearInterval(countdownInterval);
+      };
+    }
+  }, [backendUrl, websites]);
+
+  const sortedData = [...filteredUptimeData].sort((a, b) => {
     if (a.status === 9 && b.status !== 9) return -1;
     if (a.status !== 9 && b.status === 9) return 1;
     return 0;
@@ -156,21 +182,31 @@ const Home = () => {
       </Helmet>
 
       <Stats
-        openIncidents={openIncidents}
+        monitorsDown={monitorsDown}
         totalWebsites={totalWebsites}
-        totalClients={totalClients}
+        //totalClients={totalClients}
       />
 
-      <section>
-        <div className="wrapper">
-          <div className="row">
-            <div className="col-12">
-              <button>Send SMS</button>
+      {!uptimeData ||
+        (uptimeData && uptimeData.length < 1 && (
+          <section>
+            <div className="wrapper">
+              <div className="row">
+                <div
+                  className="col-12"
+                  //style={{ display: "flex", justifyContent: "center" }}
+                >
+                  <Typography component="div" variant="h2">
+                    <Skeleton />
+                    <Skeleton />
+                    <Skeleton />
+                  </Typography>
+                  {/* <span className="loader-2"></span> */}
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </section>
-
+          </section>
+        ))}
       {uptimeData && uptimeData.length > 0 && (
         <>
           <section style={{ marginBottom: "8px" }}>
