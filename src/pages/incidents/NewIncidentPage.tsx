@@ -4,6 +4,8 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
+import { useUser } from "../../context/UserContext";
+
 import styled from "@emotion/styled";
 import {
   Box,
@@ -22,6 +24,7 @@ import { DateTimePicker } from "@mui/x-date-pickers/DateTimePicker";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDateFns } from "@mui/x-date-pickers/AdapterDateFns";
 import ArrowLeftIcon from "../../assets/icons/arrow-left.svg";
+import ConfirmationModal from "../../blocks/ConfirmationModal";
 
 import { enUS } from "date-fns/locale";
 import de from "date-fns/locale/de";
@@ -60,19 +63,52 @@ const NewIncidentPage = () => {
     backendUrl = import.meta.env.VITE_BACKEND_URL_PROD;
   }
 
+  const { user } = useUser();
+  const [userId, setUserId] = useState(false);
+
   const [websites, setWebsites] = useState<any[]>([]);
   const [incidentTitle, setIncidentTitle] = useState<string>("");
   const [incidentDescription, setIncidentDescription] = useState<string>("");
   const [selectedWebsite, setSelectedWebsite] = useState<string>("");
-  const [incidentDate, setIncidentDate] = useState<any>(null);
+  const [incidentStart, setIncidentStart] = useState<any>(null);
+  const [incidentEnd, setIncidentEnd] = useState<any>(null);
+
+  const [selectedStatus, setSelectedStatus] = useState("OPEN");
 
   const [loading, setLoading] = useState<boolean>(true);
   const [showError, setShowError] = useState<boolean>(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [successModal, setSuccessModal] = useState<boolean>(false);
 
-  const filteredWebsites = websites.filter((website) =>
-    website.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  useEffect(() => {
+    const fetchUserId = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const loggedInEmail = user?.email;
+        if (loggedInEmail) {
+          const response = await fetch(
+            `${backendUrl}/api/users/user-id?email=${encodeURIComponent(loggedInEmail)}`,
+            {
+              method: "GET",
+              headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          if (response.ok) {
+            const data = await response.json();
+            setUserId(data.user);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    if (user) {
+      fetchUserId();
+    }
+  }, [backendUrl]);
 
   useEffect(() => {
     const fetchWebsites = async () => {
@@ -116,33 +152,41 @@ const NewIncidentPage = () => {
       title: incidentTitle,
       description: incidentDescription,
       website_id: selectedWebsite,
+      status: selectedStatus,
+      user_id: userId || null,
+      start_time: incidentStart,
+      end_time: incidentEnd,
     };
 
-    try {
-      const token = localStorage.getItem("accessToken");
-      const response = await axios.post(
-        `${backendUrl}/api/incidents`,
-        newIncident,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
-        }
-      );
+    if (userId) {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const response = await axios.post(
+          `${backendUrl}/api/incidents`,
+          newIncident,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      if (response.status === 201) {
-        setIncidentTitle("");
-        setSelectedWebsite("");
-        handleClose();
+        if (response.status === 201) {
+          setIncidentTitle("");
+          setSelectedWebsite("");
+          setSelectedStatus("OPEN");
+          setSuccessModal(true);
+        }
+      } catch (error) {
+        console.error("Error creating website:", error);
+        setShowError(true);
       }
-    } catch (error) {
-      console.error("Error creating website:", error);
-      setShowError(true);
     }
   };
 
   const handleClose = () => {
+    setSuccessModal(false);
     navigate(`/incidents`);
   };
 
@@ -231,64 +275,19 @@ const NewIncidentPage = () => {
                       rows={6}
                       variant="filled"
                     />
-                    {/* <FormControl fullWidth variant="filled" required>
-                    <InputLabel id="client-select-label">
-                      Select website
-                    </InputLabel>
-                    <Select
-                      labelId="client-select-label"
-                      value={selectedWebsite}
-                      onChange={(e) => setSelectedWebsite(e.target.value)}
-                      MenuProps={{
-                        PaperProps: {
-                          style: { maxHeight: 300 },
-                        },
-                      }}
-                    >
-                      <ListSubheader>
-                        <TextField
-                          autoFocus
-                          placeholder="Search..."
-                          fullWidth
-                          variant="standard"
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          InputProps={{
-                            disableUnderline: true,
-                            style: { padding: "8px" },
-                          }}
-                        />
-                      </ListSubheader>
-                      {filteredWebsites.length > 0 ? (
-                        filteredWebsites.map((website) => (
-                          <MenuItem key={website.id} value={website.id}>
-                            {website.name}
-                          </MenuItem>
-                        ))
-                      ) : (
-                        <MenuItem disabled>No results found</MenuItem>
-                      )}
-                    </Select>
-                  </FormControl> */}
-                    {/* <StyledDateTimePicker
-                      label="Start Date *"
-                      ampm={false}
-                      value={incidentDate}
-                      onChange={(value) => setIncidentDate(value)}
-                      minutesStep={10}
-                      // @ts-ignore
-                      renderInput={(params) => <TextField></TextField>}
-                      sx={{ width: "100%" }}
-                    /> */}
                     <Stack direction="row" sx={{ gap: "16px" }}>
                       <DateTimeField
                         label="Incident start"
                         variant="filled"
+                        //defaultValue={new Date()}
+                        onChange={(newValue) => setIncidentStart(newValue)}
                         sx={{ width: "100%" }}
                       />
                       <DateTimeField
                         label="Incident end"
                         variant="filled"
+                        //defaultValue={new Date()}
+                        onChange={(newValue) => setIncidentEnd(newValue)}
                         sx={{ width: "100%" }}
                       />
                     </Stack>
@@ -304,10 +303,25 @@ const NewIncidentPage = () => {
                       Select incident status
                     </Typography>
                     <Stack direction="row" sx={{ gap: "8px" }}>
-                      <StatusButton>OPEN</StatusButton>
-                      <StatusButton>IN PROGRESS</StatusButton>
-                      <StatusButton>RESOLVED</StatusButton>
-                      <StatusButton>CLOSED</StatusButton>
+                      {["OPEN", "IN PROGRESS", "RESOLVED"].map((status) => (
+                        <StatusButton
+                          key={status}
+                          onClick={() => setSelectedStatus(status)}
+                          sx={{
+                            backgroundColor:
+                              selectedStatus === status
+                                ? "#d2cfe2"
+                                : "transparent",
+                            borderColor:
+                              selectedStatus === status
+                                ? "#877eb4 !important"
+                                : "#ced4da",
+                            transition: "0.3s",
+                          }}
+                        >
+                          {status}
+                        </StatusButton>
+                      ))}
                     </Stack>
                   </Box>
                   <Box className="action-btns">
@@ -335,6 +349,14 @@ const NewIncidentPage = () => {
         message="Fill all required fields."
         className="snackbar snackbar-error"
         autoHideDuration={4000}
+      />
+      <ConfirmationModal
+        open={successModal}
+        onClose={handleClose}
+        onConfirm={handleClose}
+        confirmText="New incident created successfully."
+        confirmTitle="Incident created"
+        buttonText="Confirm"
       />
     </>
   );
