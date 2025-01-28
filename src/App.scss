@@ -229,6 +229,22 @@ input {
   }
 }
 
+.MuiTabs-root {
+  .MuiTabs-flexContainer {
+    gap: 16px;
+  }
+  .MuiButtonBase-root {
+    font-weight: 600;
+    padding: 8px;
+  }
+  .MuiButtonBase-root.Mui-selected {
+    color: $vz-purple-1;
+  }
+  .MuiTabs-indicator {
+    background-color: $vz-purple-1;
+  }
+}
+
 .error-message {
   font-size: 14px;
   color: $vz-red;
