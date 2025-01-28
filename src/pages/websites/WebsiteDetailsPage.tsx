@@ -404,7 +404,7 @@ const WebsiteDetailsPage = () => {
                     <tbody>
                       {incidents.length > 0 ? (
                         incidents.map((incident: any) => (
-                          <tr key={incident.id}>
+                          <tr key={incident.incident_key}>
                             <td>
                               {incident ? (
                                 incident.status === 1 ? (
