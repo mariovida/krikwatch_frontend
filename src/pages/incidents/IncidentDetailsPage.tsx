@@ -402,9 +402,9 @@ const IncidentDetailsPage = () => {
                           <Typography
                             sx={{
                               fontFamily: "Plus Jakarta Sans, sans-serif",
-                              fontSize: "15px",
-                              lineHeight: "20px",
-                              fontWeight: 400,
+                              fontSize: "16px",
+                              lineHeight: "21px",
+                              fontWeight: 600,
                               color: "#1b2431",
                               cursor: "default",
                             }}
