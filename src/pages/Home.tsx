@@ -15,12 +15,9 @@ const Home = () => {
     backendUrl = import.meta.env.VITE_BACKEND_URL_PROD;
   }
 
-  //const openIncidents = 5;
-  //const totalWebsites = 12;
-  const totalClients = 8;
-
   const [monitorsDown, setMonitorsDown] = useState(0);
   const [totalWebsites, setTotalWebsites] = useState(0);
+  const [totalIncidents, setTotalIncidents] = useState<number>(0);
   const [allSitesUp, setAllSitesUp] = useState(true);
   const [websites, setWebsites] = useState<any[]>([]);
   const [uptimeData, setUptimeData] = useState<any>([]);
@@ -64,6 +61,26 @@ const Home = () => {
       alert("Error sending SMS");
     }
   };
+
+  useEffect(() => {
+    const fetchIncidents = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const response = await axios.get(`${backendUrl}/api/incidents`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        if (response && response.data && response.data.incidents) {
+          setTotalIncidents(response.data.incidents.length);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchIncidents();
+  }, [backendUrl]);
 
   useEffect(() => {
     const fetchWebsites = async () => {
@@ -184,6 +201,7 @@ const Home = () => {
       <Stats
         monitorsDown={monitorsDown}
         totalWebsites={totalWebsites}
+        totalIncidents={totalIncidents}
         //totalClients={totalClients}
       />
 

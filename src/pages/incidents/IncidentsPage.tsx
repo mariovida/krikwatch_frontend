@@ -19,7 +19,7 @@ const IncidentsPage = () => {
   const [searchQuery, setSearchQuery] = useState<string>("");
 
   useEffect(() => {
-    const fetchClients = async () => {
+    const fetchIncidents = async () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/incidents`, {
@@ -37,7 +37,7 @@ const IncidentsPage = () => {
       }
     };
 
-    fetchClients();
+    fetchIncidents();
   }, [backendUrl]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
