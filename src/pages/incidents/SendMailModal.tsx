@@ -100,7 +100,7 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
       const token = localStorage.getItem("accessToken");
       const response = await axios.post(
         `${backendUrl}/api/contacts/send-email`,
-        { email: selectedEmail, message },
+        { email: selectedEmail, message, incidentId: incidentData.id },
         {
           headers: {
             Authorization: `Bearer ${token}`,
