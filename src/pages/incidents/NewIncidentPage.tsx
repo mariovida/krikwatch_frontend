@@ -292,6 +292,24 @@ const NewIncidentPage = () => {
                       multiline
                       rows={6}
                       variant="filled"
+                      sx={{
+                        textarea: {
+                          fontSize: "15px",
+                          "&::-webkit-scrollbar": {
+                            width: "6px",
+                            backgroundColor: "transparent",
+                          },
+                          "&::-webkit-scrollbar-track": {
+                            backgroundColor: "transparent",
+                            borderRadius: "5px",
+                            margin: "6px 0",
+                          },
+                          "&::-webkit-scrollbar-thumb": {
+                            backgroundColor: "#ababab",
+                            borderRadius: "5px",
+                          },
+                        },
+                      }}
                     />
                     <TextField
                       label="Note"
@@ -302,6 +320,24 @@ const NewIncidentPage = () => {
                       multiline
                       rows={6}
                       variant="filled"
+                      sx={{
+                        textarea: {
+                          fontSize: "15px",
+                          "&::-webkit-scrollbar": {
+                            width: "6px",
+                            backgroundColor: "transparent",
+                          },
+                          "&::-webkit-scrollbar-track": {
+                            backgroundColor: "transparent",
+                            borderRadius: "5px",
+                            margin: "6px 0",
+                          },
+                          "&::-webkit-scrollbar-thumb": {
+                            backgroundColor: "#ababab",
+                            borderRadius: "5px",
+                          },
+                        },
+                      }}
                     />
                     <Typography
                       sx={{
