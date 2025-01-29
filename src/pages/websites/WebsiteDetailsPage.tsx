@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
@@ -15,8 +16,9 @@ const WebsiteDetails = styled(Stack)({
   display: "flex",
   flexDirection: "row",
   alignItems: "center",
-  gap: "24px",
-  marginBottom: "40px",
+  gap: "40px",
+  marginBottom: "64px",
+  cursor: 'default',
 });
 
 const WebsiteDetailsPage = () => {
@@ -214,6 +216,10 @@ const WebsiteDetailsPage = () => {
     navigate(`/websites`);
   };
 
+  const handleCreateIncident = () => {
+    navigate(`/incidents/create-new`);
+  };
+
   return (
     <>
       <Helmet>
@@ -309,6 +315,60 @@ const WebsiteDetailsPage = () => {
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "space-between",
+                    marginTop: '40px',
+                    marginBottom: "24px",
+                  }}
+                >
+                  <Typography
+                    variant="h4"
+                    sx={{
+                      fontFamily: "Plus Jakarta Sans, sans-serif",
+                      lineHeight: "40px !important",
+                    }}
+                  >
+                    Incidents
+                  </Typography>
+                  <Button
+                    onClick={handleCreateIncident}
+                    sx={{
+                      flex: "none",
+                      display: "inline-flex",
+                      alignItems: "center",
+                      color: "#ffffff",
+                      fontSize: "15px",
+                      fontWeight: 600,
+                      lineHeight: "40px",
+                      textDecoration: "none",
+                      textTransform: "none",
+                      backgroundColor: "#1b2431",
+                      padding: "0 16px",
+                      borderRadius: "6px",
+                      boxShadow:
+                        "rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
+                      transition: "0.2s",
+                      cursor: "pointer",
+
+                      "&:hover": {
+                        opacity: "0.9",
+                      },
+                    }}
+                  >
+                    Create new
+                  </Button>
+                </Stack>
+                {website.incidents && website.incidents.length > 0 ? (
+                  <></>
+                ) : (
+                  <Typography>There are no incdients for this website yet.</Typography>
+                )}
+              </div>
+              <div className="col-12">
+                <Stack
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    marginTop: '48px',
                     marginBottom: "24px",
                   }}
                 >
@@ -350,14 +410,14 @@ const WebsiteDetailsPage = () => {
                   </Button>
                 </Stack>
               </div>
-              {contacts && (
+              {contacts && contacts.length > 0 ? (
                 <div className="col-12">
                   <table className="custom-table">
                     <thead>
                       <tr>
-                        <th>First name</th>
-                        <th>Last name</th>
-                        <th>Email</th>
+                        <th style={{ minWidth: '240px' }}>First name</th>
+                        <th style={{ width: '280px' }}>Last name</th>
+                        <th style={{ width: '280px' }}>Email</th>
                         <th>Created at</th>
                         <th></th>
                       </tr>
@@ -387,6 +447,8 @@ const WebsiteDetailsPage = () => {
                     </tbody>
                   </table>
                 </div>
+              ) : (
+                <Typography>There are no contacts for this website yet.</Typography>
               )}
             </div>
           </div>

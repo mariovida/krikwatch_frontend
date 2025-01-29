@@ -3,6 +3,7 @@ import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 
 import LogoImage from "../assets/logo.svg";
+import FullscreenIcon from "../assets/icons/fullscreen.svg";
 import {
   Box,
   Menu,
@@ -16,17 +17,30 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
   const { user, setUser } = useUser();
   const navigate = useNavigate();
   const location = useLocation();
+  const cleanPathname = location.pathname.replace(/\/$/, "");
   const isSpecialPage =
-    location.pathname === "/" ||
-    location.pathname === "/account" ||
-    location.pathname === "/notifications" ||
-    location.pathname === "/websites/create-new" ||
-    location.pathname === "/incidents/create-new" ||
-    /^\/website\/\d+($|\/edit$)/.test(location.pathname);
-  const addSpace = location.pathname === "/";
+    cleanPathname === "/" ||
+    cleanPathname === "/account" ||
+    cleanPathname === "/notifications" ||
+    cleanPathname === "/websites/create-new" ||
+    cleanPathname === "/incidents/create-new" ||
+    /^\/website\/[^/]+($|\/edit$)/.test(cleanPathname) ||
+    /^\/incident\/[^/]+($|\/edit$)/.test(cleanPathname);
+  const addSpace = cleanPathname === "/";
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
+
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -67,12 +81,17 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
                 <NavLink to="/clients">Clients</NavLink>
                 <NavLink to="/users">Users</NavLink>
               </div>
-              <IconButton onClick={handleMenuClick}>
-                <Avatar>
-                  {user?.first_name?.charAt(0).toUpperCase()}
-                  {user?.last_name?.charAt(0).toUpperCase()}
-                </Avatar>
-              </IconButton>
+              <div>
+                <button onClick={toggleFullscreen} style={{ border: 0 }}>
+                  <img src={FullscreenIcon} />
+                </button>
+                <IconButton onClick={handleMenuClick}>
+                  <Avatar>
+                    {user?.first_name?.charAt(0).toUpperCase()}
+                    {user?.last_name?.charAt(0).toUpperCase()}
+                  </Avatar>
+                </IconButton>
+              </div>
             </div>
           </div>
         </div>
