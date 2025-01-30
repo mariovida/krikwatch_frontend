@@ -82,8 +82,16 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
                 <NavLink to="/users">Users</NavLink>
               </div>
               <div>
-                <button onClick={toggleFullscreen} style={{ border: 0 }}>
-                  <img src={FullscreenIcon} />
+                <button
+                  onClick={toggleFullscreen}
+                  style={{
+                    width: "18px",
+                    height: "18px",
+                    border: 0,
+                    padding: 0,
+                  }}
+                >
+                  <img src={FullscreenIcon} style={{ width: "100%" }} />
                 </button>
                 <IconButton onClick={handleMenuClick}>
                   <Avatar>
