@@ -23,7 +23,7 @@ const Stats: React.FC<StatsProps> = ({
   return (
     <section className="stats">
       <div className="wrapper">
-        <div className="row">
+        <div className="row" style={{ rowGap: "16px" }}>
           <div className="col-12 col-md-4">
             <div
               className="stats-box"
