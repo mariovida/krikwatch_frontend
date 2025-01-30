@@ -17,8 +17,8 @@ const WebsiteDetails = styled(Stack)({
   flexDirection: "row",
   alignItems: "center",
   gap: "40px",
-  marginBottom: "64px",
-  cursor: 'default',
+  marginBottom: "40px",
+  cursor: "default",
 });
 
 const WebsiteDetailsPage = () => {
@@ -258,21 +258,23 @@ const WebsiteDetailsPage = () => {
                         flex: "none",
                         display: "inline-flex",
                         alignItems: "center",
-                        color: "#ffffff",
+                        color: "#1b2431",
                         fontSize: "15px",
                         fontWeight: 600,
                         textDecoration: "none",
                         textTransform: "none",
-                        backgroundColor: "#1b2431",
+                        backgroundColor: "transparent",
                         padding: "0 16px",
+                        border: "1px solid #1b2431",
                         borderRadius: "6px",
-                        boxShadow:
-                          "rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
+                        boxShadow: "none",
                         transition: "0.2s",
                         cursor: "pointer",
 
                         "&:hover": {
-                          opacity: "0.9",
+                          backgroundColor: "#eeeeee",
+                          boxShadow:
+                            "rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
                         },
                       }}
                     >
@@ -315,7 +317,6 @@ const WebsiteDetailsPage = () => {
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "space-between",
-                    marginTop: '40px',
                     marginBottom: "24px",
                   }}
                 >
@@ -359,7 +360,9 @@ const WebsiteDetailsPage = () => {
                 {website.incidents && website.incidents.length > 0 ? (
                   <></>
                 ) : (
-                  <Typography>There are no incdients for this website yet.</Typography>
+                  <Typography>
+                    There are no incdients for this website yet.
+                  </Typography>
                 )}
               </div>
               <div className="col-12">
@@ -368,7 +371,7 @@ const WebsiteDetailsPage = () => {
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "space-between",
-                    marginTop: '48px',
+                    marginTop: "48px",
                     marginBottom: "24px",
                   }}
                 >
@@ -415,9 +418,9 @@ const WebsiteDetailsPage = () => {
                   <table className="custom-table">
                     <thead>
                       <tr>
-                        <th style={{ minWidth: '240px' }}>First name</th>
-                        <th style={{ width: '280px' }}>Last name</th>
-                        <th style={{ width: '280px' }}>Email</th>
+                        <th style={{ minWidth: "240px" }}>First name</th>
+                        <th style={{ width: "280px" }}>Last name</th>
+                        <th style={{ width: "280px" }}>Email</th>
                         <th>Created at</th>
                         <th></th>
                       </tr>
@@ -448,7 +451,9 @@ const WebsiteDetailsPage = () => {
                   </table>
                 </div>
               ) : (
-                <Typography>There are no contacts for this website yet.</Typography>
+                <Typography>
+                  There are no contacts for this website yet.
+                </Typography>
               )}
             </div>
           </div>
