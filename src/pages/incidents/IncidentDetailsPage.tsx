@@ -169,7 +169,7 @@ const IncidentDetailsPage = () => {
                         </span>
                       </Typography>
                     </Box>
-                    <Box>
+                    {/* <Box>
                       <Typography
                         sx={{
                           fontSize: "15px",
@@ -185,7 +185,7 @@ const IncidentDetailsPage = () => {
                             : "-"}
                         </span>
                       </Typography>
-                    </Box>
+                    </Box> */}
                     <Box>
                       <Typography
                         sx={{
@@ -300,6 +300,7 @@ const IncidentDetailsPage = () => {
         open={openEmailModal}
         onClose={() => setOpenEmailModal(false)}
         contactsData={contacts}
+        incidentData={incident}
       />
     </>
   );
