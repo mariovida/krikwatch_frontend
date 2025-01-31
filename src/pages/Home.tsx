@@ -9,6 +9,8 @@ import Stats from "../blocks/Stats";
 import ChevronLeftIcon from "../assets/icons/ChevronLeft";
 import ChevronRightIcon from "../assets/icons/ChevronRight";
 
+import { formatDate } from "../helpers/formatDate";
+
 const Home = () => {
   let backendUrl = import.meta.env.VITE_BACKEND_URL;
   if (import.meta.env.VITE_ENV === "production") {
@@ -115,11 +117,25 @@ const Home = () => {
           const data = await response.json();
           const monitors = data.monitors;
 
-          const filteredMonitors = monitors.filter((monitor: { id: number }) =>
-            websites.some((website) => monitor.id === Number(website.uptime_id))
-          );
+          const filteredMonitors = monitors
+            .filter((monitor: { id: number }) =>
+              websites.some(
+                (website) => monitor.id === Number(website.uptime_id)
+              )
+            )
+            .map((monitor: { id: number }) => {
+              const website = websites.find(
+                (website) => monitor.id === Number(website.uptime_id)
+              );
 
-          //console.log(monitors);
+              return {
+                ...monitor,
+                created_at: website
+                  ? new Date(website.created_at || Date.now()).toISOString()
+                  : null,
+                client_name: website ? website.client_name : null,
+              };
+            });
 
           setUptimeData(filteredMonitors);
           setFilteredUptimeData(filteredMonitors);
@@ -284,6 +300,7 @@ const Home = () => {
                         <th style={{ width: "48px" }}></th>
                         <th>Name</th>
                         <th>URL</th>
+                        <th>Client</th>
                         <th style={{ width: "180px" }}>Created at</th>
                       </tr>
                     </thead>
@@ -317,11 +334,8 @@ const Home = () => {
                                 {monitor.url}
                               </a>
                             </td>
-                            <td>
-                              {new Date(monitor.create_datetime * 1000)
-                                .toLocaleDateString("en-GB")
-                                .replace(/\//g, ".")}
-                            </td>
+                            <td>{monitor.client_name}</td>
+                            <td>{formatDate(monitor.created_at)}</td>
                           </tr>
                         ))
                       ) : (
