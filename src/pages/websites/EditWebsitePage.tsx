@@ -36,6 +36,8 @@ const EditWebsitePage = () => {
   const [websiteName, setWebsiteName] = useState<string>("");
   const [websiteUrl, setWebsiteUrl] = useState<string>("");
   const [uptimeId, setUptimeId] = useState<string>("");
+  const [hostingInfo, setHostingInfo] = useState<string>("");
+  const [hostingUrl, setHostingUrl] = useState<string>("");
 
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
   const [showError, setShowError] = useState<boolean>(false);
@@ -57,6 +59,8 @@ const EditWebsitePage = () => {
           setWebsiteUrl(response.data.website.website_url);
           setSelectedClient(response.data.website.client_id);
           setUptimeId(response.data.website.uptime_id);
+          setHostingUrl(response.data.website.hosting_url);
+          setHostingInfo(response.data.website.hosting_info);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -98,6 +102,8 @@ const EditWebsitePage = () => {
       website_url: websiteUrl,
       client_id: selectedClient,
       uptime_id: uptimeId,
+      hosting_url: hostingUrl,
+      hosting_info: hostingInfo,
     };
 
     try {
@@ -171,6 +177,16 @@ const EditWebsitePage = () => {
               </Typography>
               <form onSubmit={handleSubmit} className="custom-form">
                 <Box className="form-fields" sx={{ marginTop: "0 !important" }}>
+                  <Typography
+                    sx={{
+                      fontFamily: "Plus Jakarta Sans, sans-serif",
+                      fontSize: "18px",
+                      fontWeight: 700,
+                      cursor: "default",
+                    }}
+                  >
+                    Website details
+                  </Typography>
                   <TextField
                     label="Website Name"
                     name="websiteName"
@@ -218,8 +234,53 @@ const EditWebsitePage = () => {
                       variant="filled"
                     />
                   </Stack>
+                  <Typography
+                    sx={{
+                      fontFamily: "Plus Jakarta Sans, sans-serif",
+                      fontSize: "18px",
+                      fontWeight: 700,
+                      cursor: "default",
+                    }}
+                  >
+                    Hosting details
+                  </Typography>
+                  <TextField
+                    label="Hosting URL"
+                    name="hostingUrl"
+                    value={hostingUrl || ""}
+                    onChange={(e) => setHostingUrl(e.target.value)}
+                    fullWidth
+                    variant="filled"
+                  />
+                  <TextField
+                    label="Other"
+                    name="hostingInfo"
+                    value={hostingInfo || ""}
+                    onChange={(e) => setHostingInfo(e.target.value)}
+                    fullWidth
+                    multiline
+                    rows={6}
+                    variant="filled"
+                    sx={{
+                      textarea: {
+                        fontSize: "15px",
+                        "&::-webkit-scrollbar": {
+                          width: "6px",
+                          backgroundColor: "transparent",
+                        },
+                        "&::-webkit-scrollbar-track": {
+                          backgroundColor: "transparent",
+                          borderRadius: "5px",
+                          margin: "6px 0",
+                        },
+                        "&::-webkit-scrollbar-thumb": {
+                          backgroundColor: "#ababab",
+                          borderRadius: "5px",
+                        },
+                      },
+                    }}
+                  />
                 </Box>
-
                 <Box
                   className="action-btns"
                   sx={{
