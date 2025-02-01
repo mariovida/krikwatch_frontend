@@ -29,6 +29,8 @@ const NewWebsitePage = () => {
   const [websiteName, setWebsiteName] = useState<string>("");
   const [websiteUrl, setWebsiteUrl] = useState<string>("");
   const [uptimeId, setUptimeId] = useState<string>("");
+  const [hostingInfo, setHostingInfo] = useState<string>("");
+  const [hostingUrl, setHostingUrl] = useState<string>("");
   const [selectedClient, setSelectedClient] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const [showError, setShowError] = useState<boolean>(false);
@@ -68,6 +70,8 @@ const NewWebsitePage = () => {
       url: websiteUrl,
       client_id: selectedClient,
       uptime_id: uptimeId,
+      hosting_url: hostingUrl,
+      hosting_info: hostingInfo,
     };
 
     try {
@@ -137,6 +141,16 @@ const NewWebsitePage = () => {
               </Typography>
               <form onSubmit={handleSubmit} className="custom-form">
                 <Box className="form-fields" sx={{ marginTop: "0 !important" }}>
+                  <Typography
+                    sx={{
+                      fontFamily: "Plus Jakarta Sans, sans-serif",
+                      fontSize: "18px",
+                      fontWeight: 700,
+                      cursor: "default",
+                    }}
+                  >
+                    Website details
+                  </Typography>
                   <TextField
                     label="Website name"
                     name="websiteName"
@@ -184,6 +198,52 @@ const NewWebsitePage = () => {
                       variant="filled"
                     />
                   </Stack>
+                  <Typography
+                    sx={{
+                      fontFamily: "Plus Jakarta Sans, sans-serif",
+                      fontSize: "18px",
+                      fontWeight: 700,
+                      cursor: "default",
+                    }}
+                  >
+                    Hosting details
+                  </Typography>
+                  <TextField
+                    label="Hosting URL"
+                    name="hostingUrl"
+                    value={hostingUrl}
+                    onChange={(e) => setHostingUrl(e.target.value)}
+                    fullWidth
+                    variant="filled"
+                  />
+                  <TextField
+                    label="Other"
+                    name="hostingInfo"
+                    value={hostingInfo}
+                    onChange={(e) => setHostingInfo(e.target.value)}
+                    fullWidth
+                    multiline
+                    rows={6}
+                    variant="filled"
+                    sx={{
+                      textarea: {
+                        fontSize: "15px",
+                        "&::-webkit-scrollbar": {
+                          width: "6px",
+                          backgroundColor: "transparent",
+                        },
+                        "&::-webkit-scrollbar-track": {
+                          backgroundColor: "transparent",
+                          borderRadius: "5px",
+                          margin: "6px 0",
+                        },
+                        "&::-webkit-scrollbar-thumb": {
+                          backgroundColor: "#ababab",
+                          borderRadius: "5px",
+                        },
+                      },
+                    }}
+                  />
                 </Box>
                 <Box className="action-btns">
                   <Button onClick={handleClose} className="cancel-btn">
