@@ -89,7 +89,7 @@ const IncidentsPage = () => {
         </div>
       </section>
 
-      {incidents && incidents.length > 0 && (
+      {incidents && (
         <section style={{ paddingBottom: "100px" }}>
           <div className="wrapper">
             <div className="row">
@@ -157,7 +157,9 @@ const IncidentsPage = () => {
                     ) : (
                       <tr>
                         <td colSpan={6} style={{ textAlign: "center" }}>
-                          No incidents found with the query
+                          {incidents.length === 0
+                            ? "There are no incidents yet."
+                            : "No incidents found with the query."}
                         </td>
                       </tr>
                     )}
