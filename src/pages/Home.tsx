@@ -103,6 +103,16 @@ const Home = () => {
   }, [backendUrl]);
 
   useEffect(() => {
+    if (Notification.permission !== "granted") {
+      Notification.requestPermission().then((permission) => {
+        if (permission === "granted") {
+          return;
+        }
+      });
+    }
+  }, []);
+
+  useEffect(() => {
     const fetchUptimeData = async () => {
       try {
         const response = await fetch(`${backendUrl}/api/uptimerobot`, {
@@ -141,14 +151,18 @@ const Home = () => {
           setFilteredUptimeData(filteredMonitors);
           setTotalWebsites(filteredMonitors.length);
 
-          setTimeUntilNextFetch(300);
+          setTimeUntilNextFetch(120);
 
           const incidents = filteredMonitors.filter(
             (monitor: { status: number }) => monitor.status !== 2
           );
           setMonitorsDown(incidents.length);
-
           setAllSitesUp(incidents.length === 0);
+          if (incidents.length > 0) {
+            incidents.forEach((incident: { friendly_name: string }) => {
+              showNotification(incident.friendly_name);
+            });
+          }
         } else {
           console.error(
             "Error fetching UptimeRobot data:",
@@ -160,14 +174,22 @@ const Home = () => {
       }
     };
 
+    const showNotification = (websiteName: string) => {
+      if (Notification.permission === "granted") {
+        new Notification("Website down", {
+          body: `⚠️ ${websiteName} is currently down!`,
+        });
+      }
+    };
+
     if (websites.length > 0) {
       fetchUptimeData();
 
       const interval = setInterval(() => {
         fetchUptimeData();
-      }, 300000);
+      }, 120000);
       const countdownInterval = setInterval(() => {
-        setTimeUntilNextFetch((prev) => (prev > 0 ? prev - 1 : 300));
+        setTimeUntilNextFetch((prev) => (prev > 0 ? prev - 1 : 120));
       }, 1000);
       return () => {
         clearInterval(interval);
