@@ -267,6 +267,22 @@ const NewIncidentPage = () => {
                       variant="filled"
                       required
                     />
+                    <Stack direction="row" sx={{ gap: "16px" }}>
+                      <DateTimeField
+                        label="Incident start"
+                        variant="filled"
+                        //defaultValue={new Date()}
+                        onChange={(newValue) => setIncidentStart(newValue)}
+                        sx={{ width: "100%" }}
+                      />
+                      <DateTimeField
+                        label="Incident end"
+                        variant="filled"
+                        //defaultValue={new Date()}
+                        onChange={(newValue) => setIncidentEnd(newValue)}
+                        sx={{ width: "100%" }}
+                      />
+                    </Stack>
                     <TextField
                       label="Description"
                       name="incidentDescription"
@@ -287,22 +303,6 @@ const NewIncidentPage = () => {
                       rows={6}
                       variant="filled"
                     />
-                    <Stack direction="row" sx={{ gap: "16px" }}>
-                      <DateTimeField
-                        label="Incident start"
-                        variant="filled"
-                        //defaultValue={new Date()}
-                        onChange={(newValue) => setIncidentStart(newValue)}
-                        sx={{ width: "100%" }}
-                      />
-                      <DateTimeField
-                        label="Incident end"
-                        variant="filled"
-                        //defaultValue={new Date()}
-                        onChange={(newValue) => setIncidentEnd(newValue)}
-                        sx={{ width: "100%" }}
-                      />
-                    </Stack>
                     <Typography
                       sx={{
                         fontFamily: "Plus Jakarta Sans, sans-serif",
@@ -312,7 +312,7 @@ const NewIncidentPage = () => {
                         cursor: "default",
                       }}
                     >
-                      Select incident status
+                      Incident status
                     </Typography>
                     <Stack direction="row" sx={{ gap: "8px" }}>
                       {["OPEN", "IN PROGRESS", "RESOLVED"].map((status) => (
