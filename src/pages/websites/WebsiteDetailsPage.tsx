@@ -32,6 +32,7 @@ const WebsiteDetailsPage = () => {
   const [website, setWebsite] = useState<any>(null);
   const [clients, setClients] = useState<any[]>([]);
   const [contacts, setContacts] = useState<any>(null);
+  const [incidents, setIncidents] = useState<any>(null);
   const [selectedClient, setSelectedClient] = useState<string>("");
   const [websiteName, setWebsiteName] = useState<string>("");
   const [websiteUrl, setWebsiteUrl] = useState<string>("");
@@ -59,6 +60,7 @@ const WebsiteDetailsPage = () => {
           setWebsite(response.data.website);
           setWebsiteName(response.data.website.name);
           setWebsiteUrl(response.data.website.website_url);
+          setIncidents(response.data.incidents);
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -357,12 +359,59 @@ const WebsiteDetailsPage = () => {
                     Create new
                   </Button>
                 </Stack>
-                {website.incidents && website.incidents.length > 0 ? (
-                  <></>
-                ) : (
-                  <Typography>
-                    There are no incdients for this website yet.
-                  </Typography>
+                {incidents && (
+                  <table className="custom-table">
+                    <thead>
+                      <tr>
+                        <th>Status</th>
+                        <th>Title</th>
+                        <th style={{ width: "240px" }}>Author</th>
+                        <th style={{ width: "200px" }}>Created at</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {incidents.length > 0 ? (
+                        incidents.map((incident: any) => (
+                          <tr key={incident.id}>
+                            <td>
+                              {incident ? (
+                                incident.status === 1 ? (
+                                  <span className="status-badge status-badge_open">
+                                    OPEN
+                                  </span>
+                                ) : incident.status === 2 ? (
+                                  <span className="status-badge status-badge_progress">
+                                    IN PROGRESS
+                                  </span>
+                                ) : incident.status === 3 ? (
+                                  <span className="status-badge status-badge_active">
+                                    RESOLVED
+                                  </span>
+                                ) : incident.status === 4 ? (
+                                  <span className="status-badge status-badge_closed">
+                                    CLOSED
+                                  </span>
+                                ) : null
+                              ) : null}
+                            </td>
+                            <td>{incident.title}</td>
+                            <td>
+                              {incident.created_by_first_name +
+                                " " +
+                                incident.created_by_last_name}
+                            </td>
+                            <td>{formatDateWithClock(incident.created_at)}</td>
+                          </tr>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={6} style={{ textAlign: "center" }}>
+                            There are no incdients for this website yet.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
                 )}
               </div>
               <div className="col-12">
@@ -413,7 +462,7 @@ const WebsiteDetailsPage = () => {
                   </Button>
                 </Stack>
               </div>
-              {contacts && contacts.length > 0 ? (
+              {contacts && (
                 <div className="col-12">
                   <table className="custom-table">
                     <thead>
@@ -442,18 +491,14 @@ const WebsiteDetailsPage = () => {
                         ))
                       ) : (
                         <tr>
-                          <td colSpan={6} style={{ textAlign: "center" }}>
-                            No contacts found with the query
+                          <td colSpan={5} style={{ textAlign: "center" }}>
+                            There are no contacts added for this website.
                           </td>
                         </tr>
                       )}
                     </tbody>
                   </table>
                 </div>
-              ) : (
-                <Typography>
-                  There are no contacts for this website yet.
-                </Typography>
               )}
             </div>
           </div>
