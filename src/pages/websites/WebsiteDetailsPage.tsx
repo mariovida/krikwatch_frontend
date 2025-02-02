@@ -8,6 +8,7 @@ import styled from "@emotion/styled";
 import { Box, Button, Snackbar, Stack, Typography } from "@mui/material";
 import ArrowLeftIcon from "../../assets/icons/arrow-left.svg";
 import ChevronUp from "../../assets/icons/arrow-up-right.svg";
+import EyeIcon from "../../assets/icons/eye.svg";
 
 import AddContactModal from "./AddContactModal";
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
@@ -36,6 +37,7 @@ const WebsiteDetailsPage = () => {
   const [selectedClient, setSelectedClient] = useState<string>("");
   const [websiteName, setWebsiteName] = useState<string>("");
   const [websiteUrl, setWebsiteUrl] = useState<string>("");
+  const [faviconUrl, setFaviconUrl] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   const [openContactModal, setOpenContactModal] = useState(false);
@@ -61,6 +63,10 @@ const WebsiteDetailsPage = () => {
           setWebsiteName(response.data.website.name);
           setWebsiteUrl(response.data.website.website_url);
           setIncidents(response.data.incidents);
+          const faviconUrl = `https://icons.duckduckgo.com/ip3/${new URL(response.data.website.website_url).hostname}.ico`;
+          setFaviconUrl(faviconUrl);
+          /*const checkFavicon = await fetch(faviconUrl, { method: "HEAD" });
+          setFaviconUrl(checkFavicon.ok ? faviconUrl : null);*/
         }
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -222,6 +228,10 @@ const WebsiteDetailsPage = () => {
     navigate(`/incidents/create-new`);
   };
 
+  const handleDetailsClick = (id: string) => {
+    navigate(`/incident/${id}`);
+  };
+
   return (
     <>
       <Helmet>
@@ -244,15 +254,32 @@ const WebsiteDetailsPage = () => {
                     marginBottom: "24px",
                   }}
                 >
-                  <Typography
-                    variant="h3"
-                    sx={{
-                      fontFamily: "Plus Jakarta Sans, sans-serif",
-                      textTransform: "uppercase",
-                    }}
+                  <Stack
+                    sx={{ display: "flex", flexDirection: "row", gap: "8px" }}
                   >
-                    {websiteName}
-                  </Typography>
+                    {!faviconUrl && (
+                      <Box sx={{ width: "30px", height: "40px" }}>
+                        <img
+                          src={faviconUrl}
+                          alt="Website favicon"
+                          style={{
+                            width: "30px",
+                            height: "30px",
+                            marginTop: "5px",
+                          }}
+                        />
+                      </Box>
+                    )}
+                    <Typography
+                      variant="h3"
+                      sx={{
+                        fontFamily: "Plus Jakarta Sans, sans-serif",
+                        textTransform: "uppercase",
+                      }}
+                    >
+                      {websiteName}
+                    </Typography>
+                  </Stack>
                   {websiteUrl !== "" && (
                     <Button
                       onClick={() => window.open(websiteUrl, "_blank")}
@@ -367,6 +394,11 @@ const WebsiteDetailsPage = () => {
                         <th>Title</th>
                         <th style={{ width: "240px" }}>Author</th>
                         <th style={{ width: "200px" }}>Created at</th>
+                        <th
+                          style={{
+                            width: "60px",
+                          }}
+                        ></th>
                       </tr>
                     </thead>
                     <tbody>
@@ -401,12 +433,21 @@ const WebsiteDetailsPage = () => {
                                 incident.created_by_last_name}
                             </td>
                             <td>{formatDateWithClock(incident.created_at)}</td>
+                            <td>
+                              <button
+                                onClick={() =>
+                                  handleDetailsClick(incident.incident_key)
+                                }
+                              >
+                                <img src={EyeIcon} />
+                              </button>
+                            </td>
                           </tr>
                         ))
                       ) : (
                         <tr>
                           <td colSpan={6} style={{ textAlign: "center" }}>
-                            There are no incdients for this website yet.
+                            There are no incidents for this website yet.
                           </td>
                         </tr>
                       )}
