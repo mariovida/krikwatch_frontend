@@ -191,7 +191,7 @@ const AccountPage = () => {
   return (
     <>
       <Helmet>
-        <title>Account settings | KrikWatch</title>
+        <title>Account settings | Krik Monitoring</title>
       </Helmet>
 
       <section>

@@ -229,7 +229,7 @@ const ClientsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Clients | KrikWatch</title>
+        <title>Clients | Krik Monitoring</title>
       </Helmet>
 
       {clients && !loading && (

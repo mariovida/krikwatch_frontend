@@ -81,7 +81,7 @@ const LoginPage = () => {
   return (
     <>
       <Helmet>
-        <title>Login | KrikWatch</title>
+        <title>Login | Krik Monitoring</title>
       </Helmet>
       {backendStatus ? (
         <section className="backend-status">

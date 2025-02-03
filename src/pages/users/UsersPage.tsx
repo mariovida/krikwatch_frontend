@@ -166,7 +166,7 @@ const UsersPage = () => {
   return (
     <>
       <Helmet>
-        <title>Users | KrikWatch</title>
+        <title>Users | Krik Monitoring</title>
       </Helmet>
 
       {users && !loading && (

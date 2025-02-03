@@ -155,7 +155,9 @@ const EditWebsitePage = () => {
   return (
     <>
       <Helmet>
-        <title>{website ? website.name : "Edit website"} | KrikWatch</title>
+        <title>
+          {website ? website.name : "Edit website"} | Krik Monitoring
+        </title>
       </Helmet>
 
       <section>

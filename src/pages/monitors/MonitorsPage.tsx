@@ -78,7 +78,7 @@ const MonitorsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Monitors | KrikWatch</title>
+        <title>Monitors | Krik Monitoring</title>
       </Helmet>
 
       {!uptimeData ||

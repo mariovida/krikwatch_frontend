@@ -199,7 +199,7 @@ const NewIncidentPage = () => {
   return (
     <>
       <Helmet>
-        <title>New incident | KrikWatch</title>
+        <title>New incident | Krik Monitoring</title>
       </Helmet>
 
       <section style={{ paddingBottom: "80px" }}>

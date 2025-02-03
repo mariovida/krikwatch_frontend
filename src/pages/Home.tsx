@@ -233,7 +233,7 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>KrikWatch</title>
+        <title>Krik Monitoring</title>
       </Helmet>
 
       <Stats

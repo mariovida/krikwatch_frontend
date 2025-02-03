@@ -98,7 +98,7 @@ const WebsitesPage = () => {
   return (
     <>
       <Helmet>
-        <title>Websites | KrikWatch</title>
+        <title>Websites | Krik Monitoring</title>
       </Helmet>
       <section className="search-container">
         <div className="wrapper">

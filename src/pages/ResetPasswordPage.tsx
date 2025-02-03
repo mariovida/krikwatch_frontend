@@ -113,7 +113,7 @@ const ResetPasswordPage = () => {
   return (
     <>
       <Helmet>
-        <title>Reset password | KrikWatch</title>
+        <title>Reset password | Krik Monitoring</title>
       </Helmet>
 
       <div className="row">

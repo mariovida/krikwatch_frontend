@@ -112,7 +112,7 @@ const IncidentDetailsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Incident details | KrikWatch</title>
+        <title>Incident details | Krik Monitoring</title>
       </Helmet>
 
       <section style={{ paddingBottom: "80px" }}>

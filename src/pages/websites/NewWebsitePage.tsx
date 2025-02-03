@@ -119,7 +119,7 @@ const NewWebsitePage = () => {
   return (
     <>
       <Helmet>
-        <title>New website | KrikWatch</title>
+        <title>New website | Krik Monitoring</title>
       </Helmet>
 
       <section>

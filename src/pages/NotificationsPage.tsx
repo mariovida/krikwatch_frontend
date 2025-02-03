@@ -97,13 +97,30 @@ const NotificationsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Notifications | KrikWatch</title>
+        <title>Notifications | Krik Monitoring</title>
       </Helmet>
 
       <section style={{ marginBottom: "40px" }}>
         <div className="wrapper">
           <div className="row">
             <div className="col-8 offset-2">
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  backgroundColor: "#fee4e2",
+                  padding: "16px",
+                  marginBottom: "24px",
+                  borderRadius: "10px",
+                }}
+              >
+                <Typography
+                  sx={{ fontSize: "18px", fontWeight: 600, lineHeight: "22px" }}
+                >
+                  Work in progress
+                </Typography>
+              </Box>
               <Typography variant="h4" sx={{ marginBottom: "16px" }}>
                 Add email address
               </Typography>

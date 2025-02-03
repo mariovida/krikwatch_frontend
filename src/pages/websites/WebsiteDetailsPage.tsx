@@ -235,7 +235,7 @@ const WebsiteDetailsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Website details | KrikWatch</title>
+        <title>Website details | Krik Monitoring</title>
       </Helmet>
       {!loading && website && (
         <section>

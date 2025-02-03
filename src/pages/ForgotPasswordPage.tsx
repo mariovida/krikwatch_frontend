@@ -67,7 +67,7 @@ const ForgotPasswordPage = () => {
   return (
     <>
       <Helmet>
-        <title>Reset password | KrikWatch</title>
+        <title>Reset password | Krik Monitoring</title>
       </Helmet>
       <div className="row">
         <div className="col-12 col-md-6 d-none d-md-block"></div>

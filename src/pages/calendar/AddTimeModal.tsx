@@ -190,11 +190,13 @@ const AddTimeModal: React.FC<AddTimeModalProps> = ({
         </LocalizationProvider>
       </DialogContent>
       <DialogActions sx={{ display: "flex", justifyContent: "space-between" }}>
-        {eventToEdit && (
-          <Button className="delete-btn" onClick={handleDelete}>
-            Delete availability
-          </Button>
-        )}
+        <div>
+          {eventToEdit && (
+            <Button className="delete-btn" onClick={handleDelete}>
+              Delete availability
+            </Button>
+          )}
+        </div>
         <div>
           <Button onClick={onClose} className="cancel-btn">
             Cancel

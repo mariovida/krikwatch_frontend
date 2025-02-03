@@ -142,7 +142,7 @@ const IncidentsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Incidents | KrikWatch</title>
+        <title>Incidents | Krik Monitoring</title>
       </Helmet>
 
       <section className="search-container">
