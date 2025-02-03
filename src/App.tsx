@@ -34,6 +34,7 @@ import UsersPage from "./pages/users/UsersPage";
 import AccountPage from "./pages/AccountPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import MonitorsPage from "./pages/monitors//MonitorsPage";
+import CalendarPage from "./pages/calendar/CalendarPage";
 
 import PrivateRoute from "./auth/PrivateRoute";
 
@@ -192,6 +193,17 @@ function App() {
                   <>
                     <Navigation pageTitle="Monitors" />
                     <MonitorsPage />
+                  </>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/calendar"
+              element={
+                <PrivateRoute>
+                  <>
+                    <Navigation pageTitle="Calendar" />
+                    <CalendarPage />
                   </>
                 </PrivateRoute>
               }
