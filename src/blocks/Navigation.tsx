@@ -80,6 +80,7 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
                 <NavLink to="/websites">Websites</NavLink>
                 <NavLink to="/clients">Clients</NavLink>
                 <NavLink to="/users">Users</NavLink>
+                <NavLink to="/calendar">Calendar</NavLink>
               </div>
               <div>
                 <button
