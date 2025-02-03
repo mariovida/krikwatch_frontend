@@ -56,6 +56,10 @@
     }
   }
 
+  .MuiOutlinedInput-notchedOutline {
+    border: 0 !important;
+  }
+
   .MuiInputLabel-root {
     font-family: "Plus Jakarta Sans", sans-serif;
     color: $c-7;

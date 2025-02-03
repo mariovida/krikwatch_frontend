@@ -41,6 +41,18 @@ nav {
         height: 100%;
       }
     }
+
+    @media screen and (max-width: 640px) {
+      > div:first-child a {
+        display: none;
+      }
+      > div:last-child button:first-child {
+        display: none;
+      }
+      > div:first-child a:first-child {
+        display: unset;
+      }
+    }
   }
 
   a,
