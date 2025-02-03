@@ -1,0 +1,67 @@
+.custom-calendar {
+  .rbc-btn-group {
+    button {
+      font-size: 15px;
+      font-weight: 500;
+      line-height: 20px;
+      padding: 8px 16px;
+      border: 1px solid $vz-dark-blue;
+      border-radius: 6px !important;
+      margin-right: 8px;
+
+      &:hover {
+        border: 1px solid $vz-dark-blue;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+      &.rbc-active {
+        box-shadow: none;
+        color: $c-1;
+        background-color: $vz-dark-blue;
+        border-color: $vz-dark-blue;
+
+        &:focus {
+          color: $c-1;
+          background-color: $vz-dark-blue;
+          border-color: $vz-dark-blue;
+        }
+      }
+    }
+  }
+
+  .rbc-month-view {
+    margin-top: 8px;
+    border: 1px solid $c-5;
+    border-radius: 6px;
+    .rbc-month-header {
+      overflow: hidden;
+      border-top-left-radius: 6px;
+      border-top-right-radius: 6px;
+      .rbc-header {
+        background-color: $c-4;
+        padding: 8px 6px;
+      }
+    }
+    .rbc-month-row {
+      .rbc-row-content {
+        .rbc-date-cell {
+          margin-top: 4px;
+          margin-right: 6px;
+          button {
+            font-weight: 600;
+          }
+        }
+        .rbc-event {
+          background-color: $vz-purple-1;
+          padding: 8px 6px 8px 8px;
+
+          .rbc-event-content {
+            font-size: 16px;
+            line-height: 18px;
+          }
+        }
+      }
+    }
+  }
+}
