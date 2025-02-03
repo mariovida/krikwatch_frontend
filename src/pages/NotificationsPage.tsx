@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import { useUser } from "../context/UserContext";
+import axios from "axios";
 
 import { Box, TextField, Button, Typography } from "@mui/material";
 import ConfirmationModal from "../blocks/ConfirmationModal";
@@ -12,10 +13,13 @@ const NotificationsPage = () => {
   }
 
   const { user } = useUser();
-  const [userId, setUserId] = useState(false);
+  const [userId, setUserId] = useState<number | null>(null);
   const [successModal, setSuccessModal] = useState<boolean>(false);
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState<string | null>(null);
+
+  const [alertEmails, setAlertEmails] = useState<any[]>([]);
+  const [loadingAlertEmails, setLoadingAlertEmails] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchUserId = async () => {
@@ -47,6 +51,35 @@ const NotificationsPage = () => {
       fetchUserId();
     }
   }, [backendUrl]);
+
+  useEffect(() => {
+    if (userId !== null) {
+      fetchAlertEmails(userId);
+    }
+  }, [userId]);
+
+  const fetchAlertEmails = async (userId: number) => {
+    setLoadingAlertEmails(true);
+    try {
+      const token = localStorage.getItem("accessToken");
+      const responseAlerts = await axios.get(
+        `${backendUrl}/api/users/get-alerts/${userId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      setAlertEmails(responseAlerts.data.alertEmails);
+    } catch (error) {
+      console.error("Error fetching alert emails:", error);
+    } finally {
+      setLoadingAlertEmails(false);
+    }
+  };
+
+  console.log(alertEmails);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
