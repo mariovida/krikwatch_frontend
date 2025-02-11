@@ -25,6 +25,7 @@ import Home from "./pages/Home";
 import IncidentsPage from "./pages/incidents/IncidentsPage";
 import IncidentDetailsPage from "./pages/incidents/IncidentDetailsPage";
 import NewIncidentPage from "./pages/incidents/NewIncidentPage";
+import EditIncidentPage from "./pages/incidents/EditIncidentPage";
 import WebsitesPage from "./pages/websites/WebsitesPage";
 import NewWebsitePage from "./pages/websites/NewWebsitePage";
 import WebsiteDetailsPage from "./pages/websites/WebsiteDetailsPage";
@@ -94,6 +95,17 @@ function App() {
                   <>
                     <Navigation />
                     <IncidentDetailsPage />
+                  </>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/incident/:id/edit"
+              element={
+                <PrivateRoute>
+                  <>
+                    <Navigation />
+                    <EditIncidentPage />
                   </>
                 </PrivateRoute>
               }
