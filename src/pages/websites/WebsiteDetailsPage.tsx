@@ -9,6 +9,9 @@ import { Box, Button, Snackbar, Stack, Typography } from "@mui/material";
 import ArrowLeftIcon from "../../assets/icons/arrow-left.svg";
 import ChevronUp from "../../assets/icons/arrow-up-right.svg";
 import EyeIcon from "../../assets/icons/eye.svg";
+import LinkIcon from "../../assets/icons/link.svg";
+import ChevronLeftIcon from "../../assets/icons/ChevronLeft";
+import ChevronRightIcon from "../../assets/icons/ChevronRight";
 
 import AddContactModal from "./AddContactModal";
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
@@ -37,6 +40,7 @@ const WebsiteDetailsPage = () => {
   const [selectedClient, setSelectedClient] = useState<string>("");
   const [websiteName, setWebsiteName] = useState<string>("");
   const [websiteUrl, setWebsiteUrl] = useState<string>("");
+  const [screenshot, setScreenshot] = useState(null);
   const [faviconUrl, setFaviconUrl] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -47,6 +51,19 @@ const WebsiteDetailsPage = () => {
   const [contactName, setContactName] = useState("");
   const [contactSurname, setContactSurname] = useState("");
   const [contactEmail, setContactEmail] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
+  const [currentContactPage, setCurrentContactPage] = useState(1);
+  const [contactItemsPerPage] = useState(5);
+  let totalPages = 0;
+  let totalContactPages = 0;
+  if (incidents) {
+    totalPages = Math.ceil(incidents.length / itemsPerPage);
+  }
+  if (contacts) {
+    totalContactPages = Math.ceil(contacts.length / contactItemsPerPage);
+  }
 
   useEffect(() => {
     const fetchWebsite = async () => {
@@ -63,9 +80,9 @@ const WebsiteDetailsPage = () => {
           setWebsiteName(response.data.website.name);
           setWebsiteUrl(response.data.website.website_url);
           setIncidents(response.data.incidents);
-          const faviconUrl = `https://icons.duckduckgo.com/ip3/${new URL(response.data.website.website_url).hostname}.ico`;
+          /*const faviconUrl = `https://icons.duckduckgo.com/ip3/${new URL(response.data.website.website_url).hostname}.ico`;
           setFaviconUrl(faviconUrl);
-          /*const checkFavicon = await fetch(faviconUrl, { method: "HEAD" });
+          const checkFavicon = await fetch(faviconUrl, { method: "HEAD" });
           setFaviconUrl(checkFavicon.ok ? faviconUrl : null);*/
         }
       } catch (error) {
@@ -127,6 +144,59 @@ const WebsiteDetailsPage = () => {
       }
     }
   }, [clients, website]);
+
+  /*
+  useEffect(() => {
+    const getchScreenshot = async () => {
+      const screenshotResponse = await axios.get(
+        `${backendUrl}/api/websites/screenshot?url=${encodeURIComponent(websiteUrl)}`
+      );
+
+      if (screenshotResponse.data.imageUrl) {
+        console.log(screenshotResponse.data.imageUrl);
+      }
+    };
+
+    if (websiteUrl) {
+      getchScreenshot();
+    }
+  }, [websiteUrl]);
+  */
+
+  let currentIncidents;
+  let currentContacts;
+  if (incidents) {
+    currentIncidents = incidents.slice(
+      (currentPage - 1) * itemsPerPage,
+      currentPage * itemsPerPage
+    );
+  }
+  if (contacts) {
+    currentContacts = contacts.slice(
+      (currentContactPage - 1) * contactItemsPerPage,
+      currentContactPage * contactItemsPerPage
+    );
+  }
+
+  const goToNextPage = () => {
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
+  };
+  const goToPreviousPage = () => {
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
+  };
+  const goToPage = (page: number) => {
+    setCurrentPage(page);
+  };
+  const goToNextPageContacts = () => {
+    if (currentContactPage < totalContactPages)
+      setCurrentContactPage(currentContactPage + 1);
+  };
+  const goToPreviousPageContacts = () => {
+    if (currentContactPage > 1) setCurrentContactPage(currentContactPage - 1);
+  };
+  const goToPageContacts = (page: number) => {
+    setCurrentContactPage(page);
+  };
 
   const handleCreateContact = async () => {
     const newContact = {
@@ -209,6 +279,7 @@ const WebsiteDetailsPage = () => {
   };
 
   const handleOpenContactModal = () => {
+    setModalModeEdit(false);
     setOpenContactModal(true);
   };
   const handleCloseModal = () => setOpenContactModal(false);
@@ -232,13 +303,17 @@ const WebsiteDetailsPage = () => {
     navigate(`/incident/${id}`);
   };
 
+  const handleEditWebsite = (id: string) => {
+    navigate(`/website/${id}/edit`);
+  };
+
   return (
     <>
       <Helmet>
         <title>Website details | Krik Monitoring</title>
       </Helmet>
       {!loading && website && (
-        <section>
+        <section style={{ paddingBottom: "120px" }}>
           <div className="wrapper">
             <div className="row">
               <div className="col-12">
@@ -257,7 +332,7 @@ const WebsiteDetailsPage = () => {
                   <Stack
                     sx={{ display: "flex", flexDirection: "row", gap: "8px" }}
                   >
-                    {!faviconUrl && (
+                    {/* {!faviconUrl && (
                       <Box sx={{ width: "30px", height: "40px" }}>
                         <img
                           src={faviconUrl}
@@ -269,7 +344,7 @@ const WebsiteDetailsPage = () => {
                           }}
                         />
                       </Box>
-                    )}
+                    )} */}
                     <Typography
                       variant="h3"
                       sx={{
@@ -280,36 +355,70 @@ const WebsiteDetailsPage = () => {
                       {websiteName}
                     </Typography>
                   </Stack>
-                  {websiteUrl !== "" && (
+                  <Box>
                     <Button
-                      onClick={() => window.open(websiteUrl, "_blank")}
+                      onClick={() => handleEditWebsite(website.id)}
                       sx={{
+                        height: "40px",
                         flex: "none",
                         display: "inline-flex",
                         alignItems: "center",
-                        color: "#1b2431",
+                        color: "#ffffff",
                         fontSize: "15px",
                         fontWeight: 600,
                         textDecoration: "none",
                         textTransform: "none",
-                        backgroundColor: "transparent",
+                        backgroundColor: "#1b2431",
                         padding: "0 16px",
                         border: "1px solid #1b2431",
                         borderRadius: "6px",
-                        boxShadow: "none",
+                        boxShadow:
+                          "rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
                         transition: "0.2s",
                         cursor: "pointer",
 
                         "&:hover": {
-                          backgroundColor: "#eeeeee",
-                          boxShadow:
-                            "rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
+                          opacity: "0.9",
                         },
                       }}
                     >
-                      Visit website
+                      Edit website
                     </Button>
-                  )}
+                    {websiteUrl !== "" && (
+                      <Button
+                        onClick={() => window.open(websiteUrl, "_blank")}
+                        sx={{
+                          minWidth: "unset",
+                          height: "40px",
+                          flex: "none",
+                          display: "inline-flex",
+                          alignItems: "center",
+                          color: "#1b2431",
+                          fontSize: "15px",
+                          fontWeight: 600,
+                          textDecoration: "none",
+                          textTransform: "none",
+                          backgroundColor: "transparent",
+                          //padding: "0 16px",
+                          padding: "0",
+                          marginLeft: "20px",
+                          //border: "1px solid #1b2431",
+                          //borderRadius: "6px",
+                          boxShadow: "none",
+                          transition: "0.2s",
+                          cursor: "pointer",
+
+                          "&:hover": {
+                            /*backgroundColor: "#eeeeee",
+                            boxShadow:
+                              "rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",*/
+                          },
+                        }}
+                      >
+                        <img src={LinkIcon} />
+                      </Button>
+                    )}
+                  </Box>
                 </Stack>
                 <WebsiteDetails>
                   <Box>
@@ -387,72 +496,103 @@ const WebsiteDetailsPage = () => {
                   </Button>
                 </Stack>
                 {incidents && (
-                  <table className="custom-table">
-                    <thead>
-                      <tr>
-                        <th>Status</th>
-                        <th>Title</th>
-                        <th style={{ width: "240px" }}>Author</th>
-                        <th style={{ width: "200px" }}>Created at</th>
-                        <th
-                          style={{
-                            width: "60px",
-                          }}
-                        ></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {incidents.length > 0 ? (
-                        incidents.map((incident: any) => (
-                          <tr key={incident.incident_key}>
-                            <td>
-                              {incident ? (
-                                incident.status === 1 ? (
-                                  <span className="status-badge status-badge_open">
-                                    OPEN
-                                  </span>
-                                ) : incident.status === 2 ? (
-                                  <span className="status-badge status-badge_progress">
-                                    IN PROGRESS
-                                  </span>
-                                ) : incident.status === 3 ? (
-                                  <span className="status-badge status-badge_active">
-                                    RESOLVED
-                                  </span>
-                                ) : incident.status === 4 ? (
-                                  <span className="status-badge status-badge_closed">
-                                    CLOSED
-                                  </span>
-                                ) : null
-                              ) : null}
-                            </td>
-                            <td>{incident.title}</td>
-                            <td>
-                              {incident.created_by_first_name +
-                                " " +
-                                incident.created_by_last_name}
-                            </td>
-                            <td>{formatDateWithClock(incident.created_at)}</td>
-                            <td>
-                              <button
-                                onClick={() =>
-                                  handleDetailsClick(incident.incident_key)
-                                }
-                              >
-                                <img src={EyeIcon} />
-                              </button>
+                  <>
+                    <table className="custom-table">
+                      <thead>
+                        <tr>
+                          <th>Status</th>
+                          <th>Title</th>
+                          <th style={{ width: "240px" }}>Author</th>
+                          <th style={{ width: "200px" }}>Created at</th>
+                          <th
+                            style={{
+                              width: "60px",
+                            }}
+                          ></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {incidents.length > 0 ? (
+                          currentIncidents.map((incident: any) => (
+                            <tr key={incident.incident_key}>
+                              <td>
+                                {incident ? (
+                                  incident.status === 1 ? (
+                                    <span className="status-badge status-badge_open">
+                                      OPEN
+                                    </span>
+                                  ) : incident.status === 2 ? (
+                                    <span className="status-badge status-badge_progress">
+                                      IN PROGRESS
+                                    </span>
+                                  ) : incident.status === 3 ? (
+                                    <span className="status-badge status-badge_active">
+                                      RESOLVED
+                                    </span>
+                                  ) : incident.status === 4 ? (
+                                    <span className="status-badge status-badge_closed">
+                                      CLOSED
+                                    </span>
+                                  ) : null
+                                ) : null}
+                              </td>
+                              <td>{incident.title}</td>
+                              <td>
+                                {incident.created_by_first_name +
+                                  " " +
+                                  incident.created_by_last_name}
+                              </td>
+                              <td>
+                                {formatDateWithClock(incident.created_at)}
+                              </td>
+                              <td>
+                                <button
+                                  onClick={() =>
+                                    handleDetailsClick(incident.incident_key)
+                                  }
+                                >
+                                  <img src={EyeIcon} />
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={6} style={{ textAlign: "center" }}>
+                              There are no incidents for this website yet.
                             </td>
                           </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={6} style={{ textAlign: "center" }}>
-                            There are no incidents for this website yet.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
+                        )}
+                      </tbody>
+                    </table>
+                    {incidents.length > 0 && currentIncidents.length > 0 && (
+                      <div className="pagination">
+                        <button
+                          className="pagination-prev"
+                          onClick={goToPreviousPage}
+                          disabled={currentPage === 1}
+                        >
+                          <ChevronLeftIcon />
+                        </button>
+                        {[...Array(totalPages).keys()].map((page) => (
+                          <button
+                            key={page}
+                            onClick={() => goToPage(page + 1)}
+                            className={currentPage === page + 1 ? "active" : ""}
+                          >
+                            {page + 1}
+                          </button>
+                        ))}
+                        <button
+                          className="pagination-next"
+                          onClick={goToNextPage}
+                          disabled={currentPage === totalPages}
+                        >
+                          <ChevronRightIcon />
+                        </button>
+                      </div>
+                    )}
+                  </>
                 )}
               </div>
               <div className="col-12">
@@ -461,7 +601,7 @@ const WebsiteDetailsPage = () => {
                     display: "flex",
                     flexDirection: "row",
                     justifyContent: "space-between",
-                    marginTop: "48px",
+                    marginTop: "56px",
                     marginBottom: "24px",
                   }}
                 >
@@ -517,7 +657,7 @@ const WebsiteDetailsPage = () => {
                     </thead>
                     <tbody>
                       {contacts.length > 0 ? (
-                        contacts.map((contact: any) => (
+                        currentContacts.map((contact: any) => (
                           <tr key={contact.id}>
                             <td>{contact.first_name}</td>
                             <td>{contact.last_name}</td>
@@ -539,6 +679,35 @@ const WebsiteDetailsPage = () => {
                       )}
                     </tbody>
                   </table>
+                  {contacts.length > 0 && currentContacts.length > 0 && (
+                    <div className="pagination">
+                      <button
+                        className="pagination-prev"
+                        onClick={goToPreviousPageContacts}
+                        disabled={currentContactPage === 1}
+                      >
+                        <ChevronLeftIcon />
+                      </button>
+                      {[...Array(totalContactPages).keys()].map((page) => (
+                        <button
+                          key={page}
+                          onClick={() => goToPageContacts(page + 1)}
+                          className={
+                            currentContactPage === page + 1 ? "active" : ""
+                          }
+                        >
+                          {page + 1}
+                        </button>
+                      ))}
+                      <button
+                        className="pagination-next"
+                        onClick={goToNextPageContacts}
+                        disabled={currentContactPage === totalContactPages}
+                      >
+                        <ChevronRightIcon />
+                      </button>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
