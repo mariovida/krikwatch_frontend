@@ -6,6 +6,10 @@ nav {
   color: $c-3;
   background-color: $vz-dark-blue;
 
+  @media screen and (max-width: 640px) {
+    margin-bottom: 48px;
+  }
+
   .nav-btns {
     display: flex;
     justify-content: space-between;
