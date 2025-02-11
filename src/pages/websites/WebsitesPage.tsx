@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
-import EditIcon from "../../assets/icons/edit.svg";
+import EditIcon from "../../assets/icons/edit2.svg";
 import EyeIcon from "../../assets/icons/eye.svg";
 import ChevronLeftIcon from "../../assets/icons/ChevronLeft";
 import ChevronRightIcon from "../../assets/icons/ChevronRight";
