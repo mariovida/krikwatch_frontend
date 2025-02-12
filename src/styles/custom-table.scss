@@ -188,13 +188,13 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 32px;
-    height: 32px;
+    width: 28px;
+    height: 28px;
     border: 0;
     background-color: transparent;
     color: $vz-dark-blue;
     font-size: 14px;
-    line-height: 32px;
+    line-height: 28px;
     font-weight: 600;
     padding: 0;
     border-radius: 16px;
@@ -206,6 +206,7 @@
     }
 
     &.active {
+      //border: 1px solid $vz-dark-blue;
       background-color: $vz-dark-blue;
       color: $c-1;
     }
