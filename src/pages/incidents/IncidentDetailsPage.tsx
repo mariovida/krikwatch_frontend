@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
 import styled from "@emotion/styled";
-import { Box, Button, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, Stack, Typography } from "@mui/material";
 import ArrowLeftIcon from "../../assets/icons/arrow-left.svg";
 import SendMailModal from "./SendMailModal";
 import ViewMailModal from "./ViewMailModal";
@@ -20,7 +20,15 @@ const IncidentDetails = styled(Stack)({
   flexDirection: "row",
   alignItems: "center",
   gap: "40px",
+  marginBottom: "40px",
   cursor: "default",
+});
+
+const CustomCard = styled(Card)({
+  padding: "24px",
+  borderRadius: "10px",
+  boxShadow:
+    "rgba(0, 0, 0, 0.04) 0px 5px 22px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
 });
 
 const IncidentDetailsPage = () => {
@@ -243,48 +251,42 @@ const IncidentDetailsPage = () => {
                       </Typography>
                     </Box>
                   </IncidentDetails>
-                  {incident.description && (
-                    <Box sx={{ marginTop: "64px", marginBottom: "32px" }}>
-                      <Typography
-                        sx={{
-                          fontSize: "14px",
-                          fontWeight: 700,
-                          color: "#7e7e7e",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        DESCRIPTION
-                      </Typography>
-                      <Typography sx={{ whiteSpace: "pre-wrap" }}>
-                        {incident.description}
-                      </Typography>
-                    </Box>
-                  )}
-                  {incident.note && (
-                    <Box>
-                      <Box
-                        sx={{
-                          width: "100%",
-                          height: "2px",
-                          backgroundColor: "#ced4da",
-                          marginBottom: "32px",
-                        }}
-                      ></Box>
-                      <Typography
-                        sx={{
-                          fontSize: "14px",
-                          fontWeight: 700,
-                          color: "#7e7e7e",
-                          marginBottom: "8px",
-                        }}
-                      >
-                        NOTE
-                      </Typography>
-                      <Typography sx={{ whiteSpace: "pre-wrap" }}>
-                        {incident.note}
-                      </Typography>
-                    </Box>
-                  )}
+                  <CustomCard>
+                    {incident.description && (
+                      <Box sx={{ marginBottom: "32px" }}>
+                        <Typography
+                          sx={{
+                            fontSize: "14px",
+                            fontWeight: 700,
+                            color: "#7e7e7e",
+                            marginBottom: "8px",
+                          }}
+                        >
+                          DESCRIPTION
+                        </Typography>
+                        <Typography sx={{ whiteSpace: "pre-wrap" }}>
+                          {incident.description}
+                        </Typography>
+                      </Box>
+                    )}
+                    {incident.note && (
+                      <Box>
+                        <Typography
+                          sx={{
+                            fontSize: "14px",
+                            fontWeight: 700,
+                            color: "#7e7e7e",
+                            marginBottom: "8px",
+                          }}
+                        >
+                          NOTE
+                        </Typography>
+                        <Typography sx={{ whiteSpace: "pre-wrap" }}>
+                          {incident.note}
+                        </Typography>
+                      </Box>
+                    )}
+                  </CustomCard>
                 </>
               )}
             </div>
