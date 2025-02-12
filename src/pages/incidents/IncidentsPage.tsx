@@ -301,7 +301,13 @@ const IncidentsPage = () => {
         }}
         className="custom-more-menu"
       >
-        <MenuItem>Edit incident</MenuItem>
+        <MenuItem
+          onClick={() =>
+            navigate(`/incident/${selectedIncident.incident_key}/edit`)
+          }
+        >
+          Edit incident
+        </MenuItem>
         {selectedIncident && selectedIncident.status === 1 && (
           <MenuItem onClick={() => handleChangeStatus(selectedIncident.id, 2)}>
             Set as in progress
