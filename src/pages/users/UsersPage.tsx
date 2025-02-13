@@ -36,9 +36,7 @@ const UsersPage = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/users`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setUsers(response.data.users);
         setFilteredUsers(response.data.users);
@@ -166,7 +164,7 @@ const UsersPage = () => {
   return (
     <>
       <Helmet>
-        <title>Users | Krik Monitoring</title>
+        <title>Users | KrikWatch</title>
       </Helmet>
 
       {users && !loading && (

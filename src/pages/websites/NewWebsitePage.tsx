@@ -42,9 +42,7 @@ const NewWebsitePage = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/clients`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setClients(response.data.clients);
       } catch (error) {
@@ -119,7 +117,7 @@ const NewWebsitePage = () => {
   return (
     <>
       <Helmet>
-        <title>New website | Krik Monitoring</title>
+        <title>New website | KrikWatch</title>
       </Helmet>
 
       <section>

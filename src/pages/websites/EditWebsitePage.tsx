@@ -49,9 +49,7 @@ const EditWebsitePage = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/websites/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (response) {
           setWebsite(response.data.website);
@@ -73,9 +71,7 @@ const EditWebsitePage = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/clients`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setClients(response.data.clients);
       } catch (error) {
@@ -139,9 +135,7 @@ const EditWebsitePage = () => {
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.delete(`${backendUrl}/api/websites/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        headers: { Authorization: `Bearer ${token}` },
       });
 
       if (response.status === 200) {
@@ -155,9 +149,7 @@ const EditWebsitePage = () => {
   return (
     <>
       <Helmet>
-        <title>
-          {website ? website.name : "Edit website"} | Krik Monitoring
-        </title>
+        <title>{website ? website.name : "Edit website"} | KrikWatch</title>
       </Helmet>
 
       <section>
