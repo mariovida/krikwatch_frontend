@@ -45,9 +45,7 @@ const WebsitesPage = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/websites`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         const sortedWebsites = response.data.websites.sort((a: any, b: any) => {
           return a.name.localeCompare(b.name, "hr", { sensitivity: "base" });
@@ -119,7 +117,7 @@ const WebsitesPage = () => {
   };
 
   const handleDeleteWebsite = (incident: React.SetStateAction<null>) => {
-    if(incident) {
+    if (incident) {
       setDeleteWebsite(incident);
     }
     setOpenConfirmModal(true);
@@ -131,11 +129,7 @@ const WebsitesPage = () => {
         const token = localStorage.getItem("accessToken");
         const response = await axios.delete(
           `${backendUrl}/api/websites/${deleteWebsite.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
 
         if (response.status === 200) {
@@ -150,7 +144,7 @@ const WebsitesPage = () => {
   return (
     <>
       <Helmet>
-        <title>Websites | Krik Monitoring</title>
+        <title>Websites | KrikWatch</title>
       </Helmet>
       <section className="search-container">
         <div className="wrapper">
@@ -227,36 +221,29 @@ const WebsitesPage = () => {
                         </td>
                         <td>{website.client_name}</td>
                         <td>{formatDateWithClock(website.created_at)}</td>
-                        <td
-                          style={{
-                            width: "100px",
-                          }}
-                        >
+                        <td style={{ width: "100px" }}>
                           <Box
-                              sx={{
-                                display: "flex",
-                                justifyContent: "flex-end",
-                              }}
-                            >
-                          {/* <button onClick={() => handleEditClick(website.id)}>
+                            sx={{ display: "flex", justifyContent: "flex-end" }}
+                          >
+                            {/* <button onClick={() => handleEditClick(website.id)}>
                             <img src={EditIcon} />
                           </button> */}
-                          <button
-                            onClick={() => handleDetailsClick(website.id)}
-                            
-                          >
-                            <img src={EyeIcon} />
-                          </button>
-                          <IconButton
-                                aria-label="more"
-                                id={`menu-button-${website.id}`}
-                                aria-controls={`menu-${website.id}`}
-                                aria-haspopup="true"
-                                onClick={(e) => handleMenuOpen(e, website)}
-                                sx={{ marginLeft: "12px", padding: "4px" }}
-                              >
-                                <img src={MoreMenuIcon} />
-                              </IconButton></Box>
+                            <button
+                              onClick={() => handleDetailsClick(website.id)}
+                            >
+                              <img src={EyeIcon} />
+                            </button>
+                            <IconButton
+                              aria-label="more"
+                              id={`menu-button-${website.id}`}
+                              aria-controls={`menu-${website.id}`}
+                              aria-haspopup="true"
+                              onClick={(e) => handleMenuOpen(e, website)}
+                              sx={{ marginLeft: "12px", padding: "4px" }}
+                            >
+                              <img src={MoreMenuIcon} />
+                            </IconButton>
+                          </Box>
                         </td>
                       </tr>
                     ))
@@ -300,23 +287,19 @@ const WebsitesPage = () => {
           </div>
         </div>
       </section>
-   
-          <Menu
-          anchorEl={anchorEl}
-          open={open}
-          onClose={handleMenuClose}
-          MenuListProps={{
-            "aria-labelledby": "long-button",
-          }}
-          className="custom-more-menu"
-        >
-          <MenuItem
-            onClick={() => handleEditClick(selectedWebsite.id)}
-          >
-            Edit website
-          </MenuItem>
-          <MenuItem
-        className="more-menu-red"
+
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleMenuClose}
+        MenuListProps={{ "aria-labelledby": "long-button" }}
+        className="custom-more-menu"
+      >
+        <MenuItem onClick={() => handleEditClick(selectedWebsite.id)}>
+          Edit website
+        </MenuItem>
+        <MenuItem
+          className="more-menu-red"
           onClick={() => {
             handleDeleteWebsite(selectedWebsite);
             handleMenuClose();
@@ -324,16 +307,15 @@ const WebsitesPage = () => {
         >
           Delete website
         </MenuItem>
-        </Menu>
-        <ConfirmationDeleteModal
-            open={openConfirmModal}
-            onClose={() => setOpenConfirmModal(false)}
-            onConfirm={confirmDelete}
-            confirmText="Are you sure you want to delete this website?"
-            confirmTitle="Confirm delete"
-          />
-        </>
-        
+      </Menu>
+      <ConfirmationDeleteModal
+        open={openConfirmModal}
+        onClose={() => setOpenConfirmModal(false)}
+        onConfirm={confirmDelete}
+        confirmText="Are you sure you want to delete this website?"
+        confirmTitle="Confirm delete"
+      />
+    </>
   );
 };
 

@@ -71,9 +71,7 @@ const WebsiteDetailsPage = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/websites/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (response) {
           setWebsite(response.data.website);
@@ -97,9 +95,7 @@ const WebsiteDetailsPage = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/clients`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setClients(response.data.clients);
       } catch (error) {
@@ -115,11 +111,7 @@ const WebsiteDetailsPage = () => {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(
           `${backendUrl}/api/contacts/website/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
         setContacts(response.data.contacts);
       } catch (error) {
@@ -211,11 +203,7 @@ const WebsiteDetailsPage = () => {
       const response = await axios.post(
         `${backendUrl}/api/contacts`,
         newContact,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
       if (response && response.data) {
         if (
@@ -310,7 +298,7 @@ const WebsiteDetailsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Website details | Krik Monitoring</title>
+        <title>Website details | KrikWatch</title>
       </Helmet>
       {!loading && website && (
         <section style={{ paddingBottom: "120px" }}>
@@ -377,9 +365,7 @@ const WebsiteDetailsPage = () => {
                         transition: "0.2s",
                         cursor: "pointer",
 
-                        "&:hover": {
-                          opacity: "0.9",
-                        },
+                        "&:hover": { opacity: "0.9" },
                       }}
                     >
                       Edit website
@@ -487,9 +473,7 @@ const WebsiteDetailsPage = () => {
                       transition: "0.2s",
                       cursor: "pointer",
 
-                      "&:hover": {
-                        opacity: "0.9",
-                      },
+                      "&:hover": { opacity: "0.9" },
                     }}
                   >
                     Create new
@@ -504,11 +488,7 @@ const WebsiteDetailsPage = () => {
                           <th>Title</th>
                           <th style={{ width: "240px" }}>Author</th>
                           <th style={{ width: "200px" }}>Created at</th>
-                          <th
-                            style={{
-                              width: "60px",
-                            }}
-                          ></th>
+                          <th style={{ width: "60px" }}></th>
                         </tr>
                       </thead>
                       <tbody>
@@ -634,9 +614,7 @@ const WebsiteDetailsPage = () => {
                       transition: "0.2s",
                       cursor: "pointer",
 
-                      "&:hover": {
-                        opacity: "0.9",
-                      },
+                      "&:hover": { opacity: "0.9" },
                     }}
                   >
                     Add new
