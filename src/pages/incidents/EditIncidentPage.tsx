@@ -35,13 +35,8 @@ const customLocale = {
 };
 
 export const StyledDateTimePicker = styled(DateTimePicker)({
-  "& .MuiInputBase-input": {
-    fontWeight: "400 !important",
-  },
-  "& .MuiInputLabel-filled": {
-    fontWeight: "300 !important",
-    fontSize: "16px",
-  },
+  "& .MuiInputBase-input": { fontWeight: "400 !important" },
+  "& .MuiInputLabel-filled": { fontWeight: "300 !important", fontSize: "16px" },
 });
 
 const StatusButton = styled(Button)({
@@ -77,9 +72,7 @@ const EditIncidentPage = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/incidents/${id}`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (response) {
           setIncident(response.data.incident);
@@ -102,9 +95,7 @@ const EditIncidentPage = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/websites`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (response) {
           const sortedWebsites = response.data.websites.sort(
@@ -156,7 +147,7 @@ const EditIncidentPage = () => {
   return (
     <>
       <Helmet>
-        <title>Edit incident | Krik Monitoring</title>
+        <title>Edit incident | KrikWatch</title>
       </Helmet>
 
       <section style={{ paddingBottom: "80px" }}>
@@ -260,10 +251,7 @@ const EditIncidentPage = () => {
                               : null
                           }
                           onChange={(newValue) =>
-                            setIncident({
-                              ...incident,
-                              incident_end: newValue,
-                            })
+                            setIncident({ ...incident, incident_end: newValue })
                           }
                           sx={{ width: "100%" }}
                         />

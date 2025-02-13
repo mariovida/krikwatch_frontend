@@ -78,11 +78,7 @@ const ResetPasswordPage = () => {
       const response = await axios.post(
         `${backendUrl}/api/users/set-password`,
         { token, password },
-        {
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
+        { headers: { "Content-Type": "application/json" } }
       );
 
       if (response) {
@@ -113,7 +109,7 @@ const ResetPasswordPage = () => {
   return (
     <>
       <Helmet>
-        <title>Reset password | Krik Monitoring</title>
+        <title>Reset password | KrikWatch</title>
       </Helmet>
 
       <div className="row">
@@ -122,11 +118,7 @@ const ResetPasswordPage = () => {
           <div className="login-box" style={{ maxWidth: "550px" }}>
             <h2>Reset your password</h2>
             <Typography
-              sx={{
-                fontWeight: 500,
-                lineHeight: "22px",
-                marginTop: "6px",
-              }}
+              sx={{ fontWeight: 500, lineHeight: "22px", marginTop: "6px" }}
             >
               Create a new password for your account.
               <br />
@@ -181,14 +173,9 @@ const ResetPasswordPage = () => {
                     color: "#f5f5f5 !important",
                     padding: 0,
 
-                    "&.Mui-checked": {
-                      color: "green !important",
-                    },
+                    "&.Mui-checked": { color: "green !important" },
 
-                    svg: {
-                      width: "18px",
-                      height: "18px",
-                    },
+                    svg: { width: "18px", height: "18px" },
                   },
                 }}
               >
@@ -211,14 +198,9 @@ const ResetPasswordPage = () => {
                     color: "#f5f5f5 !important",
                     padding: 0,
 
-                    "&.Mui-checked": {
-                      color: "green !important",
-                    },
+                    "&.Mui-checked": { color: "green !important" },
 
-                    svg: {
-                      width: "18px",
-                      height: "18px",
-                    },
+                    svg: { width: "18px", height: "18px" },
                   },
                 }}
               >
@@ -241,14 +223,9 @@ const ResetPasswordPage = () => {
                     color: "#f5f5f5 !important",
                     padding: 0,
 
-                    "&.Mui-checked": {
-                      color: "green !important",
-                    },
+                    "&.Mui-checked": { color: "green !important" },
 
-                    svg: {
-                      width: "18px",
-                      height: "18px",
-                    },
+                    svg: { width: "18px", height: "18px" },
                   },
                 }}
               >
@@ -271,14 +248,9 @@ const ResetPasswordPage = () => {
                     color: "#f5f5f5 !important",
                     padding: 0,
 
-                    "&.Mui-checked": {
-                      color: "green !important",
-                    },
+                    "&.Mui-checked": { color: "green !important" },
 
-                    svg: {
-                      width: "18px",
-                      height: "18px",
-                    },
+                    svg: { width: "18px", height: "18px" },
                   },
                 }}
               >
