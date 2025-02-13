@@ -67,7 +67,7 @@ const ForgotPasswordPage = () => {
   return (
     <>
       <Helmet>
-        <title>Reset password | Krik Monitoring</title>
+        <title>Reset password | KrikWatch</title>
       </Helmet>
       <div className="row">
         <div className="col-12 col-md-6 d-none d-md-block"></div>
@@ -80,11 +80,7 @@ const ForgotPasswordPage = () => {
             )}
             <h2>Reset password</h2>
             <Typography
-              sx={{
-                fontWeight: 400,
-                lineHeight: "22px",
-                marginTop: "6px",
-              }}
+              sx={{ fontWeight: 400, lineHeight: "22px", marginTop: "6px" }}
             >
               Please enter your email address to request a password reset.
             </Typography>
