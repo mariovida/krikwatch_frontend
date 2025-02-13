@@ -68,9 +68,7 @@ const ClientsPage = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/clients`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setClients(response.data.clients);
         setFilteredClients(response.data.clients);
@@ -118,9 +116,7 @@ const ClientsPage = () => {
   const handleSnackbarClose = () => setClientExistsError(false);
 
   const handleCreateClient = async () => {
-    const newClient = {
-      name: name,
-    };
+    const newClient = { name: name };
 
     try {
       const token = localStorage.getItem("accessToken");
@@ -157,9 +153,7 @@ const ClientsPage = () => {
   };
 
   const handleUpdateClient = async () => {
-    const updatedClient = {
-      name: name,
-    };
+    const updatedClient = { name: name };
 
     if (selectedClient) {
       try {
@@ -210,11 +204,7 @@ const ClientsPage = () => {
         const token = localStorage.getItem("accessToken");
         const response = await axios.delete(
           `${backendUrl}/api/clients/delete-client/${selectedClient.id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
+          { headers: { Authorization: `Bearer ${token}` } }
         );
 
         if (response.status === 200) {
@@ -229,7 +219,7 @@ const ClientsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Clients | Krik Monitoring</title>
+        <title>Clients | KrikWatch</title>
       </Helmet>
 
       {clients && !loading && (
@@ -358,9 +348,7 @@ const ClientsPage = () => {
             anchorEl={anchorEl}
             open={open}
             onClose={handleMenuClose}
-            MenuListProps={{
-              "aria-labelledby": "long-button",
-            }}
+            MenuListProps={{ "aria-labelledby": "long-button" }}
             className="custom-more-menu"
           >
             <MenuItem
