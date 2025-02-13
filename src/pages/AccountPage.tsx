@@ -191,13 +191,13 @@ const AccountPage = () => {
   return (
     <>
       <Helmet>
-        <title>Account settings | Krik Monitoring</title>
+        <title>Account settings | KrikWatch</title>
       </Helmet>
 
       <section>
         <div className="wrapper">
           <div className="row">
-            <div className="col-8 offset-2">
+            <div className="col-12 col-md-8 offset-md-2">
               <TabContext value={value}>
                 <Box sx={{ borderBottom: 1, borderColor: "#ced4da" }}>
                   <Tabs
@@ -265,9 +265,7 @@ const AccountPage = () => {
                           required
                           disabled
                           sx={{
-                            ".Mui-disabled": {
-                              backgroundColor: "transparent",
-                            },
+                            ".Mui-disabled": { backgroundColor: "transparent" },
                           }}
                         />
                       </Box>

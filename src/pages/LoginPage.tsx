@@ -50,13 +50,8 @@ const LoginPage = () => {
 
     const response = await fetch(`${backendUrl}/api/login`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ email: email, password: password }),
       credentials: "include",
     });
 
@@ -81,7 +76,7 @@ const LoginPage = () => {
   return (
     <>
       <Helmet>
-        <title>Login | Krik Monitoring</title>
+        <title>Login | KrikWatch</title>
       </Helmet>
       {backendStatus ? (
         <section className="backend-status">
