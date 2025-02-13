@@ -36,13 +36,8 @@ const customLocale = {
 };
 
 export const StyledDateTimePicker = styled(DateTimePicker)({
-  "& .MuiInputBase-input": {
-    fontWeight: "400 !important",
-  },
-  "& .MuiInputLabel-filled": {
-    fontWeight: "300 !important",
-    fontSize: "16px",
-  },
+  "& .MuiInputBase-input": { fontWeight: "400 !important" },
+  "& .MuiInputLabel-filled": { fontWeight: "300 !important", fontSize: "16px" },
 });
 
 const StatusButton = styled(Button)({
@@ -117,9 +112,7 @@ const NewIncidentPage = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/websites`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (response) {
           const sortedWebsites = response.data.websites.sort(
@@ -199,7 +192,7 @@ const NewIncidentPage = () => {
   return (
     <>
       <Helmet>
-        <title>New incident | Krik Monitoring</title>
+        <title>New incident | KrikWatch</title>
       </Helmet>
 
       <section style={{ paddingBottom: "80px" }}>

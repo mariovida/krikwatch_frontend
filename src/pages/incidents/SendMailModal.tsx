@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
@@ -30,9 +31,7 @@ const UseTemplateButton = styled(Button)({
   border: "1px solid #877eb4",
   borderRadius: "6px",
 
-  "&:hover": {
-    backgroundColor: "#f8f8f8",
-  },
+  "&:hover": { backgroundColor: "#f8f8f8" },
 });
 
 interface SendMailModalProps {
@@ -54,6 +53,8 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
   if (import.meta.env.VITE_ENV === "production") {
     backendUrl = import.meta.env.VITE_BACKEND_URL_PROD;
   }
+
+  const navigate = useNavigate();
 
   const [selectedContactId, setSelectedContactId] = useState<any>(null);
   const [selectedEmail, setSelectedEmail] = useState<string>("");
@@ -108,11 +109,7 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
           message,
           incidentId: incidentData.id,
         },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       if (response && response.data) {
@@ -136,18 +133,17 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
     onClose();
   };
 
+  const goToWebsiteDetails = () => {
+    navigate(`/website/${incidentData.website_id}`);
+  };
+
   return (
     <>
       <Dialog
         open={open}
         onClose={handleClose}
         className="custom-modal"
-        sx={{
-          "& .MuiPaper-root": {
-            maxWidth: "720px",
-            width: "100%",
-          },
-        }}
+        sx={{ "& .MuiPaper-root": { maxWidth: "720px", width: "100%" } }}
       >
         <DialogTitle>Notify contact</DialogTitle>
         <DialogContent>
@@ -182,12 +178,8 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
                   value={selectedEmail}
                   disabled
                   sx={{
-                    label: {
-                      color: "#7e7e7e !important",
-                    },
-                    input: {
-                      WebkitTextFillColor: "#1a1a1a !important",
-                    },
+                    label: { color: "#7e7e7e !important" },
+                    input: { WebkitTextFillColor: "#1a1a1a !important" },
                   }}
                 />
                 <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
@@ -241,6 +233,11 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
             {contactsData && contactsData.length > 0 && (
               <Button onClick={handleSubmit} className="submit-btn">
                 Send
+              </Button>
+            )}
+            {contactsData && contactsData.length < 1 && (
+              <Button onClick={goToWebsiteDetails} className="submit-btn">
+                Create contacts
               </Button>
             )}
           </div>

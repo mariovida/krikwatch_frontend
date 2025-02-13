@@ -19,9 +19,7 @@ const MonitorsPage = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/websites`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setWebsites(response.data.websites);
       } catch (error) {
@@ -37,9 +35,7 @@ const MonitorsPage = () => {
       try {
         const response = await fetch(`${backendUrl}/api/uptimerobot`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({}),
         });
 
@@ -78,7 +74,7 @@ const MonitorsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Monitors | Krik Monitoring</title>
+        <title>Monitors | KrikWatch</title>
       </Helmet>
 
       {!uptimeData ||
