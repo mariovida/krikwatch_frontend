@@ -40,14 +40,8 @@ const Home = () => {
 
       const response = await fetch(`${backendUrl}/api/send-sms`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          to: to,
-          from: from,
-          text: text,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ to: to, from: from, text: text }),
       });
 
       if (response.ok) {
@@ -69,9 +63,7 @@ const Home = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/incidents`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (response && response.data && response.data.incidents) {
           setTotalIncidents(response.data.incidents.length);
@@ -89,9 +81,7 @@ const Home = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/websites`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setWebsites(response.data.websites);
       } catch (error) {
@@ -117,9 +107,7 @@ const Home = () => {
       try {
         const response = await fetch(`${backendUrl}/api/uptimerobot`, {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({}),
         });
 
@@ -133,10 +121,14 @@ const Home = () => {
                 (website) => monitor.id === Number(website.uptime_id)
               )
             )
-            .map((monitor: { id: number }) => {
+            .map((monitor: { status: number; id: number }) => {
               const website = websites.find(
                 (website) => monitor.id === Number(website.uptime_id)
               );
+
+              /* if (monitor.id === 797098111 || monitor.id === 798307817) {
+                monitor.status = 9;
+              }*/
 
               return {
                 ...monitor,
@@ -159,9 +151,30 @@ const Home = () => {
           setMonitorsDown(incidents.length);
           setAllSitesUp(incidents.length === 0);
           if (incidents.length > 0) {
-            incidents.forEach((incident: { friendly_name: string }) => {
+            let notifiedIncidents = JSON.parse(
+              localStorage.getItem("notifiedIncidents") || "[]"
+            );
+
+            incidents.forEach(
+              (incident: { id: string; friendly_name: string }) => {
+                if (!notifiedIncidents.includes(incident.id)) {
+                  showNotification(incident.friendly_name);
+                  notifiedIncidents.push(incident.id);
+                }
+              }
+            );
+            notifiedIncidents = notifiedIncidents.filter((id: string) =>
+              incidents.some(
+                (incident: any) => incident.id === id && incident.status !== 3
+              )
+            );
+            localStorage.setItem(
+              "notifiedIncidents",
+              JSON.stringify(notifiedIncidents)
+            );
+            /*incidents.forEach((incident: { friendly_name: string }) => {
               showNotification(incident.friendly_name);
-            });
+            });*/
           }
         } else {
           console.error(
@@ -233,7 +246,7 @@ const Home = () => {
   return (
     <>
       <Helmet>
-        <title>Krik Monitoring</title>
+        <title>KrikWatch</title>
       </Helmet>
 
       <Stats
@@ -315,7 +328,7 @@ const Home = () => {
           <section style={{ paddingBottom: "100px" }}>
             <div className="wrapper">
               <div className="row">
-                <div className="col-12">
+                <div className="col-12" style={{ overflowX: "auto" }}>
                   <table className="custom-table">
                     <thead>
                       <tr>
