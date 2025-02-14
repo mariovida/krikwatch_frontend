@@ -22,7 +22,7 @@ const IncidentsPage = () => {
   const navigate = useNavigate();
   const [incidents, setIncidents] = useState<any[]>([]);
   const [filteredIncidents, setFilteredIncidents] = useState<any[]>([]);
-    const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedIncident, setSelectedIncident] = useState<any>(null);
@@ -53,9 +53,7 @@ const IncidentsPage = () => {
       try {
         const token = localStorage.getItem("accessToken");
         const response = await axios.get(`${backendUrl}/api/incidents`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         if (response && response.data && response.data.incidents) {
           setIncidents(response.data.incidents);
@@ -103,20 +101,14 @@ const IncidentsPage = () => {
       const statusResponse = await axios.put(
         `${backendUrl}/api/incidents/${incidentId}/status`,
         { status: newStatus },
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       const fetchIncidents = async () => {
         try {
           const token = localStorage.getItem("accessToken");
           const response = await axios.get(`${backendUrl}/api/incidents`, {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+            headers: { Authorization: `Bearer ${token}` },
           });
           if (response && response.data && response.data.incidents) {
             setIncidents(response.data.incidents);
@@ -142,39 +134,35 @@ const IncidentsPage = () => {
     navigate(`/incident/${id}`);
   };
 
-   const handleDeleteIncident = (incident: React.SetStateAction<null>) => {
-      if(incident) {
-        setDeleteIncident(incident);
-      }
-      setOpenConfirmModal(true);
-    };
+  const handleDeleteIncident = (incident: React.SetStateAction<null>) => {
+    if (incident) {
+      setDeleteIncident(incident);
+    }
+    setOpenConfirmModal(true);
+  };
 
-    const confirmDelete = async () => {
-      if (deleteIncident) {
-        try {
-          const token = localStorage.getItem("accessToken");
-          const response = await axios.delete(
-            `${backendUrl}/api/incidents/delete-incident/${deleteIncident.id}`,
-            {
-              headers: {
-                Authorization: `Bearer ${token}`,
-              },
-            }
-          );
-  
-          if (response.status === 200) {
-            window.location.reload();
-          }
-        } catch (error) {
-          console.error("Error deleting incident:", error);
+  const confirmDelete = async () => {
+    if (deleteIncident) {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const response = await axios.delete(
+          `${backendUrl}/api/incidents/delete-incident/${deleteIncident.id}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        if (response.status === 200) {
+          window.location.reload();
         }
+      } catch (error) {
+        console.error("Error deleting incident:", error);
       }
-    };
+    }
+  };
 
   return (
     <>
       <Helmet>
-        <title>Incidents | Krik Monitoring</title>
+        <title>Incidents | KrikWatch</title>
       </Helmet>
 
       <section className="search-container">
@@ -201,7 +189,7 @@ const IncidentsPage = () => {
         <section style={{ paddingBottom: "100px" }}>
           <div className="wrapper">
             <div className="row">
-              <div className="col-12">
+              <div className="col-12" style={{ overflowX: "auto" }}>
                 <table className="custom-table">
                   <thead>
                     <tr>
@@ -246,11 +234,7 @@ const IncidentsPage = () => {
                               incident.created_by_last_name}
                           </td>
                           <td>{formatDateWithClock(incident.created_at)}</td>
-                          <td
-                            style={{
-                              width: "100px",
-                            }}
-                          >
+                          <td style={{ width: "100px" }}>
                             <Box
                               sx={{
                                 display: "flex",
@@ -327,10 +311,10 @@ const IncidentsPage = () => {
         anchorEl={anchorEl}
         open={open}
         onClose={handleMenuClose}
-        MenuListProps={{
-          "aria-labelledby": "long-button",
-        }}
+        MenuListProps={{ "aria-labelledby": "long-button" }}
         className="custom-more-menu"
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <MenuItem
           onClick={() =>
@@ -351,7 +335,7 @@ const IncidentsPage = () => {
           </MenuItem>
         )}
         <MenuItem
-        className="more-menu-red"
+          className="more-menu-red"
           onClick={() => {
             handleDeleteIncident(selectedIncident);
             handleMenuClose();
@@ -361,12 +345,12 @@ const IncidentsPage = () => {
         </MenuItem>
       </Menu>
       <ConfirmationDeleteModal
-            open={openConfirmModal}
-            onClose={() => setOpenConfirmModal(false)}
-            onConfirm={confirmDelete}
-            confirmText="Are you sure you want to delete this incident?"
-            confirmTitle="Confirm delete"
-          />
+        open={openConfirmModal}
+        onClose={() => setOpenConfirmModal(false)}
+        onConfirm={confirmDelete}
+        confirmText="Are you sure you want to delete this incident?"
+        confirmTitle="Confirm delete"
+      />
     </>
   );
 };
