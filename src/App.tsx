@@ -36,6 +36,7 @@ import AccountPage from "./pages/AccountPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import MonitorsPage from "./pages/monitors//MonitorsPage";
 import CalendarPage from "./pages/calendar/CalendarPage";
+import TemplatesPage from "./pages/templates/TemplatesPage";
 
 import PrivateRoute from "./auth/PrivateRoute";
 
@@ -216,6 +217,17 @@ function App() {
                   <>
                     <Navigation pageTitle="Calendar" />
                     <CalendarPage />
+                  </>
+                </PrivateRoute>
+              }
+            />
+            <Route
+              path="/templates"
+              element={
+                <PrivateRoute>
+                  <>
+                    <Navigation pageTitle="Templates" />
+                    <TemplatesPage />
                   </>
                 </PrivateRoute>
               }

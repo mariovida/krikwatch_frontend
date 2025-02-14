@@ -4,12 +4,16 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
+import { Box, Menu, MenuItem, IconButton } from "@mui/material";
+
 import EditIcon from "../../assets/icons/edit2.svg";
 import EyeIcon from "../../assets/icons/eye.svg";
 import ChevronLeftIcon from "../../assets/icons/ChevronLeft";
 import ChevronRightIcon from "../../assets/icons/ChevronRight";
+import MoreMenuIcon from "../../assets/icons/more-menu.svg";
 
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
+import ConfirmationDeleteModal from "../../blocks/ConfirmDeleteModal";
 
 const WebsitesPage = () => {
   const navigate = useNavigate();
@@ -28,6 +32,12 @@ const WebsitesPage = () => {
   const totalPages = Math.ceil(filteredWebsites.length / itemsPerPage);
 
   const [searchQuery, setSearchQuery] = useState<string>("");
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const [selectedWebsite, setSelectedWebsite] = useState<any>(null);
+  const [deleteWebsite, setDeleteWebsite] = useState<any>(null);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const open = Boolean(anchorEl);
 
   useEffect(() => {
     const fetchWebsites = async () => {
@@ -83,6 +93,19 @@ const WebsitesPage = () => {
     setFilteredWebsites(filtered);
   };
 
+  const handleMenuOpen = (
+    event: React.MouseEvent<HTMLElement>,
+    website: any
+  ) => {
+    setAnchorEl(event.currentTarget);
+    setSelectedWebsite(website);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+    setSelectedWebsite(null);
+  };
+
   const handleAddNewButton = () => {
     navigate(`/websites/create-new`);
   };
@@ -93,6 +116,35 @@ const WebsitesPage = () => {
 
   const handleDetailsClick = (id: string) => {
     navigate(`/website/${id}`);
+  };
+
+  const handleDeleteWebsite = (incident: React.SetStateAction<null>) => {
+    if(incident) {
+      setDeleteWebsite(incident);
+    }
+    setOpenConfirmModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (deleteWebsite) {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const response = await axios.delete(
+          `${backendUrl}/api/websites/${deleteWebsite.id}`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        if (response.status === 200) {
+          window.location.reload();
+        }
+      } catch (error) {
+        console.error("Error deleting incident:", error);
+      }
+    }
   };
 
   return (
@@ -180,15 +232,31 @@ const WebsitesPage = () => {
                             width: "100px",
                           }}
                         >
-                          <button onClick={() => handleEditClick(website.id)}>
+                          <Box
+                              sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                              }}
+                            >
+                          {/* <button onClick={() => handleEditClick(website.id)}>
                             <img src={EditIcon} />
-                          </button>
+                          </button> */}
                           <button
                             onClick={() => handleDetailsClick(website.id)}
-                            style={{ marginLeft: "12px" }}
+                            
                           >
                             <img src={EyeIcon} />
                           </button>
+                          <IconButton
+                                aria-label="more"
+                                id={`menu-button-${website.id}`}
+                                aria-controls={`menu-${website.id}`}
+                                aria-haspopup="true"
+                                onClick={(e) => handleMenuOpen(e, website)}
+                                sx={{ marginLeft: "12px", padding: "4px" }}
+                              >
+                                <img src={MoreMenuIcon} />
+                              </IconButton></Box>
                         </td>
                       </tr>
                     ))
@@ -232,7 +300,40 @@ const WebsitesPage = () => {
           </div>
         </div>
       </section>
-    </>
+   
+          <Menu
+          anchorEl={anchorEl}
+          open={open}
+          onClose={handleMenuClose}
+          MenuListProps={{
+            "aria-labelledby": "long-button",
+          }}
+          className="custom-more-menu"
+        >
+          <MenuItem
+            onClick={() => handleEditClick(selectedWebsite.id)}
+          >
+            Edit website
+          </MenuItem>
+          <MenuItem
+        className="more-menu-red"
+          onClick={() => {
+            handleDeleteWebsite(selectedWebsite);
+            handleMenuClose();
+          }}
+        >
+          Delete website
+        </MenuItem>
+        </Menu>
+        <ConfirmationDeleteModal
+            open={openConfirmModal}
+            onClose={() => setOpenConfirmModal(false)}
+            onConfirm={confirmDelete}
+            confirmText="Are you sure you want to delete this website?"
+            confirmTitle="Confirm delete"
+          />
+        </>
+        
   );
 };
 

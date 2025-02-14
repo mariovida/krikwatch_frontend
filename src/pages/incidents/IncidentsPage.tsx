@@ -11,6 +11,7 @@ import ChevronLeftIcon from "../../assets/icons/ChevronLeft";
 import ChevronRightIcon from "../../assets/icons/ChevronRight";
 
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
+import ConfirmationDeleteModal from "../../blocks/ConfirmDeleteModal";
 
 const IncidentsPage = () => {
   let backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -21,9 +22,11 @@ const IncidentsPage = () => {
   const navigate = useNavigate();
   const [incidents, setIncidents] = useState<any[]>([]);
   const [filteredIncidents, setFilteredIncidents] = useState<any[]>([]);
+    const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedIncident, setSelectedIncident] = useState<any>(null);
+  const [deleteIncident, setDeleteIncident] = useState<any>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const open = Boolean(anchorEl);
 
@@ -138,6 +141,35 @@ const IncidentsPage = () => {
   const handleDetailsClick = (id: string) => {
     navigate(`/incident/${id}`);
   };
+
+   const handleDeleteIncident = (incident: React.SetStateAction<null>) => {
+      if(incident) {
+        setDeleteIncident(incident);
+      }
+      setOpenConfirmModal(true);
+    };
+
+    const confirmDelete = async () => {
+      if (deleteIncident) {
+        try {
+          const token = localStorage.getItem("accessToken");
+          const response = await axios.delete(
+            `${backendUrl}/api/incidents/delete-incident/${deleteIncident.id}`,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+  
+          if (response.status === 200) {
+            window.location.reload();
+          }
+        } catch (error) {
+          console.error("Error deleting incident:", error);
+        }
+      }
+    };
 
   return (
     <>
@@ -291,7 +323,6 @@ const IncidentsPage = () => {
           </div>
         </section>
       )}
-
       <Menu
         anchorEl={anchorEl}
         open={open}
@@ -319,7 +350,23 @@ const IncidentsPage = () => {
             Set as resolved
           </MenuItem>
         )}
+        <MenuItem
+        className="more-menu-red"
+          onClick={() => {
+            handleDeleteIncident(selectedIncident);
+            handleMenuClose();
+          }}
+        >
+          Delete incident
+        </MenuItem>
       </Menu>
+      <ConfirmationDeleteModal
+            open={openConfirmModal}
+            onClose={() => setOpenConfirmModal(false)}
+            onConfirm={confirmDelete}
+            confirmText="Are you sure you want to delete this incident?"
+            confirmTitle="Confirm delete"
+          />
     </>
   );
 };

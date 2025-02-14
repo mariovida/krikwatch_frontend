@@ -27,6 +27,7 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
     /^\/website\/[^/]+($|\/edit$)/.test(cleanPathname) ||
     /^\/incident\/[^/]+($|\/edit$)/.test(cleanPathname);
   const addSpace = cleanPathname === "/";
+  const isIncidentPage = cleanPathname === "/incidents";
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const openMenu = Boolean(anchorEl);
@@ -64,6 +65,9 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
   const handleNotificationsPage = () => {
     navigate("/notifications");
     handleMenuClose();
+  };
+  const handleTemplatesPage = () => {
+    navigate("/templates");
   };
 
   return (
@@ -107,7 +111,18 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
 
         <div className="row">
           <div className="col-12">
-            {!isSpecialPage && <h1>{pageTitle}</h1>}
+            {!isSpecialPage && (
+              <>
+                {isIncidentPage ? (
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                    <h1>{pageTitle}</h1>
+                    <button onClick={handleTemplatesPage} style={{ display: 'inline-flex', alignItems: 'center', height: '48px', fontSize: '15px', fontWeight: '600', padding: '0px 24px', border: '1px solid #f5f5f5', borderRadius: '6px', backgroundColor: '#f5f5f5', color: '#1b2431' }}>Templates</button>
+                  </div>
+                ) : (
+                  <h1>{pageTitle}</h1>
+                )}
+              </>
+            )}
             {addSpace && <div className="spacer"></div>}
           </div>
         </div>

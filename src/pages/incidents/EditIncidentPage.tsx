@@ -174,7 +174,7 @@ const EditIncidentPage = () => {
                   marginBottom: "24px",
                 }}
               >
-                Create new
+                Edit incident
               </Typography>
               {incident && (
                 <LocalizationProvider

@@ -4,6 +4,12 @@ import { useNavigate, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
+import { Page, Font, Text, View, Document, StyleSheet, PDFDownloadLink } from '@react-pdf/renderer';
+Font.register({
+  family: "Plus Jakarta Sans",
+  src: "/PlusJakartaSans-Regular.ttf",
+});
+
 import styled from "@emotion/styled";
 import { Box, Button, Card, Stack, Typography } from "@mui/material";
 import ArrowLeftIcon from "../../assets/icons/arrow-left.svg";
@@ -14,6 +20,49 @@ import ChevronLeftIcon from "../../assets/icons/ChevronLeft";
 import ChevronRightIcon from "../../assets/icons/ChevronRight";
 
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
+
+const styles = StyleSheet.create({
+  page: {
+    fontFamily: "Plus Jakarta Sans"
+  },
+  header: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 14,
+  },
+  normal: {
+    fontSize: 12,
+    marginBottom: 12,
+  },
+  tiny: {
+    fontSize: 8,
+    fontWeight: 'bold',
+    textTransform: 'uppercase',
+    marginBottom: 4,
+  },
+});
+
+const MyDocument = ({ incident }: { incident: any }) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <View style={{ padding: 20 }}>
+        <Text style={styles.header}>{incident.title}</Text>
+        
+        <Text style={styles.tiny}>Created by</Text>
+        <Text style={styles.normal}>{incident.created_by}</Text>
+        <Text style={styles.tiny}>Website</Text>
+        <Text style={styles.normal}>{incident.website_name}</Text>
+       
+        <Text style={styles.tiny}>Start Time</Text>
+        <Text style={styles.normal}>{formatDateWithClock(incident.incident_start)}</Text>
+        <Text style={styles.tiny}>End Time</Text>
+        <Text style={styles.normal}>{incident.incident_end || 'Not Available'}</Text>
+        <Text style={styles.tiny}>Description</Text>
+        <Text style={styles.normal}>{incident.description}</Text>
+      </View>
+    </Page>
+  </Document>
+);
 
 const IncidentDetails = styled(Stack)({
   display: "flex",
@@ -117,6 +166,14 @@ const IncidentDetailsPage = () => {
     window.location.reload();
   };
 
+  const handleEditIncident = (id: string) => {
+    navigate(`/incident/${id}/edit`);
+  };
+
+  const downloadIncidentPDF = (incident: { title: any; description: any; status: any; incident_start: any; incident_end: any; created_by: any; website_name: any; id: any; }) => {
+    if (!incident) return;
+  };
+
   return (
     <>
       <Helmet>
@@ -174,6 +231,7 @@ const IncidentDetailsPage = () => {
                       marginBottom: "24px",
                     }}
                   >
+                  
                     <Typography
                       variant="h3"
                       sx={{
@@ -182,6 +240,92 @@ const IncidentDetailsPage = () => {
                     >
                       {incident.title}
                     </Typography>
+                    <Box>
+                    <PDFDownloadLink document={<MyDocument incident={incident} />} fileName="incident_report.pdf">
+                        {({ loading }) => (
+                          <Button
+                            sx={{
+                              height: "40px",
+                              flex: "none",
+                              display: "inline-flex",
+                              alignItems: "center",
+                              color: "#1b2431",
+                              fontSize: "15px",
+                              fontWeight: 600,
+                              textDecoration: "none",
+                              textTransform: "none",
+                              backgroundColor: "#f5f5f5",
+                              padding: "0 16px",
+                              marginRight: '16px',
+                              border: "1px solid #1b2431",
+                              borderRadius: "6px",
+                              boxShadow: 'none',
+                              transition: "0.2s",
+                              cursor: "pointer",
+      
+                              "&:hover": {
+                                opacity: "0.9",
+                              },
+                            }}
+                          >
+                            Download
+                          </Button>
+                        )}
+                      </PDFDownloadLink>
+                    {/* <Button onClick={() => downloadIncidentPDF(incident)} sx={{
+                        height: "40px",
+                        flex: "none",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        color: "#1b2431",
+                        fontSize: "15px",
+                        fontWeight: 600,
+                        textDecoration: "none",
+                        textTransform: "none",
+                        backgroundColor: "#f5f5f5",
+                        padding: "0 16px",
+                        marginRight: '16px',
+                        border: "1px solid #1b2431",
+                        borderRadius: "6px",
+                        boxShadow: 'none',
+                        transition: "0.2s",
+                        cursor: "pointer",
+
+                        "&:hover": {
+                          opacity: "0.9",
+                        },
+                      }}>
+                      Download
+                    </Button> */}
+                    <Button
+                      onClick={() => handleEditIncident(incident.incident_key)}
+                      sx={{
+                        height: "40px",
+                        flex: "none",
+                        display: "inline-flex",
+                        alignItems: "center",
+                        color: "#ffffff",
+                        fontSize: "15px",
+                        fontWeight: 600,
+                        textDecoration: "none",
+                        textTransform: "none",
+                        backgroundColor: "#1b2431",
+                        padding: "0 16px",
+                        border: "1px solid #1b2431",
+                        borderRadius: "6px",
+                        boxShadow:
+                          "rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
+                        transition: "0.2s",
+                        cursor: "pointer",
+
+                        "&:hover": {
+                          opacity: "0.9",
+                        },
+                      }}
+                    >
+                      Edit incident
+                    </Button>
+                    </Box>
                   </Stack>
                   <IncidentDetails>
                     <Box>
@@ -251,32 +395,33 @@ const IncidentDetailsPage = () => {
                       </Typography>
                     </Box>
                   </IncidentDetails>
-                  <CustomCard>
-                    {incident.description && (
-                      <Box sx={{ marginBottom: "32px" }}>
+                  {incident.description && (
+                    <CustomCard>
+                          <Typography
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: 700,
+                              color: "#7e7e7e",
+                              marginBottom: "24px",
+                            }}
+                          >
+                            DESCRIPTION
+                          </Typography>
+                          <Typography sx={{ whiteSpace: "pre-wrap" }}>
+                            {incident.description}
+                          </Typography>
+                    
+                    </CustomCard>
+                  )}
+                  {incident.note && (
+                      <CustomCard sx={{ marginTop: '32px' }}>
+                     
                         <Typography
                           sx={{
                             fontSize: "14px",
                             fontWeight: 700,
                             color: "#7e7e7e",
-                            marginBottom: "8px",
-                          }}
-                        >
-                          DESCRIPTION
-                        </Typography>
-                        <Typography sx={{ whiteSpace: "pre-wrap" }}>
-                          {incident.description}
-                        </Typography>
-                      </Box>
-                    )}
-                    {incident.note && (
-                      <Box>
-                        <Typography
-                          sx={{
-                            fontSize: "14px",
-                            fontWeight: 700,
-                            color: "#7e7e7e",
-                            marginBottom: "8px",
+                            marginBottom: "24px",
                           }}
                         >
                           NOTE
@@ -284,12 +429,51 @@ const IncidentDetailsPage = () => {
                         <Typography sx={{ whiteSpace: "pre-wrap" }}>
                           {incident.note}
                         </Typography>
-                      </Box>
-                    )}
-                  </CustomCard>
+                      
+                      </CustomCard>
+                  )}
                 </>
               )}
             </div>
+            {/* {incident && incident.description && (<>
+              <div className="col-12 col-md-2">
+              <Typography
+                sx={{
+                  fontSize: "14px",
+                  fontWeight: 700,
+                  color: "#7e7e7e",
+                  marginBottom: "8px",
+                }}
+              >
+                DESCRIPTION
+              </Typography>
+            </div>
+            <div className="col-12 col-md-10">
+              <Typography sx={{ whiteSpace: "pre-wrap" }}>
+                {incident.description}
+              </Typography>
+            </div></>
+            )}
+            {incident && incident.note && (<>
+            <div className="col-12"  style={{  marginTop: '40px' }}></div>
+              <div className="col-12 col-md-2">
+              <Typography
+                sx={{
+                  fontSize: "14px",
+                  fontWeight: 700,
+                  color: "#7e7e7e",
+                  marginBottom: "8px",
+                }}
+              >
+                NOTE
+              </Typography>
+            </div>
+            <div className="col-12 col-md-10">
+              <Typography sx={{ whiteSpace: "pre-wrap" }}>
+                {incident.note}
+              </Typography>
+            </div></>
+            )} */}
             <div className="col-12">
               <Stack
                 sx={{
