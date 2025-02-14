@@ -64,11 +64,7 @@ const NotificationsPage = () => {
       const token = localStorage.getItem("accessToken");
       const responseAlerts = await axios.get(
         `${backendUrl}/api/users/get-alerts/${userId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
+        { headers: { Authorization: `Bearer ${token}` } }
       );
 
       setAlertEmails(responseAlerts.data.alertEmails);
@@ -110,10 +106,7 @@ const NotificationsPage = () => {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({
-          user_id: userId,
-          emailAddress: email,
-        }),
+        body: JSON.stringify({ user_id: userId, emailAddress: email }),
       });
 
       if (response.ok) {
@@ -130,7 +123,7 @@ const NotificationsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Notifications | Krik Monitoring</title>
+        <title>Notifications | KrikWatch</title>
       </Helmet>
 
       <section style={{ marginBottom: "40px" }}>
