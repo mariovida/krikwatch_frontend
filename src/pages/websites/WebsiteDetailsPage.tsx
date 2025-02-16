@@ -5,16 +5,26 @@ import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
 import styled from "@emotion/styled";
-import { Box, Button, Snackbar, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Snackbar,
+  Stack,
+  IconButton,
+  Typography,
+  Menu,
+  MenuItem,
+} from "@mui/material";
 import ArrowLeftIcon from "../../assets/icons/arrow-left.svg";
 import ChevronUp from "../../assets/icons/arrow-up-right.svg";
 import EyeIcon from "../../assets/icons/eye.svg";
-import LinkIcon from "../../assets/icons/link.svg";
 import ChevronLeftIcon from "../../assets/icons/ChevronLeft";
 import ChevronRightIcon from "../../assets/icons/ChevronRight";
+import MoreMenuIcon from "../../assets/icons/more-menu.svg";
 
 import AddContactModal from "./AddContactModal";
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
+import ConfirmationDeleteModal from "../../blocks/ConfirmDeleteModal";
 
 const WebsiteDetails = styled(Stack)({
   display: "flex",
@@ -64,6 +74,11 @@ const WebsiteDetailsPage = () => {
   if (contacts) {
     totalContactPages = Math.ceil(contacts.length / contactItemsPerPage);
   }
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const [deleteWebsite, setDeleteWebsite] = useState<any>(null);
+  const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   useEffect(() => {
     const fetchWebsite = async () => {
@@ -283,6 +298,42 @@ const WebsiteDetailsPage = () => {
     navigate(`/websites`);
   };
 
+  const handleMenuOpen = (
+    event: React.MouseEvent<HTMLElement>,
+    incident: any
+  ) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleMenuClose = () => {
+    setAnchorEl(null);
+  };
+
+  const handleDeleteWebsite = (website: React.SetStateAction<null>) => {
+    if (website) {
+      setDeleteWebsite(website);
+    }
+    setOpenConfirmModal(true);
+  };
+
+  const confirmDelete = async () => {
+    if (deleteWebsite) {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const response = await axios.delete(
+          `${backendUrl}/api/websites/${deleteWebsite.id}`,
+          { headers: { Authorization: `Bearer ${token}` } }
+        );
+
+        if (response.status === 200) {
+          navigate(`/websites`);
+        }
+      } catch (error) {
+        console.error("Error deleting incident:", error);
+      }
+    }
+  };
+
   const handleCreateIncident = () => {
     navigate(`/incidents/create-new`);
   };
@@ -344,37 +395,10 @@ const WebsiteDetailsPage = () => {
                     </Typography>
                   </Stack>
                   <Box>
-                    <Button
-                      onClick={() => handleEditWebsite(website.id)}
-                      sx={{
-                        height: "40px",
-                        flex: "none",
-                        display: "inline-flex",
-                        alignItems: "center",
-                        color: "#ffffff",
-                        fontSize: "15px",
-                        fontWeight: 600,
-                        textDecoration: "none",
-                        textTransform: "none",
-                        backgroundColor: "#1b2431",
-                        padding: "0 16px",
-                        border: "1px solid #1b2431",
-                        borderRadius: "6px",
-                        boxShadow:
-                          "rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
-                        transition: "0.2s",
-                        cursor: "pointer",
-
-                        "&:hover": { opacity: "0.9" },
-                      }}
-                    >
-                      Edit website
-                    </Button>
                     {websiteUrl !== "" && (
                       <Button
                         onClick={() => window.open(websiteUrl, "_blank")}
                         sx={{
-                          minWidth: "unset",
                           height: "40px",
                           flex: "none",
                           display: "inline-flex",
@@ -384,26 +408,29 @@ const WebsiteDetailsPage = () => {
                           fontWeight: 600,
                           textDecoration: "none",
                           textTransform: "none",
-                          backgroundColor: "transparent",
-                          //padding: "0 16px",
-                          padding: "0",
-                          marginLeft: "20px",
-                          //border: "1px solid #1b2431",
-                          //borderRadius: "6px",
-                          boxShadow: "none",
+                          backgroundColor: "#f2f2f2",
+                          padding: "0 12px",
+                          border: "1px solid #1b2431",
+                          borderRadius: "6px",
+                          boxShadow:
+                            "rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
                           transition: "0.2s",
                           cursor: "pointer",
-
-                          "&:hover": {
-                            /*backgroundColor: "#eeeeee",
-                            boxShadow:
-                              "rgba(0, 0, 0, 0.04) 0px 5px 22px 0px,rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",*/
-                          },
                         }}
                       >
-                        <img src={LinkIcon} />
+                        Visit website
                       </Button>
                     )}
+                    <IconButton
+                      aria-label="more"
+                      id={`menu-button-${website.id}`}
+                      aria-controls={`menu-${website.id}`}
+                      aria-haspopup="true"
+                      onClick={(e) => handleMenuOpen(e, website)}
+                      sx={{ marginLeft: "12px", padding: "4px" }}
+                    >
+                      <img src={MoreMenuIcon} />
+                    </IconButton>
                   </Box>
                 </Stack>
                 <WebsiteDetails>
@@ -433,6 +460,21 @@ const WebsiteDetailsPage = () => {
                       </span>
                     )}
                   </Box> */}
+                  <Box>
+                    <Typography
+                      sx={{
+                        fontSize: "15px",
+                        fontWeight: 400,
+                        lineHeight: "24px",
+                        color: "#1b2431",
+                      }}
+                    >
+                      Hosting URL:
+                      <span style={{ marginLeft: "8px", color: "#7e7e7e" }}>
+                        {website.hosting_url}
+                      </span>
+                    </Typography>
+                  </Box>
                 </WebsiteDetails>
               </div>
               <div className="col-12">
@@ -692,6 +734,30 @@ const WebsiteDetailsPage = () => {
           </div>
         </section>
       )}
+      <Menu
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleMenuClose}
+        MenuListProps={{ "aria-labelledby": "long-button" }}
+        className="custom-more-menu"
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <MenuItem onClick={() => handleEditWebsite(website.id)}>
+          Edit website
+        </MenuItem>
+        {incidents && incidents.length < 1 && (
+          <MenuItem
+            className="more-menu-red"
+            onClick={() => {
+              handleDeleteWebsite(website);
+              handleMenuClose();
+            }}
+          >
+            Delete website
+          </MenuItem>
+        )}
+      </Menu>
       <AddContactModal
         open={openContactModal}
         onClose={handleCloseModal}
@@ -712,6 +778,13 @@ const WebsiteDetailsPage = () => {
         message="Contact with this email address already exists."
         className="snackbar snackbar-error"
         autoHideDuration={4000}
+      />
+      <ConfirmationDeleteModal
+        open={openConfirmModal}
+        onClose={() => setOpenConfirmModal(false)}
+        onConfirm={confirmDelete}
+        confirmText="Are you sure you want to delete this website?"
+        confirmTitle="Confirm delete"
       />
     </>
   );
