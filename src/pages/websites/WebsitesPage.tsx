@@ -298,7 +298,7 @@ const WebsitesPage = () => {
         <MenuItem onClick={() => handleEditClick(selectedWebsite.id)}>
           Edit website
         </MenuItem>
-        <MenuItem
+        {/* <MenuItem
           className="more-menu-red"
           onClick={() => {
             handleDeleteWebsite(selectedWebsite);
@@ -306,7 +306,7 @@ const WebsitesPage = () => {
           }}
         >
           Delete website
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
       <ConfirmationDeleteModal
         open={openConfirmModal}
