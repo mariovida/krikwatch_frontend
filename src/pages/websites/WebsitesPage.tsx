@@ -174,6 +174,7 @@ const WebsitesPage = () => {
                 <thead>
                   <tr>
                     {/* <th>Status</th> */}
+                    <th style={{ width: "40px", padding: "12px 0" }}></th>
                     <th style={{ width: "unset" }}>Website</th>
                     <th>URL</th>
                     <th>Client</th>
@@ -198,6 +199,21 @@ const WebsitesPage = () => {
                             )
                           ) : null}
                         </td> */}
+                        <td
+                          style={{ width: "40px", padding: "12px 0 12px 16px" }}
+                        >
+                          {website.favicon && (
+                            <img
+                              src={`data:image/png;base64,${website.favicon}`}
+                              alt="Website favicon"
+                              style={{
+                                width: "20px",
+                                height: "20px",
+                                objectFit: "contain",
+                              }}
+                            />
+                          )}
+                        </td>
                         <td style={{ width: "unset" }}>{website.name}</td>
                         <td>
                           {website.website_url ? (
