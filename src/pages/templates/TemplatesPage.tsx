@@ -14,6 +14,7 @@ import {
 import ArrowLeftIcon from "../../assets/icons/arrow-left.svg";
 import MoreMenuIcon from "../../assets/icons/more-menu.svg";
 
+import EditTemplateModal from "./EditTemplateModal";
 import ConfirmationDeleteModal from "../../blocks/ConfirmDeleteModal";
 
 const TemplatesPage = () => {
@@ -28,7 +29,14 @@ const TemplatesPage = () => {
   const open = Boolean(anchorEl);
   const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
   const [deleteTemplate, setDeleteTemplate] = useState<any>(null);
+
+  const [templateId, setTemplateId] = useState<any>(null);
+  const [templateTitle, setTemplateTitle] = useState<string>("");
+  const [templateContent, setTemplateContent] = useState<string>("");
+  const [templateModalMode, setTemplateModalMode] = useState<string>("");
+  const [openTemplateModal, setOpenTemplateModal] = useState(false);
   const [modalModeEdit, setModalModeEdit] = useState<boolean>(false);
+  const [modalModeView, setModalModeView] = useState<boolean>(false);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
 
   useEffect(() => {
@@ -48,8 +56,6 @@ const TemplatesPage = () => {
 
     fetchTemplates();
   }, [backendUrl]);
-
-  //console.log(templates);
 
   const handleClose = () => {
     navigate(`/incidents`);
@@ -89,6 +95,54 @@ const TemplatesPage = () => {
       } catch (error) {
         console.error("Error deleting website:", error);
       }
+    }
+  };
+
+  const handleOpenTemplateModal = (mode: string) => {
+    if (mode === "edit") {
+      setTemplateModalMode("edit");
+      setTemplateTitle(selectedTemplate.title);
+      setTemplateContent(selectedTemplate.content);
+      setModalModeEdit(true);
+    } else if (mode === "view") {
+      setTemplateModalMode("view");
+      setTemplateTitle(selectedTemplate.title);
+      setTemplateContent(selectedTemplate.content);
+      setModalModeEdit(true);
+    } else {
+      setTemplateTitle("");
+      setTemplateContent("");
+      setModalModeEdit(false);
+    }
+    setOpenTemplateModal(true);
+  };
+  const handleCloseModal = () => setOpenTemplateModal(false);
+
+  const handleEditTemplate = async (updatedTemplate: {
+    title: string;
+    content: string;
+  }) => {
+    if (!updatedTemplate.title || !updatedTemplate.content) {
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem("accessToken");
+      const response = await axios.put(
+        `${backendUrl}/api/templates/update-template/${templateId}`,
+        updatedTemplate,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+
+      if (response.status === 200) {
+        setOpenTemplateModal(false);
+        window.location.reload();
+        setTemplateId(null);
+      }
+    } catch (error) {
+      console.error("Error updating template:", error);
     }
   };
 
@@ -167,6 +221,7 @@ const TemplatesPage = () => {
       >
         <MenuItem
           onClick={() => {
+            handleOpenTemplateModal("view");
             handleMenuClose();
           }}
         >
@@ -174,6 +229,8 @@ const TemplatesPage = () => {
         </MenuItem>
         <MenuItem
           onClick={() => {
+            handleOpenTemplateModal("edit");
+            setTemplateId(selectedTemplate.id);
             handleMenuClose();
           }}
         >
@@ -189,6 +246,16 @@ const TemplatesPage = () => {
           Delete template
         </MenuItem>
       </Menu>
+      <EditTemplateModal
+        open={openTemplateModal}
+        onClose={handleCloseModal}
+        onSubmit={handleEditTemplate}
+        mode={templateModalMode}
+        templateTitle={templateTitle}
+        templateContent={templateContent}
+        setTemplateTitle={setTemplateTitle}
+        setTemplateContent={setTemplateContent}
+      />
       <ConfirmationDeleteModal
         open={openConfirmModal}
         onClose={() => setOpenConfirmModal(false)}
