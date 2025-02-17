@@ -93,6 +93,7 @@ const WebsiteDetailsPage = () => {
           setWebsiteName(response.data.website.name);
           setWebsiteUrl(response.data.website.website_url);
           setIncidents(response.data.incidents);
+          setFaviconUrl(response.data.website.favicon);
           /*const faviconUrl = `https://icons.duckduckgo.com/ip3/${new URL(response.data.website.website_url).hostname}.ico`;
           setFaviconUrl(faviconUrl);
           const checkFavicon = await fetch(faviconUrl, { method: "HEAD" });
@@ -369,21 +370,26 @@ const WebsiteDetailsPage = () => {
                   }}
                 >
                   <Stack
-                    sx={{ display: "flex", flexDirection: "row", gap: "8px" }}
+                    sx={{
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      gap: "12px",
+                    }}
                   >
-                    {/* {!faviconUrl && (
-                      <Box sx={{ width: "30px", height: "40px" }}>
+                    {faviconUrl && (
+                      <Box sx={{ width: "38px", height: "38px" }}>
                         <img
-                          src={faviconUrl}
+                          src={`data:image/png;base64,${faviconUrl}`}
                           alt="Website favicon"
                           style={{
-                            width: "30px",
-                            height: "30px",
-                            marginTop: "5px",
+                            width: "38px",
+                            height: "38px",
+                            objectFit: "contain",
                           }}
                         />
                       </Box>
-                    )} */}
+                    )}
                     <Typography
                       variant="h3"
                       sx={{
