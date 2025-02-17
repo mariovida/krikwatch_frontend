@@ -466,21 +466,23 @@ const WebsiteDetailsPage = () => {
                       </span>
                     )}
                   </Box> */}
-                  <Box>
-                    <Typography
-                      sx={{
-                        fontSize: "15px",
-                        fontWeight: 400,
-                        lineHeight: "24px",
-                        color: "#1b2431",
-                      }}
-                    >
-                      Hosting URL:
-                      <span style={{ marginLeft: "8px", color: "#7e7e7e" }}>
-                        {website.hosting_url}
-                      </span>
-                    </Typography>
-                  </Box>
+                  {website.hosting_url && (
+                    <Box>
+                      <Typography
+                        sx={{
+                          fontSize: "15px",
+                          fontWeight: 400,
+                          lineHeight: "24px",
+                          color: "#1b2431",
+                        }}
+                      >
+                        Hosting URL:
+                        <span style={{ marginLeft: "8px", color: "#7e7e7e" }}>
+                          {website.hosting_url}
+                        </span>
+                      </Typography>
+                    </Box>
+                  )}
                 </WebsiteDetails>
               </div>
               <div className="col-12">

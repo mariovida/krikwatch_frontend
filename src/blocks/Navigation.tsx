@@ -226,9 +226,9 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
         <MenuItem sx={{ minHeight: "unset" }} onClick={handleAccountSettings}>
           Account
         </MenuItem>
-        <MenuItem sx={{ minHeight: "unset" }} onClick={handleNotificationsPage}>
+        {/* <MenuItem sx={{ minHeight: "unset" }} onClick={handleNotificationsPage}>
           Notifications
-        </MenuItem>
+        </MenuItem> */}
         <Divider />
         <MenuItem sx={{ minHeight: "unset" }} onClick={handleLogout}>
           Log out
