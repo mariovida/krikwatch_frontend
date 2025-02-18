@@ -50,9 +50,9 @@ nav {
       > div:first-child a {
         display: none;
       }
-      > div:last-child button:first-child {
+      /*> div:last-child button:first-child {
         display: none;
-      }
+      }*/
       > div:first-child a:first-child {
         display: unset;
       }
@@ -116,11 +116,41 @@ nav {
       margin: 6px 0;
       color: $vz-dark-blue;
 
+      @media screen and (max-width: 640px) {
+        font-size: 15px;
+      }
+
       &:last-of-type {
         font-size: 14px;
         font-weight: 700;
         text-align: center;
         margin: 6px 0 0 0;
+      }
+    }
+
+    .nav-mobile {
+      display: none;
+
+      @media screen and (max-width: 640px) {
+        display: unset;
+      }
+
+      li {
+        display: block;
+        font-family: "Plus jakarta Sans", sans-serif;
+        font-size: 15px;
+        font-weight: 400;
+        text-align: left;
+        padding: 4px 8px;
+        margin: 6px 0;
+        color: $vz-dark-blue;
+
+        &:last-of-type {
+          font-size: 15px;
+          font-weight: 400;
+          text-align: left;
+          margin: 6px 0;
+        }
       }
     }
   }
