@@ -75,6 +75,11 @@ h1 {
   font-size: 46px;
   line-height: 52px;
   margin: 50px 0;
+
+  @media screen and (max-width: 640px) {
+    font-size: 32px;
+    line-height: 38px;
+  }
 }
 h2 {
   font-size: 42px;
@@ -246,6 +251,10 @@ input {
 
 .MuiPopover-root .MuiPaper-root {
   max-height: 280px;
+
+  @media screen and (max-width: 640px) {
+    max-height: unset;
+  }
 
   &::-webkit-scrollbar {
     width: 6px;
