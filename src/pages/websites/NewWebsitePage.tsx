@@ -219,7 +219,7 @@ const NewWebsitePage = () => {
                             "&:hover": { backgroundColor: "#f2f2f2" },
                           }}
                         >
-                          Select favicon
+                          Add favicon
                         </Button>
                       </label>
                     </Box>

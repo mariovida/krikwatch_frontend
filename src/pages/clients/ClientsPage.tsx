@@ -350,6 +350,8 @@ const ClientsPage = () => {
             onClose={handleMenuClose}
             MenuListProps={{ "aria-labelledby": "long-button" }}
             className="custom-more-menu"
+            anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+            transformOrigin={{ vertical: "top", horizontal: "right" }}
           >
             <MenuItem
               onClick={() => {

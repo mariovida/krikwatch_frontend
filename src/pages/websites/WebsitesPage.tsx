@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
-import { Box, Menu, MenuItem, IconButton } from "@mui/material";
+import { Box, Menu, MenuItem, IconButton, Typography, Skeleton } from "@mui/material";
 
 import EditIcon from "../../assets/icons/edit2.svg";
 import EyeIcon from "../../assets/icons/eye.svg";
@@ -146,7 +146,10 @@ const WebsitesPage = () => {
       <Helmet>
         <title>Websites | KrikWatch</title>
       </Helmet>
-      <section className="search-container">
+
+      {!loading ? (
+      <>
+        <section className="search-container">
         <div className="wrapper">
           <div className="row">
             <div className="col-12">
@@ -164,9 +167,9 @@ const WebsitesPage = () => {
             </div>
           </div>
         </div>
-      </section>
+        </section>
 
-      <section style={{ paddingBottom: "100px" }}>
+        <section style={{ paddingBottom: "100px" }}>
         <div className="wrapper">
           <div className="row">
             <div className="col-12">
@@ -174,7 +177,7 @@ const WebsitesPage = () => {
                 <thead>
                   <tr>
                     {/* <th>Status</th> */}
-                    <th style={{ width: "40px", padding: "12px 0" }}></th>
+                    {/* <th style={{ width: "40px", padding: "12px 0" }}></th> */}
                     <th style={{ width: "unset" }}>Website</th>
                     <th>URL</th>
                     <th>Client</th>
@@ -199,10 +202,7 @@ const WebsitesPage = () => {
                             )
                           ) : null}
                         </td> */}
-                        <td
-                          style={{ width: "40px", padding: "12px 0 12px 16px" }}
-                        >
-                          {website.favicon && (
+                        <td style={{ width: "unset", display: 'flex', alignItems: 'center', gap: '6px' }}>{website.favicon && (
                             <img
                               src={`data:image/png;base64,${website.favicon}`}
                               alt="Website favicon"
@@ -212,9 +212,7 @@ const WebsitesPage = () => {
                                 objectFit: "contain",
                               }}
                             />
-                          )}
-                        </td>
-                        <td style={{ width: "unset" }}>{website.name}</td>
+                          )}{website.name}</td>
                         <td>
                           {website.website_url ? (
                             <a
@@ -302,7 +300,25 @@ const WebsitesPage = () => {
             </div>
           </div>
         </div>
-      </section>
+        </section>
+      </>
+      ) : (
+        <section>
+          <div className="wrapper">
+            <div className="row">
+              <div
+                className="col-12"
+              >
+                <Typography component="div" variant="h2">
+                  <Skeleton />
+                  <Skeleton />
+                  <Skeleton />
+                </Typography>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
 
       <Menu
         anchorEl={anchorEl}
@@ -310,6 +326,8 @@ const WebsitesPage = () => {
         onClose={handleMenuClose}
         MenuListProps={{ "aria-labelledby": "long-button" }}
         className="custom-more-menu"
+        anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+        transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
         <MenuItem onClick={() => handleEditClick(selectedWebsite.id)}>
           Edit website

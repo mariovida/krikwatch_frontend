@@ -95,8 +95,8 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
         newTemplate,
         { headers: { Authorization: `Bearer ${token}` } }
       );
-      if (response && response.data) {
-      }
+      /*if (response && response.data) {
+      }*/
       if (response.status === 201) {
         window.location.reload();
       }
@@ -123,7 +123,7 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
                 <NavLink to="/calendar">Calendar</NavLink>
               </div>
               <div>
-                <button
+                {/* <button
                   onClick={toggleFullscreen}
                   style={{
                     width: "18px",
@@ -133,7 +133,7 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
                   }}
                 >
                   <img src={FullscreenIcon} style={{ width: "100%" }} />
-                </button>
+                </button> */}
                 <IconButton onClick={handleMenuClick}>
                   <Avatar>
                     {user?.first_name?.charAt(0).toUpperCase()}

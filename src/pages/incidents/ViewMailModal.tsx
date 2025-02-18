@@ -124,15 +124,16 @@ const ViewMailModal: React.FC<ViewMailModalProps> = ({
                   marginBottom: "4px",
                 }}
               >
-                Message
+                Message:
               </Typography>
               <Typography
                 sx={{
                   minHeight: "200px",
                   maxHeight: "460px",
                   overflowY: "auto",
-                  padding: "8px 12px 8px 8px",
-                  border: "1px solid #ced4da",
+                  //padding: "8px 12px 8px 8px",
+                  paddingTop: '8px',
+                  //border: "1px solid #ced4da",
                   borderRadius: "6px",
                   whiteSpace: "pre-wrap",
                   cursor: "default",

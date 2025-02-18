@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -60,6 +61,28 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
   const [selectedEmail, setSelectedEmail] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [messageSent, setMessageSent] = useState<boolean>(false);
+  const [templates, setTemplates] = useState<any[]>([]);
+  const [selectedTemplateId, setSelectedTemplateId] = useState<any>(null); 
+
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const response = await axios.get(`${backendUrl}/api/templates`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response && response.data && response.data.templates) {
+          setTemplates(response.data.templates);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    if(open) {
+      fetchTemplates();
+    }
+  }, [backendUrl, open]);
 
   const handleContactChange = (event: any) => {
     const contactId = event.target.value;
@@ -69,25 +92,45 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
     setSelectedEmail(contact ? contact.email : "");
   };
 
+  const handleTemplateChange = (event: any) => {
+    const templateId = event.target.value;
+    setSelectedTemplateId(templateId);
+
+    const selectedTemplate = templates.find((template: any) => template.id === templateId);
+    if (selectedTemplate) {
+      let templateContent = selectedTemplate.content.replace(
+        /{{websiteName}}/g,
+        incidentData?.website_name
+      );
+  
+      if (incidentData?.incident_start) {
+        templateContent = templateContent.replace(
+          /{{incidentStart}}/g,
+          formatDateWithClock(incidentData.incident_start)
+        );
+      } else {
+        templateContent = templateContent.replace(/{{incidentStart}}/g, "");
+      }
+
+      if (incidentData?.description) {
+        templateContent = templateContent.replace(
+          /{{incidentDescription}}/g,
+          incidentData.description
+        );
+      } else {
+        templateContent = templateContent.replace(/{{incidentDescription}}/g, "");
+      }
+  
+      setMessage(templateContent);
+    } else {
+      setMessage("");
+    }
+  };
+
   const fillTemplateMessage = () => {
     if (!selectedContactId) return;
 
     const contact = contactsData.find((c: any) => c.id === selectedContactId);
-    const contactName = contact
-      ? `${contact.first_name} ${contact.last_name}`
-      : "there";
-
-    const templateIdea = `Hello ${contactName},\nWe want to inform you about an incident related to your website. Here are the details:
-    
-    - **Incident Title**: [Insert Incident Title Here]
-    - **Description**: [Insert Incident Description Here]
-    - **Status**: [Insert Incident Status Here]
-    - **Date**: [Insert Incident Date Here]
-    
-    Please reach out if you need further information.
-    
-    Best regards,  
-    [Your Company Name]`;
 
     const template = `Poštovani,\n\nDošlo je do problema s uslugom ${incidentData?.website_name}, zbog čega je trenutno nedostupna. Molimo vas za strpljenje dok radimo na otklanjanju problema kako bismo što prije vratili uslugu u funkciju.\n\n• Detalji incidenta: ${incidentData?.description}\n• Vrijeme prijave problema: ${incidentData?.incident_start ? formatDateWithClock(incidentData.incident_start) : ""}\n• Opis problema:\n\nHvala vam na razumijevanju i strpljenju.\n\nLijep pozdrav,\nKrikstudio`;
 
@@ -128,6 +171,7 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
   const handleClose = () => {
     setSelectedContactId(null);
     setSelectedEmail("");
+    setSelectedTemplateId(null);
     setMessage("");
     setMessageSent(false);
     onClose();
@@ -182,11 +226,31 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
                     input: { WebkitTextFillColor: "#1a1a1a !important" },
                   }}
                 />
-                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                {/* <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
                   <UseTemplateButton onClick={fillTemplateMessage}>
                     Use template
                   </UseTemplateButton>
-                </Box>
+                </Box> */}
+                {templates && templates.length > 0 && (
+                  <FormControl fullWidth variant="filled" required>
+                    <InputLabel id="template-select-label">Select template</InputLabel>
+                    <Select
+                      labelId="template-select-label"
+                      value={selectedTemplateId || ""}
+                      onChange={handleTemplateChange}
+                      label="Select template"
+                    >
+                      <MenuItem value="" disabled>
+                        Select template
+                      </MenuItem>
+                      {templates.map((template: any) => (
+                        <MenuItem key={template.id} value={template.id}>
+                          {template.title}
+                        </MenuItem>
+                      ))}
+                    </Select>
+                  </FormControl>
+                )}
                 <TextField
                   label="Message"
                   name="message"
