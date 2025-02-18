@@ -99,6 +99,10 @@ h4 {
   letter-spacing: 0;
   line-height: 32px !important;
   margin: 0;
+
+  @media screen and (max-width: 640px) {
+    font-size: 21px !important;
+  }
 }
 h6 {
   font-weight: 500;
