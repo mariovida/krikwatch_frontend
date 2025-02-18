@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { useUser } from "../context/UserContext";
 import axios from "axios";
@@ -54,6 +54,30 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
       setIsFullscreen(false);
     }
   };
+
+  useEffect(() => {
+    const checkToken = async () => {
+      try {
+        const token = localStorage.getItem("accessToken");
+        const response = await axios.get(`${backendUrl}/api/incidents`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        if (response) {
+          return;
+        }
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+          // Check for a 403 error response
+          if (error.response.status === 403) {
+            handleLogout();
+            return;
+          }
+        }
+      }
+    };
+
+    checkToken();
+  }, [backendUrl]);
 
   const handleMenuClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
@@ -221,6 +245,42 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
             {user?.first_name} {user?.last_name}
           </p>
           <p>{user?.email}</p>
+        </Box>
+        <Box className="nav-mobile">
+          <Divider />
+          <MenuItem
+            sx={{
+              minHeight: "unset",
+            }}
+            onClick={() => {
+              navigate("/incidents");
+              handleMenuClose();
+            }}
+          >
+            Incidents
+          </MenuItem>
+          <MenuItem
+            sx={{
+              minHeight: "unset",
+            }}
+            onClick={() => {
+              navigate("/websites");
+              handleMenuClose();
+            }}
+          >
+            Websites
+          </MenuItem>
+          <MenuItem
+            sx={{
+              minHeight: "unset",
+            }}
+            onClick={() => {
+              navigate("/clients");
+              handleMenuClose();
+            }}
+          >
+            Clients
+          </MenuItem>
         </Box>
         <Divider />
         <MenuItem sx={{ minHeight: "unset" }} onClick={handleAccountSettings}>
