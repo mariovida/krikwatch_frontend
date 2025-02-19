@@ -4,7 +4,15 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
-import { Box, Menu, MenuItem, IconButton, Typography, Skeleton, Stack } from "@mui/material";
+import {
+  Box,
+  Menu,
+  MenuItem,
+  IconButton,
+  Typography,
+  Skeleton,
+  Stack,
+} from "@mui/material";
 
 import EditIcon from "../../assets/icons/edit2.svg";
 import EyeIcon from "../../assets/icons/eye.svg";
@@ -148,48 +156,49 @@ const WebsitesPage = () => {
       </Helmet>
 
       {!loading ? (
-      <>
-        <section className="search-container">
-        <div className="wrapper">
-          <div className="row">
-            <div className="col-12">
-              <div className="search-container_box">
-                <input
-                  type="text"
-                  placeholder="Search websites"
-                  value={searchQuery}
-                  onChange={handleSearch}
-                />
-                <a className="create-btn" onClick={handleAddNewButton}>
-                  Add new
-                </a>
+        <>
+          <section className="search-container">
+            <div className="wrapper">
+              <div className="row">
+                <div className="col-12">
+                  <div className="search-container_box">
+                    <input
+                      type="text"
+                      placeholder="Search websites"
+                      value={searchQuery}
+                      onChange={handleSearch}
+                    />
+                    <a className="create-btn" onClick={handleAddNewButton}>
+                      Add new
+                    </a>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        </section>
+          </section>
 
-        <section style={{ paddingBottom: "100px" }}>
-        <div className="wrapper">
-          <div className="row">
-            <div className="col-12" style={{ overflowX: "auto" }}>
-              <table className="custom-table">
-                <thead>
-                  <tr>
-                    {/* <th>Status</th> */}
-                    {/* <th style={{ width: "40px", padding: "12px 0" }}></th> */}
-                    <th style={{ width: "unset" }}>Website</th>
-                    <th>URL</th>
-                    <th>Client</th>
-                    <th>Created at</th>
-                    <th></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {currentWebsites.length > 0 ? (
-                    currentWebsites.map((website) => (
-                      <tr key={website.id}>
-                        {/* <td>
+          <section style={{ paddingBottom: "100px" }}>
+            <div className="wrapper">
+              <div className="row">
+                <div className="col-12">
+                  <div style={{ overflowX: "auto" }}>
+                    <table className="custom-table">
+                      <thead>
+                        <tr>
+                          {/* <th>Status</th> */}
+                          {/* <th style={{ width: "40px", padding: "12px 0" }}></th> */}
+                          <th style={{ width: "unset" }}>Website</th>
+                          <th>URL</th>
+                          <th>Client</th>
+                          <th>Created at</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {currentWebsites.length > 0 ? (
+                          currentWebsites.map((website) => (
+                            <tr key={website.id}>
+                              {/* <td>
                           {website ? (
                             website.status === 1 ? (
                               <span className="status-badge status-badge_active">
@@ -202,115 +211,129 @@ const WebsitesPage = () => {
                             )
                           ) : null}
                         </td> */}
-                        <td style={{ width: "unset" }}><Stack direction="row" sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>{website.favicon && (
-                          
-                            <img
-                              src={`data:image/png;base64,${website.favicon}`}
-                              alt="Website favicon"
-                              style={{
-                                width: "20px",
-                                height: "20px",
-                                objectFit: "contain",
-                              }}
-                            />
-                          )}{website.name}</Stack>
-                          </td>
-                        <td>
-                          {website.website_url ? (
-                            <a
-                              href={website.website_url}
-                              style={{
-                                width: "unset",
-                                height: "unset",
-                                padding: "unset",
-                                backgroundColor: "transparent",
-                                textDecoration: "none",
-                              }}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                            >
-                              {website.website_url}
-                            </a>
-                          ) : (
-                            "-"
-                          )}
-                        </td>
-                        <td>{website.client_name}</td>
-                        <td>{formatDateWithClock(website.created_at)}</td>
-                        <td style={{ width: "100px" }}>
-                          <Box
-                            sx={{ display: "flex", justifyContent: "flex-end" }}
-                          >
-                            {/* <button onClick={() => handleEditClick(website.id)}>
+                              <td style={{ width: "unset" }}>
+                                <Stack
+                                  direction="row"
+                                  sx={{
+                                    display: "flex",
+                                    alignItems: "center",
+                                    gap: "6px",
+                                  }}
+                                >
+                                  {website.favicon && (
+                                    <img
+                                      src={`data:image/png;base64,${website.favicon}`}
+                                      alt="Website favicon"
+                                      style={{
+                                        width: "20px",
+                                        height: "20px",
+                                        objectFit: "contain",
+                                      }}
+                                    />
+                                  )}
+                                  {website.name}
+                                </Stack>
+                              </td>
+                              <td>
+                                {website.website_url ? (
+                                  <a
+                                    href={website.website_url}
+                                    style={{
+                                      width: "unset",
+                                      height: "unset",
+                                      padding: "unset",
+                                      backgroundColor: "transparent",
+                                      textDecoration: "none",
+                                    }}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    {website.website_url}
+                                  </a>
+                                ) : (
+                                  "-"
+                                )}
+                              </td>
+                              <td>{website.client_name}</td>
+                              <td>{formatDateWithClock(website.created_at)}</td>
+                              <td style={{ width: "100px" }}>
+                                <Box
+                                  sx={{
+                                    display: "flex",
+                                    justifyContent: "flex-end",
+                                  }}
+                                >
+                                  {/* <button onClick={() => handleEditClick(website.id)}>
                             <img src={EditIcon} />
                           </button> */}
-                            <button
-                              onClick={() => handleDetailsClick(website.id)}
-                            >
-                              <img src={EyeIcon} />
-                            </button>
-                            <IconButton
-                              aria-label="more"
-                              id={`menu-button-${website.id}`}
-                              aria-controls={`menu-${website.id}`}
-                              aria-haspopup="true"
-                              onClick={(e) => handleMenuOpen(e, website)}
-                              sx={{ marginLeft: "12px", padding: "4px" }}
-                            >
-                              <img src={MoreMenuIcon} />
-                            </IconButton>
-                          </Box>
-                        </td>
-                      </tr>
-                    ))
-                  ) : (
-                    <tr>
-                      <td colSpan={6} style={{ textAlign: "center" }}>
-                        No websites found with the query
-                      </td>
-                    </tr>
+                                  <button
+                                    onClick={() =>
+                                      handleDetailsClick(website.id)
+                                    }
+                                  >
+                                    <img src={EyeIcon} />
+                                  </button>
+                                  <IconButton
+                                    aria-label="more"
+                                    id={`menu-button-${website.id}`}
+                                    aria-controls={`menu-${website.id}`}
+                                    aria-haspopup="true"
+                                    onClick={(e) => handleMenuOpen(e, website)}
+                                    sx={{ marginLeft: "12px", padding: "4px" }}
+                                  >
+                                    <img src={MoreMenuIcon} />
+                                  </IconButton>
+                                </Box>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={6} style={{ textAlign: "center" }}>
+                              No websites found with the query
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
+                  {currentWebsites.length > 0 && (
+                    <div className="pagination">
+                      <button
+                        className="pagination-prev"
+                        onClick={goToPreviousPage}
+                        disabled={currentPage === 1}
+                      >
+                        <ChevronLeftIcon />
+                      </button>
+                      {[...Array(totalPages).keys()].map((page) => (
+                        <button
+                          key={page}
+                          onClick={() => goToPage(page + 1)}
+                          className={currentPage === page + 1 ? "active" : ""}
+                        >
+                          {page + 1}
+                        </button>
+                      ))}
+                      <button
+                        className="pagination-next"
+                        onClick={goToNextPage}
+                        disabled={currentPage === totalPages}
+                      >
+                        <ChevronRightIcon />
+                      </button>
+                    </div>
                   )}
-                </tbody>
-              </table>
-              {currentWebsites.length > 0 && (
-                <div className="pagination">
-                  <button
-                    className="pagination-prev"
-                    onClick={goToPreviousPage}
-                    disabled={currentPage === 1}
-                  >
-                    <ChevronLeftIcon />
-                  </button>
-                  {[...Array(totalPages).keys()].map((page) => (
-                    <button
-                      key={page}
-                      onClick={() => goToPage(page + 1)}
-                      className={currentPage === page + 1 ? "active" : ""}
-                    >
-                      {page + 1}
-                    </button>
-                  ))}
-                  <button
-                    className="pagination-next"
-                    onClick={goToNextPage}
-                    disabled={currentPage === totalPages}
-                  >
-                    <ChevronRightIcon />
-                  </button>
                 </div>
-              )}
+              </div>
             </div>
-          </div>
-        </div>
-        </section>
-      </>
+          </section>
+        </>
       ) : (
         <section>
           <div className="wrapper">
             <div className="row">
-              <div
-                className="col-12"
-              >
+              <div className="col-12">
                 <Typography component="div" variant="h2">
                   <Skeleton />
                   <Skeleton />
