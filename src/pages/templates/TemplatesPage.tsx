@@ -162,7 +162,7 @@ const TemplatesPage = () => {
               </Button>
             </div>
             <div className="col-12">
-              {templates && templates.length > 0 && (
+              {templates && templates.length > 0 ? (
                 <Box
                   sx={{
                     display: "grid",
@@ -204,6 +204,25 @@ const TemplatesPage = () => {
                       </Box>
                     </Box>
                   ))}
+                </Box>
+              ) : (
+                <Box
+                  sx={{
+                    padding: "40px 16px",
+                    border: "1px dashed #1b2431",
+                    borderRadius: "6px",
+                    textAlign: "center",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      fontSize: "16px",
+                      fontWeight: 500,
+                      lineHeight: "21px",
+                    }}
+                  >
+                    No email templates added yet.
+                  </Typography>
                 </Box>
               )}
             </div>
