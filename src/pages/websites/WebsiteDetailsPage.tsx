@@ -358,7 +358,7 @@ const WebsiteDetailsPage = () => {
   return (
     <>
       <Helmet>
-        <title>Website details | KrikWatch</title>
+        <title>{website ? website.name : "Website details"} | KrikWatch</title>
       </Helmet>
       {!loading && website && (
         <section style={{ paddingBottom: "120px" }}>
