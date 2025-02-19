@@ -7,6 +7,7 @@ import {
   DialogContent,
   DialogActions,
   TextField,
+  Typography,
   Button,
 } from "@mui/material";
 
@@ -95,8 +96,17 @@ const EditTemplateModal: React.FC<EditTemplateModalProps> = ({
       className="custom-modal"
       sx={{ "& .MuiPaper-root": { maxWidth: "720px", width: "100%" } }}
     >
-      <DialogTitle>Edit template</DialogTitle>
+      <DialogTitle>{mode === 'edit' ? 'Edit template' : 'View template'}</DialogTitle>
       <DialogContent>
+        {mode === 'edit' ? (<>
+          <Typography sx={{ fontSize: '15px', color: '#7e7e7e', marginTop: '8px' }}>
+          When creating a template, you can use the following placeholders: <b>{'{{websiteName}}'}</b> for the website name, <b>{'{{incidentStart}}'}</b> for the incident's start time, <b>{'{{incidentEnd}}'}</b> for the incident's end time, and <b>{'{{incidentDescription}}'}</b> for the incident's description.
+        </Typography>
+        <Typography sx={{ fontSize: '15px', color: '#7e7e7e', marginTop: '8px' }}>
+          These will be automatically replaced with the relevant data when sending the email.
+        </Typography>
+        </>
+        ) : null}
         <Box className="form-fields">
           <TextField
             label="Title"

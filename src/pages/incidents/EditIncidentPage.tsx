@@ -334,7 +334,7 @@ const EditIncidentPage = () => {
                         {[
                           { label: "OPEN", value: 1 },
                           { label: "IN PROGRESS", value: 2 },
-                          { label: "RESOLVED", value: 3 },
+                          //{ label: "RESOLVED", value: 3 },
                         ].map(({ label, value }) => (
                           <StatusButton
                             key={value}

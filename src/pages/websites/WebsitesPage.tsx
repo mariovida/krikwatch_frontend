@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
-import { Box, Menu, MenuItem, IconButton, Typography, Skeleton } from "@mui/material";
+import { Box, Menu, MenuItem, IconButton, Typography, Skeleton, Stack } from "@mui/material";
 
 import EditIcon from "../../assets/icons/edit2.svg";
 import EyeIcon from "../../assets/icons/eye.svg";
@@ -172,7 +172,7 @@ const WebsitesPage = () => {
         <section style={{ paddingBottom: "100px" }}>
         <div className="wrapper">
           <div className="row">
-            <div className="col-12">
+            <div className="col-12" style={{ overflowX: "auto" }}>
               <table className="custom-table">
                 <thead>
                   <tr>
@@ -202,7 +202,8 @@ const WebsitesPage = () => {
                             )
                           ) : null}
                         </td> */}
-                        <td style={{ width: "unset", display: 'flex', alignItems: 'center', gap: '6px' }}>{website.favicon && (
+                        <td style={{ width: "unset" }}><Stack direction="row" sx={{ display: 'flex', alignItems: 'center', gap: '6px' }}>{website.favicon && (
+                          
                             <img
                               src={`data:image/png;base64,${website.favicon}`}
                               alt="Website favicon"
@@ -212,7 +213,8 @@ const WebsitesPage = () => {
                                 objectFit: "contain",
                               }}
                             />
-                          )}{website.name}</td>
+                          )}{website.name}</Stack>
+                          </td>
                         <td>
                           {website.website_url ? (
                             <a

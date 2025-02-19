@@ -60,6 +60,7 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
   const [selectedContactId, setSelectedContactId] = useState<any>(null);
   const [selectedEmail, setSelectedEmail] = useState<string>("");
   const [message, setMessage] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
   const [messageSent, setMessageSent] = useState<boolean>(false);
   const [templates, setTemplates] = useState<any[]>([]);
   const [selectedTemplateId, setSelectedTemplateId] = useState<any>(null); 
@@ -151,6 +152,8 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
       return;
     }
 
+    const emailTitle = title || (selectedTemplateId ? templates.find(template => template.id === selectedTemplateId)?.title : "Obavijest o web usluzi");
+
     try {
       const token = localStorage.getItem("accessToken");
       const response = await axios.post(
@@ -158,6 +161,7 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
         {
           contactId: selectedContactId,
           email: selectedEmail,
+          title: emailTitle,
           message,
           incidentId: incidentData.id,
         },
@@ -181,6 +185,7 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
     setSelectedContactId(null);
     setSelectedEmail("");
     setSelectedTemplateId(null);
+    setTitle("");
     setMessage("");
     setMessageSent(false);
     onClose();
@@ -261,6 +266,19 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
                   </FormControl>
                 )}
                 <TextField
+                  label="Custom title"
+                  name="title"
+                  fullWidth
+                  variant="filled"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
+                  sx={{
+                    marginTop: '24px',
+                    label: { color: "#7e7e7e !important" },
+                    input: { WebkitTextFillColor: "#1a1a1a !important" },
+                  }}
+                />
+                <TextField
                   label="Message"
                   name="message"
                   value={message}
@@ -268,6 +286,7 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
                   fullWidth
                   multiline
                   rows={14}
+                  required
                   variant="filled"
                   sx={{
                     textarea: {

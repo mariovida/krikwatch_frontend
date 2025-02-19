@@ -217,6 +217,7 @@ const EditWebsitePage = () => {
               </Typography>
               <form onSubmit={handleSubmit} className="custom-form">
                 <Box className="form-fields" sx={{ marginTop: "0 !important" }}>
+                  <Stack direction="row" sx={{ alignItems: 'center', justifyContent: 'space-between' }}>
                   <Typography
                     sx={{
                       fontFamily: "Plus Jakarta Sans, sans-serif",
@@ -227,6 +228,28 @@ const EditWebsitePage = () => {
                   >
                     Website favicon
                   </Typography>
+                  {faviconPreview ? (
+                  <Button
+                    color="error"
+                    onClick={() => {
+                      setFavicon(null);
+                      setFaviconPreview(null);
+                      setFaviconChanged(true);
+                    }}
+                    sx={{
+                      fontSize: "15px",
+                      textTransform: "none",
+                      fontWeight: 600,
+                      letterSpacing: 0,
+                      color: "#ffffff",
+                      backgroundColor: "#d84141",
+                      padding: "4px 12px",
+                    }}
+                  >
+                    Remove favicon
+                  </Button>
+                  ) : null}
+                  </Stack>
                   {!faviconPreview ? (
                     <Box>
                       <input
@@ -267,36 +290,15 @@ const EditWebsitePage = () => {
                       </label>
                     </Box>
                   ) : (
-                    <>
-                      <Button
-                        color="error"
-                        onClick={() => {
-                          setFavicon(null);
-                          setFaviconPreview(null);
-                          setFaviconChanged(true);
-                        }}
-                        sx={{
-                          fontSize: "15px",
-                          textTransform: "none",
-                          fontWeight: 600,
-                          letterSpacing: 0,
-                          color: "#ffffff",
-                          backgroundColor: "#d84141",
-                          padding: "6px 8px",
-                        }}
-                      >
-                        Remove
-                      </Button>
-                      <img
-                        src={faviconPreview}
-                        alt="Favicon Preview"
-                        style={{
-                          width: "80px",
-                          height: "80px",
-                          objectFit: "contain",
-                        }}
-                      />
-                    </>
+                    <img
+                      src={faviconPreview}
+                      alt="Favicon Preview"
+                      style={{
+                        width: "80px",
+                        height: "80px",
+                        objectFit: "contain",
+                      }}
+                    />
                   )}
                   <Typography
                     sx={{

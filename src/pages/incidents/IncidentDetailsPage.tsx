@@ -48,10 +48,10 @@ import ConfirmationDeleteModal from "../../blocks/ConfirmDeleteModal";
 
 const styles = StyleSheet.create({
   page: { fontFamily: "Plus Jakarta Sans", padding: "16px 12px" },
-  header: { fontSize: 18, fontWeight: "bold", marginBottom: 16 },
+  header: { fontSize: 18, fontWeight: "bold", marginBottom: 12 },
   normal: { fontSize: 10 },
   tiny: {
-    fontSize: 6,
+    fontSize: 8,
     fontWeight: "bold",
     textTransform: "uppercase",
     color: "#7e7e7e",
@@ -65,27 +65,41 @@ const MyDocument = ({ incident }: { incident: any }) => (
         <Text style={styles.tiny}>{incident.website_name}</Text>
       </View>
       <Text style={styles.header}>{incident.title}</Text>
-      <View style={{ padding: "0", marginBottom: "12px" }}>
-        <Text style={styles.tiny}>Created by</Text>
-        <Text style={styles.normal}>{incident.created_by}</Text>
+      <View
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          gap: '48px',
+          padding: "0",
+          marginBottom: "16px",
+        }}
+      >
+        <View style={{minWidth: '100px'}}>
+          <Text style={styles.tiny}>Created by</Text>
+          <Text style={styles.normal}>{incident.created_by}</Text>
+        </View>
+        <View>
+          <Text style={styles.tiny}>Created at</Text>
+          <Text style={styles.normal}>{formatDateWithClock(incident.created_at)}</Text>
+        </View>
       </View>
       <View
         style={{
           display: "flex",
           flexDirection: "row",
-          justifyContent: "space-between",
+          gap: '48px',
           padding: "0",
-          marginBottom: "12px",
+          marginBottom: "32px",
         }}
       >
-        <View>
-          <Text style={styles.tiny}>Start Time</Text>
+        <View style={{minWidth: '100px'}}>
+          <Text style={styles.tiny}>Start time</Text>
           <Text style={styles.normal}>
             {incident.incident_start ? formatDateWithClock(incident.incident_start) : "-"}
           </Text>
         </View>
         <View>
-          <Text style={styles.tiny}>End Time</Text>
+          <Text style={styles.tiny}>End time</Text>
           <Text style={styles.normal}>
             {incident.incident_end ? formatDateWithClock(incident.incident_end) : "-"}
           </Text>
@@ -94,10 +108,10 @@ const MyDocument = ({ incident }: { incident: any }) => (
       {incident.description && (
         <View
           style={{
-            padding: "8px",
-            border: "1px solid black",
-            borderRadius: "10px",
-            marginBottom: "12px",
+            //padding: "8px",
+            //border: "1px solid black",
+            //borderRadius: "10px",
+            marginBottom: "16px",
           }}
         >
           <Text style={styles.tiny}>Description</Text>
@@ -107,9 +121,9 @@ const MyDocument = ({ incident }: { incident: any }) => (
       {incident.note && (
       <View
         style={{
-          padding: "8px",
-          border: "1px solid black",
-          borderRadius: "10px",
+          //padding: "8px",
+          //border: "1px solid black",
+          //borderRadius: "10px",
         }}
       >
         <Text style={styles.tiny}>Note</Text>
@@ -393,7 +407,7 @@ const IncidentDetailsPage = () => {
                       <Box>
                         <PDFDownloadLink
                           document={<MyDocument incident={incident} />}
-                          fileName={`incident_${incident.title.replace(/\s+/g, "_")}_${incident.incident_key}.pdf`}
+                          fileName={`incident_${incident.title.toLowerCase().replace(/\s+/g, "_")}_${incident.incident_key}.pdf`}
                         >
                           {() => (
                             <Button
@@ -582,6 +596,7 @@ const IncidentDetailsPage = () => {
                       </div>
                       </>
                     ) : (null)}
+                    {incident.description || incident.note ? (
                     <div className="row">
                       <div className="col-12">
                         <Typography
@@ -688,47 +703,9 @@ const IncidentDetailsPage = () => {
                       </div>
                       ) : (<></>)} */}
                   </div>
+                  ) : null}
                   </>
                 )}
-              {/* {incident && incident.description && (<>
-              <div className="col-12 col-md-2">
-              <Typography
-                sx={{
-                  fontSize: "14px",
-                  fontWeight: 700,
-                  color: "#7e7e7e",
-                  marginBottom: "8px",
-                }}
-              >
-                DESCRIPTION
-              </Typography>
-            </div>
-            <div className="col-12 col-md-10">
-              <Typography sx={{ whiteSpace: "pre-wrap" }}>
-                {incident.description}
-              </Typography>
-            </div></>
-            )}
-            {incident && incident.note && (<>
-            <div className="col-12"  style={{  marginTop: '40px' }}></div>
-              <div className="col-12 col-md-2">
-              <Typography
-                sx={{
-                  fontSize: "14px",
-                  fontWeight: 700,
-                  color: "#7e7e7e",
-                  marginBottom: "8px",
-                }}
-              >
-                NOTE
-              </Typography>
-            </div>
-            <div className="col-12 col-md-10">
-              <Typography sx={{ whiteSpace: "pre-wrap" }}>
-                {incident.note}
-              </Typography>
-            </div></>
-            )} */}
             <div className="row">
               <div className="col-12">
                 <Stack
