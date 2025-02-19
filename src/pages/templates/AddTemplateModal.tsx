@@ -8,6 +8,7 @@ import {
   DialogActions,
   TextField,
   Button,
+  Typography,
 } from "@mui/material";
 
 interface AddTemplateModalProps {
@@ -82,6 +83,12 @@ const AddTemplateModal: React.FC<AddTemplateModalProps> = ({
     >
       <DialogTitle>Add new template</DialogTitle>
       <DialogContent>
+        <Typography sx={{ fontSize: '15px', color: '#7e7e7e', marginTop: '8px' }}>
+          When creating a template, you can use the following placeholders: <b>{'{{websiteName}}'}</b> for the website name, <b>{'{{incidentStart}}'}</b> for the incident's start time, <b>{'{{incidentEnd}}'}</b> for the incident's end time, and <b>{'{{incidentDescription}}'}</b> for the incident's description.
+        </Typography>
+        <Typography sx={{ fontSize: '15px', color: '#7e7e7e', marginTop: '8px' }}>
+          These will be automatically replaced with the relevant data when sending the email.
+        </Typography>
         <Box className="form-fields">
           <TextField
             label="Title"

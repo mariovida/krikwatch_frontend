@@ -130,7 +130,8 @@ const IncidentDetails = styled(Stack)({
 });
 
 const CustomCard = styled(Card)({
-  padding: "28px 24px",
+  height: '100%',
+  padding: "24px",
   borderRadius: "10px",
   boxShadow:
     "rgba(0, 0, 0, 0.04) 0px 5px 22px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px",
@@ -306,6 +307,20 @@ const IncidentDetailsPage = () => {
     events.sort((a, b) => a.datetime - b.datetime);
     return events;
   };
+
+  const formatElapsedTime = (startDate: string | Date, endDate: string | Date): string => {
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    
+    const elapsed = end.getTime() - start.getTime();
+  
+    if (elapsed < 0) return '-';
+  
+    const hours = Math.floor(elapsed / (1000 * 60 * 60));
+    const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
+  
+    return `${hours}h ${minutes}m`;
+  };  
 
   return (
     <>
@@ -490,64 +505,188 @@ const IncidentDetailsPage = () => {
                       </Box>
                     </IncidentDetails>
                     </div></div>
-                  
+                    {incident.incident_start || incident.incident_end ? (
+                      <>
+                        {/* <div className="row">
+                          <div className="col-12">
+                          <Typography
+                            variant="h4"
+                            sx={{
+                              fontFamily: "Plus Jakarta Sans, sans-serif",
+                              lineHeight: "40px !important",
+                              marginBottom: '24px'
+                            }}
+                          >
+                            Incident information
+                          </Typography>
+                        </div>
+                      </div> */}
+                      <div className="row" style={{ marginBottom: '48px' }}>
+                        <div className="col-4">
+                          <CustomCard>
+                            <Typography
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: 700,
+                              color: "#7e7e7e",
+                              marginBottom: "16px",
+                            }}
+                          >
+                            INCIDENT START
+                          </Typography>
+                          <Typography>
+                            {incident.incident_start ? formatDateWithClock(incident.incident_start) : '-'}
+                          </Typography>
+                        </CustomCard>
+                        </div>
+                        <div className="col-4">
+                          <CustomCard>
+                            <Typography
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: 700,
+                              color: "#7e7e7e",
+                              marginBottom: "16px",
+                            }}
+                          >
+                            INCIDENT END
+                          </Typography>
+                          <Typography>
+                            {incident.incident_end ? formatDateWithClock(incident.incident_end) : '-'}
+                          </Typography>
+                        </CustomCard>
+                        </div>
+                        <div className="col-4">
+                          <CustomCard>
+                            <Typography
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: 700,
+                              color: "#7e7e7e",
+                              marginBottom: "16px",
+                            }}
+                          >
+                            INCIDENT DURATION
+                          </Typography>
+                          <Typography>
+                            {
+                              incident.incident_start && incident.incident_end
+                                ? formatElapsedTime(incident.incident_start, incident.incident_end)
+                                : incident.incident_start
+                                ? formatElapsedTime(incident.incident_start, new Date())
+                                : '-'
+                            }
+                          </Typography>
+                        </CustomCard>
+                        </div>
+                      </div>
+                      </>
+                    ) : (null)}
                     <div className="row">
-                     
-                   
-                  <div className="col-3">
-                    <Timeline position="right" sx={{ [`& .${timelineItemClasses.root}:before`]: { flex: 0, padding: 0 }, padding: 0 }}>
-                      {getTimelineEvents().map((event, index) => (
-                        <TimelineItem key={index}>
-                          <TimelineSeparator>
-                            <TimelineDot />
-                            <TimelineConnector />
-                          </TimelineSeparator>
-                          <TimelineContent>
-                            <Typography component="span" sx={{ fontFamily: 'Plus Jakarta Sans', fontSize: '15px', fontWeight: 500, cursor: 'default' }}>{event.label}</Typography>
-                            <Typography color="text.secondary" sx={{ fontSize: '16px' }}>{formatDateWithClock(event.datetime)}</Typography>
-                          </TimelineContent>
-                        </TimelineItem>
-                      ))}
-                    </Timeline>
-                  </div>
-                  {incident.description || incident.note ? (
- <div className="col-9">
- {incident.description && (
-   <CustomCard>
-     <Typography
-       sx={{
-         fontSize: "14px",
-         fontWeight: 700,
-         color: "#7e7e7e",
-         marginBottom: "24px",
-       }}
-     >
-       DESCRIPTION
-     </Typography>
-     <Typography sx={{ whiteSpace: "pre-wrap" }}>
-       {incident.description}
-     </Typography>
-   </CustomCard>
- )}
- {incident.note && (
-   <CustomCard sx={{ marginTop: "32px" }}>
-     <Typography
-       sx={{
-         fontSize: "14px",
-         fontWeight: 700,
-         color: "#7e7e7e",
-         marginBottom: "24px",
-       }}
-     >
-       NOTE
-     </Typography>
-     <Typography sx={{ whiteSpace: "pre-wrap" }}>
-       {incident.note}
-     </Typography>
-   </CustomCard>
- )}
-</div>
-                      ) : (<></>)}
+                      <div className="col-12">
+                        <Typography
+                          variant="h4"
+                          sx={{
+                            fontFamily: "Plus Jakarta Sans, sans-serif",
+                            lineHeight: "40px !important",
+                            marginBottom: '24px'
+                          }}
+                        >
+                          Incident details
+                        </Typography>
+                      </div>
+                      <div className="col-6">
+                      {incident.description && (
+                        <CustomCard>
+                          <Typography
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: 700,
+                              color: "#7e7e7e",
+                              marginBottom: "24px",
+                            }}
+                          >
+                            DESCRIPTION
+                          </Typography>
+                          <Typography sx={{ whiteSpace: "pre-wrap" }}>
+                            {incident.description}
+                          </Typography>
+                        </CustomCard>
+                      )}
+                      </div>
+                      <div className="col-6">
+                      {incident.note && (
+                        <CustomCard>
+                          <Typography
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: 700,
+                              color: "#7e7e7e",
+                              marginBottom: "24px",
+                            }}
+                          >
+                            NOTE
+                          </Typography>
+                          <Typography sx={{ whiteSpace: "pre-wrap" }}>
+                            {incident.note}
+                          </Typography>
+                        </CustomCard>
+                      )}
+                      </div>
+                      {/* <div className="col-3">
+                        <Timeline position="right" sx={{ [`& .${timelineItemClasses.root}:before`]: { flex: 0, padding: 0 }, padding: 0 }}>
+                          {getTimelineEvents().map((event, index) => (
+                            <TimelineItem key={index}>
+                              <TimelineSeparator>
+                                <TimelineDot />
+                                <TimelineConnector />
+                              </TimelineSeparator>
+                              <TimelineContent>
+                                <Typography component="span" sx={{ fontFamily: 'Plus Jakarta Sans', fontSize: '15px', fontWeight: 500, cursor: 'default' }}>{event.label}</Typography>
+                                <Typography color="text.secondary" sx={{ fontSize: '16px' }}>{formatDateWithClock(event.datetime)}</Typography>
+                              </TimelineContent>
+                            </TimelineItem>
+                          ))}
+                        </Timeline>
+                      </div>
+                      {incident.description || incident.note ? (
+                      <div className="col-9">
+                      {incident.description && (
+                        <CustomCard>
+                          <Typography
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: 700,
+                              color: "#7e7e7e",
+                              marginBottom: "24px",
+                            }}
+                          >
+                            DESCRIPTION
+                          </Typography>
+                          <Typography sx={{ whiteSpace: "pre-wrap" }}>
+                            {incident.description}
+                          </Typography>
+                        </CustomCard>
+                      )}
+                      {incident.note && (
+                        <CustomCard sx={{ marginTop: "32px" }}>
+                          <Typography
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: 700,
+                              color: "#7e7e7e",
+                              marginBottom: "24px",
+                            }}
+                          >
+                            NOTE
+                          </Typography>
+                          <Typography sx={{ whiteSpace: "pre-wrap" }}>
+                            {incident.note}
+                          </Typography>
+                        </CustomCard>
+                      )}
+                      </div>
+                      ) : (<></>)} */}
                   </div>
                   </>
                 )}

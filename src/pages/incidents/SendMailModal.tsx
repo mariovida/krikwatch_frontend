@@ -112,6 +112,15 @@ const SendMailModal: React.FC<SendMailModalProps> = ({
         templateContent = templateContent.replace(/{{incidentStart}}/g, "");
       }
 
+      if (incidentData?.incident_end) {
+        templateContent = templateContent.replace(
+          /{{incidentEnd}}/g,
+          formatDateWithClock(incidentData.incident_end)
+        );
+      } else {
+        templateContent = templateContent.replace(/{{incidentEnd}}/g, "");
+      }
+
       if (incidentData?.description) {
         templateContent = templateContent.replace(
           /{{incidentDescription}}/g,
