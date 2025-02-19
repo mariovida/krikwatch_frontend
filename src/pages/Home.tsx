@@ -328,60 +328,62 @@ const Home = () => {
           <section style={{ paddingBottom: "100px" }}>
             <div className="wrapper">
               <div className="row">
-                <div className="col-12" style={{ overflowX: "auto" }}>
-                  <table className="custom-table">
-                    <thead>
-                      <tr>
-                        <th style={{ width: "48px" }}></th>
-                        <th>Name</th>
-                        <th>URL</th>
-                        <th>Client</th>
-                        <th style={{ width: "180px" }}>Created at</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentMonitors.length > 0 ? (
-                        currentMonitors.map((monitor: any) => (
-                          <tr key={monitor.id}>
-                            <td style={{ width: "48px" }}>
-                              {monitor.status === 2 ? (
-                                <span className="monitor-status monitor-status_up"></span>
-                              ) : monitor.status === 9 ? (
-                                <span className="monitor-status monitor-status_down"></span>
-                              ) : (
-                                "Unknown"
-                              )}
-                            </td>
-                            <td>{monitor.friendly_name}</td>
-                            <td>
-                              <a
-                                href={monitor.url}
-                                style={{
-                                  width: "unset",
-                                  height: "unset",
-                                  padding: "unset",
-                                  backgroundColor: "transparent",
-                                  textDecoration: "none",
-                                }}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                              >
-                                {monitor.url}
-                              </a>
-                            </td>
-                            <td>{monitor.client_name}</td>
-                            <td>{formatDate(monitor.created_at)}</td>
-                          </tr>
-                        ))
-                      ) : (
+                <div className="col-12">
+                  <div style={{ overflowX: "auto" }}>
+                    <table className="custom-table">
+                      <thead>
                         <tr>
-                          <td colSpan={6} style={{ textAlign: "center" }}>
-                            No monitors found with the query
-                          </td>
+                          <th style={{ width: "48px" }}></th>
+                          <th>Name</th>
+                          <th>URL</th>
+                          <th>Client</th>
+                          <th style={{ width: "180px" }}>Created at</th>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
+                      </thead>
+                      <tbody>
+                        {currentMonitors.length > 0 ? (
+                          currentMonitors.map((monitor: any) => (
+                            <tr key={monitor.id}>
+                              <td style={{ width: "48px" }}>
+                                {monitor.status === 2 ? (
+                                  <span className="monitor-status monitor-status_up"></span>
+                                ) : monitor.status === 9 ? (
+                                  <span className="monitor-status monitor-status_down"></span>
+                                ) : (
+                                  "Unknown"
+                                )}
+                              </td>
+                              <td>{monitor.friendly_name}</td>
+                              <td>
+                                <a
+                                  href={monitor.url}
+                                  style={{
+                                    width: "unset",
+                                    height: "unset",
+                                    padding: "unset",
+                                    backgroundColor: "transparent",
+                                    textDecoration: "none",
+                                  }}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {monitor.url}
+                                </a>
+                              </td>
+                              <td>{monitor.client_name}</td>
+                              <td>{formatDate(monitor.created_at)}</td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={6} style={{ textAlign: "center" }}>
+                              No monitors found with the query
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                   {currentMonitors.length > 0 && (
                     <div className="pagination">
                       <button
