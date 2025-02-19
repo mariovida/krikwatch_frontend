@@ -539,72 +539,70 @@ const WebsiteDetailsPage = () => {
                 </Stack>
                 {incidents && (
                   <>
-                    <div style={{ overflowX: "auto" }}>
-                      <table className="custom-table">
-                        <thead>
-                          <tr>
-                            <th>Status</th>
-                            <th>Title</th>
-                            <th style={{ width: "240px" }}>Author</th>
-                            <th style={{ width: "200px" }}>Created at</th>
-                            <th style={{ width: "60px" }}></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {incidents.length > 0 ? (
-                            currentIncidents.map((incident: any) => (
-                              <tr key={incident.incident_key}>
-                                <td>
-                                  {incident ? (
-                                    incident.status === 1 ? (
-                                      <span className="status-badge status-badge_open">
-                                        OPEN
-                                      </span>
-                                    ) : incident.status === 2 ? (
-                                      <span className="status-badge status-badge_progress">
-                                        IN PROGRESS
-                                      </span>
-                                    ) : incident.status === 3 ? (
-                                      <span className="status-badge status-badge_active">
-                                        RESOLVED
-                                      </span>
-                                    ) : incident.status === 4 ? (
-                                      <span className="status-badge status-badge_closed">
-                                        CLOSED
-                                      </span>
-                                    ) : null
-                                  ) : null}
-                                </td>
-                                <td>{incident.title}</td>
-                                <td>
-                                  {incident.created_by_first_name +
-                                    " " +
-                                    incident.created_by_last_name}
-                                </td>
-                                <td>
-                                  {formatDateWithClock(incident.created_at)}
-                                </td>
-                                <td>
-                                  <button
-                                    onClick={() =>
-                                      handleDetailsClick(incident.incident_key)
-                                    }
-                                  >
-                                    <img src={EyeIcon} />
-                                  </button>
-                                </td>
-                              </tr>
-                            ))
-                          ) : (
-                            <tr>
-                              <td colSpan={6} style={{ textAlign: "center" }}>
-                                There are no incidents for this website yet.
+                    <table className="custom-table">
+                      <thead>
+                        <tr>
+                          <th>Status</th>
+                          <th>Title</th>
+                          <th style={{ width: "240px" }}>Author</th>
+                          <th style={{ width: "200px" }}>Created at</th>
+                          <th style={{ width: "60px" }}></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {incidents.length > 0 ? (
+                          currentIncidents.map((incident: any) => (
+                            <tr key={incident.incident_key}>
+                              <td>
+                                {incident ? (
+                                  incident.status === 1 ? (
+                                    <span className="status-badge status-badge_open">
+                                      OPEN
+                                    </span>
+                                  ) : incident.status === 2 ? (
+                                    <span className="status-badge status-badge_progress">
+                                      IN PROGRESS
+                                    </span>
+                                  ) : incident.status === 3 ? (
+                                    <span className="status-badge status-badge_active">
+                                      RESOLVED
+                                    </span>
+                                  ) : incident.status === 4 ? (
+                                    <span className="status-badge status-badge_closed">
+                                      CLOSED
+                                    </span>
+                                  ) : null
+                                ) : null}
+                              </td>
+                              <td>{incident.title}</td>
+                              <td>
+                                {incident.created_by_first_name +
+                                  " " +
+                                  incident.created_by_last_name}
+                              </td>
+                              <td>
+                                {formatDateWithClock(incident.created_at)}
+                              </td>
+                              <td>
+                                <button
+                                  onClick={() =>
+                                    handleDetailsClick(incident.incident_key)
+                                  }
+                                >
+                                  <img src={EyeIcon} />
+                                </button>
                               </td>
                             </tr>
-                          )}
-                        </tbody>
-                      </table>
-                    </div>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={6} style={{ textAlign: "center" }}>
+                              There are no incidents for this website yet.
+                            </td>
+                          </tr>
+                        )}
+                      </tbody>
+                    </table>
                     {incidents.length > 0 && currentIncidents.length > 0 && (
                       <div className="pagination">
                         <button
@@ -683,42 +681,40 @@ const WebsiteDetailsPage = () => {
               </div>
               {contacts && (
                 <div className="col-12">
-                  <div style={{ overflowX: "auto" }}>
-                    <table className="custom-table">
-                      <thead>
-                        <tr>
-                          <th style={{ minWidth: "240px" }}>First name</th>
-                          <th style={{ width: "280px" }}>Last name</th>
-                          <th style={{ width: "280px" }}>Email</th>
-                          <th>Created at</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {contacts.length > 0 ? (
-                          currentContacts.map((contact: any) => (
-                            <tr key={contact.id}>
-                              <td>{contact.first_name}</td>
-                              <td>{contact.last_name}</td>
-                              <td>{contact.email}</td>
-                              <td>{formatDateWithClock(contact.created_at)}</td>
-                              <td style={{ width: "100px" }}>
-                                <button onClick={() => handleEditUser(contact)}>
-                                  <img src={ChevronUp} />
-                                </button>
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan={5} style={{ textAlign: "center" }}>
-                              There are no contacts added for this website.
+                  <table className="custom-table">
+                    <thead>
+                      <tr>
+                        <th style={{ minWidth: "240px" }}>First name</th>
+                        <th style={{ width: "280px" }}>Last name</th>
+                        <th style={{ width: "280px" }}>Email</th>
+                        <th>Created at</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {contacts.length > 0 ? (
+                        currentContacts.map((contact: any) => (
+                          <tr key={contact.id}>
+                            <td>{contact.first_name}</td>
+                            <td>{contact.last_name}</td>
+                            <td>{contact.email}</td>
+                            <td>{formatDateWithClock(contact.created_at)}</td>
+                            <td style={{ width: "100px" }}>
+                              <button onClick={() => handleEditUser(contact)}>
+                                <img src={ChevronUp} />
+                              </button>
                             </td>
                           </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={5} style={{ textAlign: "center" }}>
+                            There are no contacts added for this website.
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
                   {contacts.length > 0 && currentContacts.length > 0 && (
                     <div className="pagination">
                       <button

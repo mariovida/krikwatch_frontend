@@ -181,24 +181,23 @@ const WebsitesPage = () => {
             <div className="wrapper">
               <div className="row">
                 <div className="col-12">
-                  <div style={{ overflowX: "auto" }}>
-                    <table className="custom-table">
-                      <thead>
-                        <tr>
-                          {/* <th>Status</th> */}
-                          {/* <th style={{ width: "40px", padding: "12px 0" }}></th> */}
-                          <th style={{ width: "unset" }}>Website</th>
-                          <th>URL</th>
-                          <th>Client</th>
-                          <th>Created at</th>
-                          <th></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {currentWebsites.length > 0 ? (
-                          currentWebsites.map((website) => (
-                            <tr key={website.id}>
-                              {/* <td>
+                  <table className="custom-table">
+                    <thead>
+                      <tr>
+                        {/* <th>Status</th> */}
+                        {/* <th style={{ width: "40px", padding: "12px 0" }}></th> */}
+                        <th style={{ width: "unset" }}>Website</th>
+                        <th>URL</th>
+                        <th>Client</th>
+                        <th>Created at</th>
+                        <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {currentWebsites.length > 0 ? (
+                        currentWebsites.map((website) => (
+                          <tr key={website.id}>
+                            {/* <td>
                           {website ? (
                             website.status === 1 ? (
                               <span className="status-badge status-badge_active">
@@ -211,92 +210,89 @@ const WebsitesPage = () => {
                             )
                           ) : null}
                         </td> */}
-                              <td style={{ width: "unset" }}>
-                                <Stack
-                                  direction="row"
-                                  sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    gap: "6px",
-                                  }}
-                                >
-                                  {website.favicon && (
-                                    <img
-                                      src={`data:image/png;base64,${website.favicon}`}
-                                      alt="Website favicon"
-                                      style={{
-                                        width: "20px",
-                                        height: "20px",
-                                        objectFit: "contain",
-                                      }}
-                                    />
-                                  )}
-                                  {website.name}
-                                </Stack>
-                              </td>
-                              <td>
-                                {website.website_url ? (
-                                  <a
-                                    href={website.website_url}
+                            <td style={{ width: "unset" }}>
+                              <Stack
+                                direction="row"
+                                sx={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "6px",
+                                }}
+                              >
+                                {website.favicon && (
+                                  <img
+                                    src={`data:image/png;base64,${website.favicon}`}
+                                    alt="Website favicon"
                                     style={{
-                                      width: "unset",
-                                      height: "unset",
-                                      padding: "unset",
-                                      backgroundColor: "transparent",
-                                      textDecoration: "none",
+                                      width: "20px",
+                                      height: "20px",
+                                      objectFit: "contain",
                                     }}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                  >
-                                    {website.website_url}
-                                  </a>
-                                ) : (
-                                  "-"
+                                  />
                                 )}
-                              </td>
-                              <td>{website.client_name}</td>
-                              <td>{formatDateWithClock(website.created_at)}</td>
-                              <td style={{ width: "100px" }}>
-                                <Box
-                                  sx={{
-                                    display: "flex",
-                                    justifyContent: "flex-end",
+                                {website.name}
+                              </Stack>
+                            </td>
+                            <td>
+                              {website.website_url ? (
+                                <a
+                                  href={website.website_url}
+                                  style={{
+                                    width: "unset",
+                                    height: "unset",
+                                    padding: "unset",
+                                    backgroundColor: "transparent",
+                                    textDecoration: "none",
                                   }}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
                                 >
-                                  {/* <button onClick={() => handleEditClick(website.id)}>
+                                  {website.website_url}
+                                </a>
+                              ) : (
+                                "-"
+                              )}
+                            </td>
+                            <td>{website.client_name}</td>
+                            <td>{formatDateWithClock(website.created_at)}</td>
+                            <td style={{ width: "100px" }}>
+                              <Box
+                                sx={{
+                                  display: "flex",
+                                  justifyContent: "flex-end",
+                                }}
+                              >
+                                {/* <button onClick={() => handleEditClick(website.id)}>
                             <img src={EditIcon} />
                           </button> */}
-                                  <button
-                                    onClick={() =>
-                                      handleDetailsClick(website.id)
-                                    }
-                                  >
-                                    <img src={EyeIcon} />
-                                  </button>
-                                  <IconButton
-                                    aria-label="more"
-                                    id={`menu-button-${website.id}`}
-                                    aria-controls={`menu-${website.id}`}
-                                    aria-haspopup="true"
-                                    onClick={(e) => handleMenuOpen(e, website)}
-                                    sx={{ marginLeft: "12px", padding: "4px" }}
-                                  >
-                                    <img src={MoreMenuIcon} />
-                                  </IconButton>
-                                </Box>
-                              </td>
-                            </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan={6} style={{ textAlign: "center" }}>
-                              No websites found with the query
+                                <button
+                                  onClick={() => handleDetailsClick(website.id)}
+                                >
+                                  <img src={EyeIcon} />
+                                </button>
+                                <IconButton
+                                  aria-label="more"
+                                  id={`menu-button-${website.id}`}
+                                  aria-controls={`menu-${website.id}`}
+                                  aria-haspopup="true"
+                                  onClick={(e) => handleMenuOpen(e, website)}
+                                  sx={{ marginLeft: "12px", padding: "4px" }}
+                                >
+                                  <img src={MoreMenuIcon} />
+                                </IconButton>
+                              </Box>
                             </td>
                           </tr>
-                        )}
-                      </tbody>
-                    </table>
-                  </div>
+                        ))
+                      ) : (
+                        <tr>
+                          <td colSpan={6} style={{ textAlign: "center" }}>
+                            No websites found with the query
+                          </td>
+                        </tr>
+                      )}
+                    </tbody>
+                  </table>
                   {currentWebsites.length > 0 && (
                     <div className="pagination">
                       <button
