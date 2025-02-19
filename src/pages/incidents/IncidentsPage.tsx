@@ -190,91 +190,89 @@ const IncidentsPage = () => {
           <div className="wrapper">
             <div className="row">
               <div className="col-12">
-                <div style={{ overflowX: "auto" }}>
-                  <table className="custom-table">
-                    <thead>
-                      <tr>
-                        <th>Status</th>
-                        <th>Title</th>
-                        <th>Website</th>
-                        <th>Author</th>
-                        <th>Created at</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {currentIncidents.length > 0 ? (
-                        currentIncidents.map((incident) => (
-                          <tr key={incident.id}>
-                            <td>
-                              {incident ? (
-                                incident.status === 1 ? (
-                                  <span className="status-badge status-badge_open">
-                                    OPEN
-                                  </span>
-                                ) : incident.status === 2 ? (
-                                  <span className="status-badge status-badge_progress">
-                                    IN PROGRESS
-                                  </span>
-                                ) : incident.status === 3 ? (
-                                  <span className="status-badge status-badge_active">
-                                    RESOLVED
-                                  </span>
-                                ) : incident.status === 4 ? (
-                                  <span className="status-badge status-badge_closed">
-                                    CLOSED
-                                  </span>
-                                ) : null
-                              ) : null}
-                            </td>
-                            <td>{incident.title}</td>
-                            <td>{incident.website_name}</td>
-                            <td>
-                              {incident.created_by_first_name +
-                                " " +
-                                incident.created_by_last_name}
-                            </td>
-                            <td>{formatDateWithClock(incident.created_at)}</td>
-                            <td style={{ width: "100px" }}>
-                              <Box
-                                sx={{
-                                  display: "flex",
-                                  justifyContent: "flex-end",
-                                }}
+                <table className="custom-table">
+                  <thead>
+                    <tr>
+                      <th>Status</th>
+                      <th>Title</th>
+                      <th>Website</th>
+                      <th>Author</th>
+                      <th>Created at</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {currentIncidents.length > 0 ? (
+                      currentIncidents.map((incident) => (
+                        <tr key={incident.id}>
+                          <td>
+                            {incident ? (
+                              incident.status === 1 ? (
+                                <span className="status-badge status-badge_open">
+                                  OPEN
+                                </span>
+                              ) : incident.status === 2 ? (
+                                <span className="status-badge status-badge_progress">
+                                  IN PROGRESS
+                                </span>
+                              ) : incident.status === 3 ? (
+                                <span className="status-badge status-badge_active">
+                                  RESOLVED
+                                </span>
+                              ) : incident.status === 4 ? (
+                                <span className="status-badge status-badge_closed">
+                                  CLOSED
+                                </span>
+                              ) : null
+                            ) : null}
+                          </td>
+                          <td>{incident.title}</td>
+                          <td>{incident.website_name}</td>
+                          <td>
+                            {incident.created_by_first_name +
+                              " " +
+                              incident.created_by_last_name}
+                          </td>
+                          <td>{formatDateWithClock(incident.created_at)}</td>
+                          <td style={{ width: "100px" }}>
+                            <Box
+                              sx={{
+                                display: "flex",
+                                justifyContent: "flex-end",
+                              }}
+                            >
+                              <button
+                                onClick={() =>
+                                  handleDetailsClick(incident.incident_key)
+                                }
                               >
-                                <button
-                                  onClick={() =>
-                                    handleDetailsClick(incident.incident_key)
-                                  }
-                                >
-                                  <img src={EyeIcon} />
-                                </button>
-                                <IconButton
-                                  aria-label="more"
-                                  id={`menu-button-${incident.id}`}
-                                  aria-controls={`menu-${incident.id}`}
-                                  aria-haspopup="true"
-                                  onClick={(e) => handleMenuOpen(e, incident)}
-                                  sx={{ marginLeft: "12px", padding: "4px" }}
-                                >
-                                  <img src={MoreMenuIcon} />
-                                </IconButton>
-                              </Box>
-                            </td>
-                          </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={6} style={{ textAlign: "center" }}>
-                            {incidents.length === 0
-                              ? "There are no incidents yet."
-                              : "No incidents found with the query."}
+                                <img src={EyeIcon} />
+                              </button>
+                              <IconButton
+                                aria-label="more"
+                                id={`menu-button-${incident.id}`}
+                                aria-controls={`menu-${incident.id}`}
+                                aria-haspopup="true"
+                                onClick={(e) => handleMenuOpen(e, incident)}
+                                sx={{ marginLeft: "12px", padding: "4px" }}
+                              >
+                                <img src={MoreMenuIcon} />
+                              </IconButton>
+                            </Box>
                           </td>
                         </tr>
-                      )}
-                    </tbody>
-                  </table>
-                </div>
+                      ))
+                    ) : (
+                      <tr>
+                        <td colSpan={6} style={{ textAlign: "center" }}>
+                          {incidents.length === 0
+                            ? "There are no incidents yet."
+                            : "No incidents found with the query."}
+                        </td>
+                      </tr>
+                    )}
+                  </tbody>
+                </table>
               </div>
               {currentIncidents.length > 0 && (
                 <div className="col-12">
