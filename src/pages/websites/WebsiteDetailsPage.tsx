@@ -22,6 +22,7 @@ import ChevronLeftIcon from "../../assets/icons/ChevronLeft";
 import ChevronRightIcon from "../../assets/icons/ChevronRight";
 import MoreMenuIcon from "../../assets/icons/more-menu.svg";
 
+import WebsiteInfoModal from "./WebsiteInfoModal";
 import AddContactModal from "./AddContactModal";
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
 import ConfirmationDeleteModal from "../../blocks/ConfirmDeleteModal";
@@ -53,6 +54,8 @@ const WebsiteDetailsPage = () => {
   const [screenshot, setScreenshot] = useState(null);
   const [faviconUrl, setFaviconUrl] = useState<any>(null);
   const [loading, setLoading] = useState<boolean>(true);
+
+  const [openInfoModal, setOpenInfoModal] = useState(false);
 
   const [openContactModal, setOpenContactModal] = useState(false);
   const [modalModeEdit, setModalModeEdit] = useState<boolean>(false);
@@ -288,6 +291,11 @@ const WebsiteDetailsPage = () => {
   };
   const handleCloseModal = () => setOpenContactModal(false);
   const handleSnackbarClose = () => setUserExistsError(false);
+
+  const handleOpenInfoModal = () => {
+    setOpenInfoModal(true);
+  };
+  const handleCloseInfoModal = () => setOpenInfoModal(false);
 
   const handleEditUser = (user: React.SetStateAction<null>) => {
     setSelectedContact(user);
@@ -531,70 +539,72 @@ const WebsiteDetailsPage = () => {
                 </Stack>
                 {incidents && (
                   <>
-                    <table className="custom-table">
-                      <thead>
-                        <tr>
-                          <th>Status</th>
-                          <th>Title</th>
-                          <th style={{ width: "240px" }}>Author</th>
-                          <th style={{ width: "200px" }}>Created at</th>
-                          <th style={{ width: "60px" }}></th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {incidents.length > 0 ? (
-                          currentIncidents.map((incident: any) => (
-                            <tr key={incident.incident_key}>
-                              <td>
-                                {incident ? (
-                                  incident.status === 1 ? (
-                                    <span className="status-badge status-badge_open">
-                                      OPEN
-                                    </span>
-                                  ) : incident.status === 2 ? (
-                                    <span className="status-badge status-badge_progress">
-                                      IN PROGRESS
-                                    </span>
-                                  ) : incident.status === 3 ? (
-                                    <span className="status-badge status-badge_active">
-                                      RESOLVED
-                                    </span>
-                                  ) : incident.status === 4 ? (
-                                    <span className="status-badge status-badge_closed">
-                                      CLOSED
-                                    </span>
-                                  ) : null
-                                ) : null}
-                              </td>
-                              <td>{incident.title}</td>
-                              <td>
-                                {incident.created_by_first_name +
-                                  " " +
-                                  incident.created_by_last_name}
-                              </td>
-                              <td>
-                                {formatDateWithClock(incident.created_at)}
-                              </td>
-                              <td>
-                                <button
-                                  onClick={() =>
-                                    handleDetailsClick(incident.incident_key)
-                                  }
-                                >
-                                  <img src={EyeIcon} />
-                                </button>
+                    <div style={{ overflowX: "auto" }}>
+                      <table className="custom-table">
+                        <thead>
+                          <tr>
+                            <th>Status</th>
+                            <th>Title</th>
+                            <th style={{ width: "240px" }}>Author</th>
+                            <th style={{ width: "200px" }}>Created at</th>
+                            <th style={{ width: "60px" }}></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {incidents.length > 0 ? (
+                            currentIncidents.map((incident: any) => (
+                              <tr key={incident.incident_key}>
+                                <td>
+                                  {incident ? (
+                                    incident.status === 1 ? (
+                                      <span className="status-badge status-badge_open">
+                                        OPEN
+                                      </span>
+                                    ) : incident.status === 2 ? (
+                                      <span className="status-badge status-badge_progress">
+                                        IN PROGRESS
+                                      </span>
+                                    ) : incident.status === 3 ? (
+                                      <span className="status-badge status-badge_active">
+                                        RESOLVED
+                                      </span>
+                                    ) : incident.status === 4 ? (
+                                      <span className="status-badge status-badge_closed">
+                                        CLOSED
+                                      </span>
+                                    ) : null
+                                  ) : null}
+                                </td>
+                                <td>{incident.title}</td>
+                                <td>
+                                  {incident.created_by_first_name +
+                                    " " +
+                                    incident.created_by_last_name}
+                                </td>
+                                <td>
+                                  {formatDateWithClock(incident.created_at)}
+                                </td>
+                                <td>
+                                  <button
+                                    onClick={() =>
+                                      handleDetailsClick(incident.incident_key)
+                                    }
+                                  >
+                                    <img src={EyeIcon} />
+                                  </button>
+                                </td>
+                              </tr>
+                            ))
+                          ) : (
+                            <tr>
+                              <td colSpan={6} style={{ textAlign: "center" }}>
+                                There are no incidents for this website yet.
                               </td>
                             </tr>
-                          ))
-                        ) : (
-                          <tr>
-                            <td colSpan={6} style={{ textAlign: "center" }}>
-                              There are no incidents for this website yet.
-                            </td>
-                          </tr>
-                        )}
-                      </tbody>
-                    </table>
+                          )}
+                        </tbody>
+                      </table>
+                    </div>
                     {incidents.length > 0 && currentIncidents.length > 0 && (
                       <div className="pagination">
                         <button
@@ -673,40 +683,42 @@ const WebsiteDetailsPage = () => {
               </div>
               {contacts && (
                 <div className="col-12">
-                  <table className="custom-table">
-                    <thead>
-                      <tr>
-                        <th style={{ minWidth: "240px" }}>First name</th>
-                        <th style={{ width: "280px" }}>Last name</th>
-                        <th style={{ width: "280px" }}>Email</th>
-                        <th>Created at</th>
-                        <th></th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {contacts.length > 0 ? (
-                        currentContacts.map((contact: any) => (
-                          <tr key={contact.id}>
-                            <td>{contact.first_name}</td>
-                            <td>{contact.last_name}</td>
-                            <td>{contact.email}</td>
-                            <td>{formatDateWithClock(contact.created_at)}</td>
-                            <td style={{ width: "100px" }}>
-                              <button onClick={() => handleEditUser(contact)}>
-                                <img src={ChevronUp} />
-                              </button>
+                  <div style={{ overflowX: "auto" }}>
+                    <table className="custom-table">
+                      <thead>
+                        <tr>
+                          <th style={{ minWidth: "240px" }}>First name</th>
+                          <th style={{ width: "280px" }}>Last name</th>
+                          <th style={{ width: "280px" }}>Email</th>
+                          <th>Created at</th>
+                          <th></th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {contacts.length > 0 ? (
+                          currentContacts.map((contact: any) => (
+                            <tr key={contact.id}>
+                              <td>{contact.first_name}</td>
+                              <td>{contact.last_name}</td>
+                              <td>{contact.email}</td>
+                              <td>{formatDateWithClock(contact.created_at)}</td>
+                              <td style={{ width: "100px" }}>
+                                <button onClick={() => handleEditUser(contact)}>
+                                  <img src={ChevronUp} />
+                                </button>
+                              </td>
+                            </tr>
+                          ))
+                        ) : (
+                          <tr>
+                            <td colSpan={5} style={{ textAlign: "center" }}>
+                              There are no contacts added for this website.
                             </td>
                           </tr>
-                        ))
-                      ) : (
-                        <tr>
-                          <td colSpan={5} style={{ textAlign: "center" }}>
-                            There are no contacts added for this website.
-                          </td>
-                        </tr>
-                      )}
-                    </tbody>
-                  </table>
+                        )}
+                      </tbody>
+                    </table>
+                  </div>
                   {contacts.length > 0 && currentContacts.length > 0 && (
                     <div className="pagination">
                       <button
@@ -751,6 +763,16 @@ const WebsiteDetailsPage = () => {
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
         transformOrigin={{ vertical: "top", horizontal: "right" }}
       >
+        {website && website.hosting_info && (
+          <MenuItem
+            onClick={() => {
+              handleOpenInfoModal();
+              handleMenuClose();
+            }}
+          >
+            Website information
+          </MenuItem>
+        )}
         <MenuItem onClick={() => handleEditWebsite(website.id)}>
           Edit website
         </MenuItem>
@@ -778,6 +800,11 @@ const WebsiteDetailsPage = () => {
         setFirstName={setContactName}
         setLastName={setContactSurname}
         setEmail={setContactEmail}
+      />
+      <WebsiteInfoModal
+        open={openInfoModal}
+        onClose={handleCloseInfoModal}
+        data={website?.hosting_info}
       />
       <Snackbar
         anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
