@@ -29,12 +29,6 @@ import {
   MenuItem,
   Typography,
 } from "@mui/material";
-import Timeline from '@mui/lab/Timeline';
-import TimelineItem, { timelineItemClasses } from '@mui/lab/TimelineItem';
-import TimelineSeparator from '@mui/lab/TimelineSeparator';
-import TimelineConnector from '@mui/lab/TimelineConnector';
-import TimelineContent from '@mui/lab/TimelineContent';
-import TimelineDot from '@mui/lab/TimelineDot';
 import ArrowLeftIcon from "../../assets/icons/arrow-left.svg";
 import SendMailModal from "./SendMailModal";
 import ViewMailModal from "./ViewMailModal";
@@ -69,39 +63,45 @@ const MyDocument = ({ incident }: { incident: any }) => (
         style={{
           display: "flex",
           flexDirection: "row",
-          gap: '48px',
+          gap: "48px",
           padding: "0",
           marginBottom: "16px",
         }}
       >
-        <View style={{minWidth: '100px'}}>
+        <View style={{ minWidth: "100px" }}>
           <Text style={styles.tiny}>Created by</Text>
           <Text style={styles.normal}>{incident.created_by}</Text>
         </View>
         <View>
           <Text style={styles.tiny}>Created at</Text>
-          <Text style={styles.normal}>{formatDateWithClock(incident.created_at)}</Text>
+          <Text style={styles.normal}>
+            {formatDateWithClock(incident.created_at)}
+          </Text>
         </View>
       </View>
       <View
         style={{
           display: "flex",
           flexDirection: "row",
-          gap: '48px',
+          gap: "48px",
           padding: "0",
           marginBottom: "32px",
         }}
       >
-        <View style={{minWidth: '100px'}}>
+        <View style={{ minWidth: "100px" }}>
           <Text style={styles.tiny}>Start time</Text>
           <Text style={styles.normal}>
-            {incident.incident_start ? formatDateWithClock(incident.incident_start) : "-"}
+            {incident.incident_start
+              ? formatDateWithClock(incident.incident_start)
+              : "-"}
           </Text>
         </View>
         <View>
           <Text style={styles.tiny}>End time</Text>
           <Text style={styles.normal}>
-            {incident.incident_end ? formatDateWithClock(incident.incident_end) : "-"}
+            {incident.incident_end
+              ? formatDateWithClock(incident.incident_end)
+              : "-"}
           </Text>
         </View>
       </View>
@@ -119,16 +119,18 @@ const MyDocument = ({ incident }: { incident: any }) => (
         </View>
       )}
       {incident.note && (
-      <View
-        style={{
-          //padding: "8px",
-          //border: "1px solid black",
-          //borderRadius: "10px",
-        }}
-      >
-        <Text style={styles.tiny}>Note</Text>
-        <Text style={styles.normal}>{incident.note || "-"}</Text>
-      </View>
+        <View
+          style={
+            {
+              //padding: "8px",
+              //border: "1px solid black",
+              //borderRadius: "10px",
+            }
+          }
+        >
+          <Text style={styles.tiny}>Note</Text>
+          <Text style={styles.normal}>{incident.note || "-"}</Text>
+        </View>
       )}
     </Page>
   </Document>
@@ -144,7 +146,7 @@ const IncidentDetails = styled(Stack)({
 });
 
 const CustomCard = styled(Card)({
-  height: '100%',
+  height: "100%",
   padding: "24px",
   borderRadius: "10px",
   boxShadow:
@@ -282,28 +284,28 @@ const IncidentDetailsPage = () => {
 
     if (incident?.incident_start) {
       events.push({
-        label: 'Incident start',
+        label: "Incident start",
         datetime: new Date(incident.incident_start),
       });
     }
 
     if (incident?.incident_end) {
       events.push({
-        label: 'Incident end',
+        label: "Incident end",
         datetime: new Date(incident.incident_end),
       });
     }
 
     if (incident?.created_at) {
       events.push({
-        label: 'Created at',
+        label: "Created at",
         datetime: new Date(incident.created_at),
       });
     }
 
     if (incident?.resolved_at) {
       events.push({
-        label: 'Resolved at',
+        label: "Resolved at",
         datetime: new Date(incident.resolved_at),
       });
     }
@@ -312,7 +314,7 @@ const IncidentDetailsPage = () => {
       messages.forEach((message: any) => {
         if (message.sent_at) {
           events.push({
-            label: 'Message sent',
+            label: "Message sent",
             datetime: new Date(message.sent_at),
           });
         }
@@ -322,19 +324,22 @@ const IncidentDetailsPage = () => {
     return events;
   };
 
-  const formatElapsedTime = (startDate: string | Date, endDate: string | Date): string => {
+  const formatElapsedTime = (
+    startDate: string | Date,
+    endDate: string | Date
+  ): string => {
     const start = new Date(startDate);
     const end = new Date(endDate);
-    
+
     const elapsed = end.getTime() - start.getTime();
-  
-    if (elapsed < 0) return '-';
-  
+
+    if (elapsed < 0) return "-";
+
     const hours = Math.floor(elapsed / (1000 * 60 * 60));
     const minutes = Math.floor((elapsed % (1000 * 60 * 60)) / (1000 * 60));
-  
+
     return `${hours}h ${minutes}m`;
-  };  
+  };
 
   return (
     <>
@@ -352,9 +357,10 @@ const IncidentDetailsPage = () => {
                 </Button>
               </div>
             </div>
-                {incident && (<>
-                  <div className="row">
-                    <div className="col-12">
+            {incident && (
+              <>
+                <div className="row">
+                  <div className="col-12">
                     <Stack
                       sx={{
                         display: "flex",
@@ -363,7 +369,9 @@ const IncidentDetailsPage = () => {
                       }}
                     >
                       <Typography
-                        onClick={() => navigate(`/website/${incident.website_id}`)}
+                        onClick={() =>
+                          navigate(`/website/${incident.website_id}`)
+                        }
                         sx={{
                           position: "relative",
                           fontFamily: "Plus Jakarta Sans, sans-serif",
@@ -373,7 +381,7 @@ const IncidentDetailsPage = () => {
                           textTransform: "uppercase",
                           color: "#7e7e7e",
                           paddingLeft: "32px",
-                          cursor: 'pointer',
+                          cursor: "pointer",
 
                           "&::before": {
                             display: "block",
@@ -484,23 +492,25 @@ const IncidentDetailsPage = () => {
                         </Typography>
                       </Box>
                       {incident.status === 3 && (
-                      <Box>
-                        <Typography
-                          sx={{
-                            fontSize: "15px",
-                            fontWeight: 400,
-                            lineHeight: "24px",
-                            color: "#1b2431",
-                          }}
-                        >
-                          Resolved at:
-                          <span style={{ marginLeft: "8px", color: "#7e7e7e" }}>
-                            {incident.resolved_at
-                              ? formatDateWithClock(incident.resolved_at)
-                              : "-"}
-                          </span>
-                        </Typography>
-                      </Box>
+                        <Box>
+                          <Typography
+                            sx={{
+                              fontSize: "15px",
+                              fontWeight: 400,
+                              lineHeight: "24px",
+                              color: "#1b2431",
+                            }}
+                          >
+                            Resolved at:
+                            <span
+                              style={{ marginLeft: "8px", color: "#7e7e7e" }}
+                            >
+                              {incident.resolved_at
+                                ? formatDateWithClock(incident.resolved_at)
+                                : "-"}
+                            </span>
+                          </Typography>
+                        </Box>
                       )}
                       <Box>
                         <Typography
@@ -518,10 +528,11 @@ const IncidentDetailsPage = () => {
                         </Typography>
                       </Box>
                     </IncidentDetails>
-                    </div></div>
-                    {incident.incident_start || incident.incident_end ? (
-                      <>
-                        {/* <div className="row">
+                  </div>
+                </div>
+                {incident.incident_start || incident.incident_end ? (
+                  <>
+                    {/* <div className="row">
                           <div className="col-12">
                           <Typography
                             variant="h4"
@@ -535,10 +546,10 @@ const IncidentDetailsPage = () => {
                           </Typography>
                         </div>
                       </div> */}
-                      <div className="row" style={{ marginBottom: '48px' }}>
-                        <div className="col-4">
-                          <CustomCard>
-                            <Typography
+                    <div className="row" style={{ marginBottom: "48px" }}>
+                      <div className="col-4">
+                        <CustomCard>
+                          <Typography
                             sx={{
                               fontSize: "14px",
                               fontWeight: 700,
@@ -549,13 +560,15 @@ const IncidentDetailsPage = () => {
                             INCIDENT START
                           </Typography>
                           <Typography>
-                            {incident.incident_start ? formatDateWithClock(incident.incident_start) : '-'}
+                            {incident.incident_start
+                              ? formatDateWithClock(incident.incident_start)
+                              : "-"}
                           </Typography>
                         </CustomCard>
-                        </div>
-                        <div className="col-4">
-                          <CustomCard>
-                            <Typography
+                      </div>
+                      <div className="col-4">
+                        <CustomCard>
+                          <Typography
                             sx={{
                               fontSize: "14px",
                               fontWeight: 700,
@@ -566,13 +579,15 @@ const IncidentDetailsPage = () => {
                             INCIDENT END
                           </Typography>
                           <Typography>
-                            {incident.incident_end ? formatDateWithClock(incident.incident_end) : '-'}
+                            {incident.incident_end
+                              ? formatDateWithClock(incident.incident_end)
+                              : "-"}
                           </Typography>
                         </CustomCard>
-                        </div>
-                        <div className="col-4">
-                          <CustomCard>
-                            <Typography
+                      </div>
+                      <div className="col-4">
+                        <CustomCard>
+                          <Typography
                             sx={{
                               fontSize: "14px",
                               fontWeight: 700,
@@ -583,129 +598,79 @@ const IncidentDetailsPage = () => {
                             INCIDENT DURATION
                           </Typography>
                           <Typography>
-                            {
-                              incident.incident_start && incident.incident_end
-                                ? formatElapsedTime(incident.incident_start, incident.incident_end)
-                                : incident.incident_start
-                                ? formatElapsedTime(incident.incident_start, new Date())
-                                : '-'
-                            }
+                            {incident.incident_start && incident.incident_end
+                              ? formatElapsedTime(
+                                  incident.incident_start,
+                                  incident.incident_end
+                                )
+                              : incident.incident_start
+                                ? formatElapsedTime(
+                                    incident.incident_start,
+                                    new Date()
+                                  )
+                                : "-"}
                           </Typography>
                         </CustomCard>
-                        </div>
                       </div>
-                      </>
-                    ) : (null)}
-                    {incident.description || incident.note ? (
-                    <div className="row">
-                      <div className="col-12">
-                        <Typography
-                          variant="h4"
-                          sx={{
-                            fontFamily: "Plus Jakarta Sans, sans-serif",
-                            lineHeight: "40px !important",
-                            marginBottom: '24px'
-                          }}
-                        >
-                          Incident details
-                        </Typography>
-                      </div>
-                      <div className="col-6">
-                      {incident.description && (
-                        <CustomCard>
-                          <Typography
-                            sx={{
-                              fontSize: "14px",
-                              fontWeight: 700,
-                              color: "#7e7e7e",
-                              marginBottom: "24px",
-                            }}
-                          >
-                            DESCRIPTION
-                          </Typography>
-                          <Typography sx={{ whiteSpace: "pre-wrap" }}>
-                            {incident.description}
-                          </Typography>
-                        </CustomCard>
-                      )}
-                      </div>
-                      <div className="col-6">
-                      {incident.note && (
-                        <CustomCard>
-                          <Typography
-                            sx={{
-                              fontSize: "14px",
-                              fontWeight: 700,
-                              color: "#7e7e7e",
-                              marginBottom: "24px",
-                            }}
-                          >
-                            NOTE
-                          </Typography>
-                          <Typography sx={{ whiteSpace: "pre-wrap" }}>
-                            {incident.note}
-                          </Typography>
-                        </CustomCard>
-                      )}
-                      </div>
-                      {/* <div className="col-3">
-                        <Timeline position="right" sx={{ [`& .${timelineItemClasses.root}:before`]: { flex: 0, padding: 0 }, padding: 0 }}>
-                          {getTimelineEvents().map((event, index) => (
-                            <TimelineItem key={index}>
-                              <TimelineSeparator>
-                                <TimelineDot />
-                                <TimelineConnector />
-                              </TimelineSeparator>
-                              <TimelineContent>
-                                <Typography component="span" sx={{ fontFamily: 'Plus Jakarta Sans', fontSize: '15px', fontWeight: 500, cursor: 'default' }}>{event.label}</Typography>
-                                <Typography color="text.secondary" sx={{ fontSize: '16px' }}>{formatDateWithClock(event.datetime)}</Typography>
-                              </TimelineContent>
-                            </TimelineItem>
-                          ))}
-                        </Timeline>
-                      </div>
-                      {incident.description || incident.note ? (
-                      <div className="col-9">
-                      {incident.description && (
-                        <CustomCard>
-                          <Typography
-                            sx={{
-                              fontSize: "14px",
-                              fontWeight: 700,
-                              color: "#7e7e7e",
-                              marginBottom: "24px",
-                            }}
-                          >
-                            DESCRIPTION
-                          </Typography>
-                          <Typography sx={{ whiteSpace: "pre-wrap" }}>
-                            {incident.description}
-                          </Typography>
-                        </CustomCard>
-                      )}
-                      {incident.note && (
-                        <CustomCard sx={{ marginTop: "32px" }}>
-                          <Typography
-                            sx={{
-                              fontSize: "14px",
-                              fontWeight: 700,
-                              color: "#7e7e7e",
-                              marginBottom: "24px",
-                            }}
-                          >
-                            NOTE
-                          </Typography>
-                          <Typography sx={{ whiteSpace: "pre-wrap" }}>
-                            {incident.note}
-                          </Typography>
-                        </CustomCard>
-                      )}
-                      </div>
-                      ) : (<></>)} */}
-                  </div>
-                  ) : null}
+                    </div>
                   </>
-                )}
+                ) : null}
+                {incident.description || incident.note ? (
+                  <div className="row">
+                    <div className="col-12">
+                      <Typography
+                        variant="h4"
+                        sx={{
+                          fontFamily: "Plus Jakarta Sans, sans-serif",
+                          lineHeight: "40px !important",
+                          marginBottom: "24px",
+                        }}
+                      >
+                        Incident details
+                      </Typography>
+                    </div>
+                    <div className="col-6">
+                      {incident.description && (
+                        <CustomCard>
+                          <Typography
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: 700,
+                              color: "#7e7e7e",
+                              marginBottom: "24px",
+                            }}
+                          >
+                            DESCRIPTION
+                          </Typography>
+                          <Typography sx={{ whiteSpace: "pre-wrap" }}>
+                            {incident.description}
+                          </Typography>
+                        </CustomCard>
+                      )}
+                    </div>
+                    <div className="col-6">
+                      {incident.note && (
+                        <CustomCard>
+                          <Typography
+                            sx={{
+                              fontSize: "14px",
+                              fontWeight: 700,
+                              color: "#7e7e7e",
+                              marginBottom: "24px",
+                            }}
+                          >
+                            NOTE
+                          </Typography>
+                          <Typography sx={{ whiteSpace: "pre-wrap" }}>
+                            {incident.note}
+                          </Typography>
+                        </CustomCard>
+                      )}
+                    </div>
+                  </div>
+                ) : null}
+              </>
+            )}
             <div className="row">
               <div className="col-12">
                 <Stack
@@ -753,8 +718,8 @@ const IncidentDetailsPage = () => {
                   </Button>
                 </Stack>
               </div>
-              </div>
-              <div className="row">
+            </div>
+            <div className="row">
               <div className="col-12">
                 {messages && messages.length > 0 ? (
                   <Box
@@ -898,38 +863,39 @@ const IncidentDetailsPage = () => {
                     </Typography>
                   </Box>
                 )}
-              </div></div>
-              <div className="row">
-              <div className="col-12">
-              {messages && messages.length > 0 && (
-                <div className="pagination">
-                  <button
-                    className="pagination-prev"
-                    onClick={handlePrevMessagePage}
-                    disabled={currentPage === 1}
-                  >
-                    <ChevronLeftIcon />
-                  </button>
-                  {[...Array(totalPages).keys()].map((page) => (
-                    <button
-                      key={page}
-                      onClick={() => goToMessagePage(page + 1)}
-                      className={currentPage === page + 1 ? "active" : ""}
-                    >
-                      {page + 1}
-                    </button>
-                  ))}
-                  <button
-                    className="pagination-next"
-                    onClick={handleNextMessagePage}
-                    disabled={currentPage === totalPages}
-                  >
-                    <ChevronRightIcon />
-                  </button>
-                </div>
-              )}
+              </div>
             </div>
-          </div>
+            <div className="row">
+              <div className="col-12">
+                {messages && messages.length > 0 && (
+                  <div className="pagination">
+                    <button
+                      className="pagination-prev"
+                      onClick={handlePrevMessagePage}
+                      disabled={currentPage === 1}
+                    >
+                      <ChevronLeftIcon />
+                    </button>
+                    {[...Array(totalPages).keys()].map((page) => (
+                      <button
+                        key={page}
+                        onClick={() => goToMessagePage(page + 1)}
+                        className={currentPage === page + 1 ? "active" : ""}
+                      >
+                        {page + 1}
+                      </button>
+                    ))}
+                    <button
+                      className="pagination-next"
+                      onClick={handleNextMessagePage}
+                      disabled={currentPage === totalPages}
+                    >
+                      <ChevronRightIcon />
+                    </button>
+                  </div>
+                )}
+              </div>
+            </div>
           </div>
         </section>
       )}
