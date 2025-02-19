@@ -250,7 +250,11 @@ const ClientsPage = () => {
                   <Box
                     sx={{
                       display: "grid",
-                      gridTemplateColumns: "repeat(4, minmax(200px, 1fr))",
+                      gridTemplateColumns: {
+                        xs: "repeat(1, minmax(200px, 1fr))", // 1 column on extra-small screens
+                        sm: "repeat(2, minmax(200px, 1fr))", // 2 columns on small screens
+                        md: "repeat(4, minmax(200px, 1fr))",
+                      },
                       gap: "24px",
                     }}
                   >
