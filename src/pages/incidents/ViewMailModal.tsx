@@ -21,6 +21,12 @@ const MessageDetails = styled(Stack)({
   gap: "40px",
   marginTop: "8px",
   cursor: "default",
+
+  "@media (max-width: 640px)": {
+    flexDirection: 'column',
+    alignItems: "flex-start",
+    gap: '8px'
+  },
 });
 
 interface ViewMailModalProps {

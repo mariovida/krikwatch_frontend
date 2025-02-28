@@ -100,7 +100,11 @@ const MonitorsPage = () => {
               <Box
                 sx={{
                   display: "grid",
-                  gridTemplateColumns: "repeat(3, minmax(200px, 1fr))",
+                  gridTemplateColumns: {
+                    xs: "repeat(1, minmax(200px, 1fr))",
+                    sm: "repeat(2, minmax(200px, 1fr))",
+                    md: "repeat(3, minmax(200px, 1fr))",
+                  },
                   gap: "24px",
                 }}
               >

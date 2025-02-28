@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
 import axios from "axios";
 
-import { Typography, Skeleton } from "@mui/material";
+import { Typography, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import Stats from "../blocks/Stats";
 
 import ChevronLeftIcon from "../assets/icons/ChevronLeft";
@@ -329,7 +329,7 @@ const Home = () => {
             <div className="wrapper">
               <div className="row">
                 <div className="col-12">
-                  <table className="custom-table">
+                {/* <table className="custom-table">
                     <thead>
                       <tr>
                         <th style={{ width: "48px" }}></th>
@@ -349,7 +349,7 @@ const Home = () => {
                               ) : monitor.status === 9 ? (
                                 <span className="monitor-status monitor-status_down"></span>
                               ) : (
-                                "Unknown"
+                                <span className="monitor-status monitor-status_unknown"></span>
                               )}
                             </td>
                             <td>{monitor.friendly_name}</td>
@@ -381,7 +381,62 @@ const Home = () => {
                         </tr>
                       )}
                     </tbody>
-                  </table>
+                  </table> */}
+                  <TableContainer component={Paper} className="custom-table">
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell style={{ width: "48px" }}></TableCell>
+                          <TableCell>Name</TableCell>
+                          <TableCell>URL</TableCell>
+                          <TableCell>Client</TableCell>
+                          <TableCell style={{ width: "180px" }}>Created at</TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {currentMonitors.length > 0 ? (
+                          currentMonitors.map((monitor: any) => (
+                            <TableRow key={monitor.id}>
+                              <TableCell style={{ width: "48px" }}>
+                                {monitor.status === 2 ? (
+                                  <span className="monitor-status monitor-status_up"></span>
+                                ) : monitor.status === 9 ? (
+                                  <span className="monitor-status monitor-status_down"></span>
+                                ) : (
+                                  "Unknown"
+                                )}
+                              </TableCell>
+                              <TableCell>{monitor.friendly_name}</TableCell>
+                              <TableCell>
+                                <a
+                                  href={monitor.url}
+                                  style={{
+                                    width: "unset",
+                                    height: "unset",
+                                    padding: "unset",
+                                    backgroundColor: "transparent",
+                                    textDecoration: "none",
+                                  }}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  {monitor.url}
+                                </a>
+                              </TableCell>
+                              <TableCell>{monitor.client_name}</TableCell>
+                              <TableCell>{formatDate(monitor.created_at)}</TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={5} style={{ textAlign: "center" }}>
+                              No monitors found with the query
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
                   {currentMonitors.length > 0 && (
                     <div className="pagination">
                       <button

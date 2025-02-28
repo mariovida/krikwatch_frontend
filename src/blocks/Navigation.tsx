@@ -281,6 +281,17 @@ const Navigation = ({ pageTitle }: { pageTitle?: string }) => {
           >
             Clients
           </MenuItem>
+          <MenuItem
+            sx={{
+              minHeight: "unset",
+            }}
+            onClick={() => {
+              navigate("/users");
+              handleMenuClose();
+            }}
+          >
+            Users
+          </MenuItem>
         </Box>
         <Divider />
         <MenuItem sx={{ minHeight: "unset" }} onClick={handleAccountSettings}>

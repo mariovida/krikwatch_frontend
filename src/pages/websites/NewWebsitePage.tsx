@@ -283,7 +283,9 @@ const NewWebsitePage = () => {
                     fullWidth
                     variant="filled"
                   />
-                  <Stack direction="row" sx={{ gap: "16px" }}>
+                  <Stack direction="row" sx={{ gap: "16px",   "@media (max-width: 640px)": {
+                      flexDirection: 'column',
+                    }, }}>
                     <FormControl fullWidth variant="filled" required>
                       <InputLabel id="client-select-label">
                         Select client

@@ -4,14 +4,18 @@ import { Helmet } from "react-helmet-async";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import { Box, Menu, MenuItem, IconButton } from "@mui/material";
+import { Chart4 } from './Chart';
+
+import { Box, Menu, MenuItem, IconButton, Typography, Skeleton, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from "@mui/material";
 import EyeIcon from "../../assets/icons/eye.svg";
 import MoreMenuIcon from "../../assets/icons/more-menu.svg";
+import GraphIcon from "../../assets/icons/graph.svg";
 import ChevronLeftIcon from "../../assets/icons/ChevronLeft";
 import ChevronRightIcon from "../../assets/icons/ChevronRight";
 
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
 import ConfirmationDeleteModal from "../../blocks/ConfirmDeleteModal";
+import { he } from "date-fns/locale";
 
 const IncidentsPage = () => {
   let backendUrl = import.meta.env.VITE_BACKEND_URL;
@@ -23,6 +27,7 @@ const IncidentsPage = () => {
   const [incidents, setIncidents] = useState<any[]>([]);
   const [filteredIncidents, setFilteredIncidents] = useState<any[]>([]);
   const [openConfirmModal, setOpenConfirmModal] = useState(false);
+  const [isChartVisible, setIsChartVisible] = useState(false);
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [selectedIncident, setSelectedIncident] = useState<any>(null);
@@ -159,11 +164,57 @@ const IncidentsPage = () => {
     }
   };
 
+  const toggleChartVisibility = () => {
+    setIsChartVisible((prev) => !prev);
+  };
+
+  const processIncidentsForChart = () => {
+    const monthCounts = Array(12).fill(0);
+
+    incidents.forEach((incident) => {
+      const incidentDate = new Date(incident.created_at);
+      const monthIndex = incidentDate.getMonth();
+      monthCounts[monthIndex] += 1;
+    });
+
+    return monthCounts;
+  };
+
   return (
     <>
       <Helmet>
         <title>Incidents | KrikWatch</title>
       </Helmet>
+
+      <section>
+        <div className="wrapper">
+          <div className="row">
+            <div className="col-12">
+              <button 
+                onClick={toggleChartVisibility}
+                style={{
+                  position: 'fixed',
+                  bottom: '16px',
+                  right: '16px',
+                  width: '48px',
+                  height: '48px',
+                  flex: 'none',
+                  display: 'none',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  backgroundColor: '#1b2431',
+                  borderRadius: '24px',
+                  transition: '0.2s',
+                  cursor: 'pointer',
+                }}
+              >
+                 <img src={GraphIcon} style={{ width: '20px', height: '20px' }} />
+              </button>
+              {isChartVisible && <Chart4 incidents={processIncidentsForChart()} />}
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="search-container">
         <div className="wrapper">
@@ -190,7 +241,80 @@ const IncidentsPage = () => {
           <div className="wrapper">
             <div className="row">
               <div className="col-12">
-                <table className="custom-table">
+              <TableContainer component={Paper} className="custom-table">
+                <Table>
+                  <TableHead>
+                    <TableRow>
+                      <TableCell>Status</TableCell>
+                      <TableCell>Title</TableCell>
+                      <TableCell>Website</TableCell>
+                      <TableCell>Author</TableCell>
+                      <TableCell>Created at</TableCell>
+                      <TableCell style={{ width: "100px" }}></TableCell>
+                    </TableRow>
+                  </TableHead>
+                  <TableBody>
+                    {currentIncidents.length > 0 ? (
+                      currentIncidents.map((incident) => (
+                        <TableRow key={incident.id}>
+                          <TableCell>
+                            {incident ? (
+                              incident.status === 1 ? (
+                                <span className="status-badge status-badge_open">OPEN</span>
+                              ) : incident.status === 2 ? (
+                                <span className="status-badge status-badge_progress">IN PROGRESS</span>
+                              ) : incident.status === 3 ? (
+                                <span className="status-badge status-badge_active">RESOLVED</span>
+                              ) : incident.status === 4 ? (
+                                <span className="status-badge status-badge_closed">CLOSED</span>
+                              ) : null
+                            ) : null}
+                          </TableCell>
+                          <TableCell>
+                            <span
+                              style={{ cursor: "pointer" }}
+                              onClick={() => handleDetailsClick(incident.incident_key)}
+                            >
+                              {incident.title}
+                            </span>
+                          </TableCell>
+                          <TableCell>{incident.website_name}</TableCell>
+                          <TableCell>
+                            {incident.created_by_first_name + " " + incident.created_by_last_name}
+                          </TableCell>
+                          <TableCell>{formatDateWithClock(incident.created_at)}</TableCell>
+                          <TableCell>
+                            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                              <button onClick={() => handleDetailsClick(incident.incident_key)}>
+                                <img src={EyeIcon} />
+                              </button>
+                              <IconButton
+                                aria-label="more"
+                                id={`menu-button-${incident.id}`}
+                                aria-controls={`menu-${incident.id}`}
+                                aria-haspopup="true"
+                                onClick={(e) => handleMenuOpen(e, incident)}
+                                sx={{ marginLeft: "12px", padding: "4px" }}
+                              >
+                                <img src={MoreMenuIcon} />
+                              </IconButton>
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      ))
+                    ) : (
+                      <TableRow>
+                        <TableCell colSpan={6} style={{ textAlign: "center" }}>
+                          {incidents.length === 0
+                            ? "There are no incidents yet."
+                            : "No incidents found with the query."}
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </TableBody>
+                </Table>
+              </TableContainer>
+                {/* <table className="custom-table">
                   <thead>
                     <tr>
                       <th>Status</th>
@@ -226,7 +350,9 @@ const IncidentsPage = () => {
                               ) : null
                             ) : null}
                           </td>
-                          <td>{incident.title}</td>
+                          <td><span style={{ cursor: 'pointer'}} onClick={() =>
+                                  handleDetailsClick(incident.incident_key)
+                                }>{incident.title}</span></td>
                           <td>{incident.website_name}</td>
                           <td>
                             {incident.created_by_first_name +
@@ -272,7 +398,7 @@ const IncidentsPage = () => {
                       </tr>
                     )}
                   </tbody>
-                </table>
+                </table> */}
               </div>
               {currentIncidents.length > 0 && (
                 <div className="col-12">

@@ -251,8 +251,8 @@ const ClientsPage = () => {
                     sx={{
                       display: "grid",
                       gridTemplateColumns: {
-                        xs: "repeat(1, minmax(200px, 1fr))", // 1 column on extra-small screens
-                        sm: "repeat(2, minmax(200px, 1fr))", // 2 columns on small screens
+                        xs: "repeat(1, minmax(200px, 1fr))",
+                        sm: "repeat(2, minmax(200px, 1fr))",
                         md: "repeat(4, minmax(200px, 1fr))",
                       },
                       gap: "24px",
@@ -269,7 +269,6 @@ const ClientsPage = () => {
                             }}
                           >
                             <Typography
-                              variant="h6"
                               sx={{
                                 fontFamily: "Plus Jakarta Sans, sans-serif",
                                 fontSize: "18px",
@@ -313,7 +312,7 @@ const ClientsPage = () => {
             </div>
           </section>
           {currentClients.length > 0 && (
-            <section>
+            <section style={{ paddingBottom: '80px' }}>
               <div className="wrapper">
                 <div className="row">
                   <div className="col-12">
@@ -347,7 +346,6 @@ const ClientsPage = () => {
               </div>
             </section>
           )}
-
           <Menu
             anchorEl={anchorEl}
             open={open}

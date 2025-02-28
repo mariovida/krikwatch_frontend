@@ -143,6 +143,12 @@ const IncidentDetails = styled(Stack)({
   gap: "32px",
   marginBottom: "40px",
   cursor: "default",
+
+  "@media (max-width: 640px)": {
+    flexDirection: 'column',
+    alignItems: "flex-start",
+    gap: '8px'
+  },
 });
 
 const CustomCard = styled(Card)({
@@ -438,6 +444,10 @@ const IncidentDetailsPage = () => {
                                 cursor: "pointer",
 
                                 "&:hover": { opacity: "0.9" },
+
+                                "@media (max-width: 640px)": {
+                                  display: "none",
+                                },
                               }}
                             >
                               Download
@@ -546,8 +556,8 @@ const IncidentDetailsPage = () => {
                           </Typography>
                         </div>
                       </div> */}
-                    <div className="row" style={{ marginBottom: "48px" }}>
-                      <div className="col-4">
+                    <div className="row" style={{ marginBottom: "48px", rowGap: '16px' }}>
+                      <div className="col-12 col-md-4">
                         <CustomCard>
                           <Typography
                             sx={{
@@ -566,7 +576,7 @@ const IncidentDetailsPage = () => {
                           </Typography>
                         </CustomCard>
                       </div>
-                      <div className="col-4">
+                      <div className="col-12 col-md-4">
                         <CustomCard>
                           <Typography
                             sx={{
@@ -585,7 +595,7 @@ const IncidentDetailsPage = () => {
                           </Typography>
                         </CustomCard>
                       </div>
-                      <div className="col-4">
+                      <div className="col-12 col-md-4">
                         <CustomCard>
                           <Typography
                             sx={{
@@ -629,8 +639,8 @@ const IncidentDetailsPage = () => {
                         Incident details
                       </Typography>
                     </div>
-                    <div className="col-6">
-                      {incident.description && (
+                    {incident.description ? (
+                    <div className="col-12 col-md-6">
                         <CustomCard>
                           <Typography
                             sx={{
@@ -646,10 +656,10 @@ const IncidentDetailsPage = () => {
                             {incident.description}
                           </Typography>
                         </CustomCard>
-                      )}
                     </div>
-                    <div className="col-6">
-                      {incident.note && (
+                     ) : null}
+                      {incident.note ? (
+                    <div className="col-12 col-md-6">
                         <CustomCard>
                           <Typography
                             sx={{
@@ -665,8 +675,8 @@ const IncidentDetailsPage = () => {
                             {incident.note}
                           </Typography>
                         </CustomCard>
-                      )}
                     </div>
+                     ) : null}
                   </div>
                 ) : null}
               </>
@@ -725,7 +735,11 @@ const IncidentDetailsPage = () => {
                   <Box
                     sx={{
                       display: "grid",
-                      gridTemplateColumns: "repeat(3, minmax(340px, 1fr))",
+                      gridTemplateColumns: {
+                        xs: "repeat(1, minmax(200px, 1fr))",
+                        sm: "repeat(2, minmax(250px, 1fr))",
+                        md: "repeat(3, minmax(270px, 1fr))",
+                      },
                       gap: "24px",
                     }}
                   >

@@ -327,7 +327,9 @@ const EditWebsitePage = () => {
                     fullWidth
                     variant="filled"
                   />
-                  <Stack direction="row" sx={{ gap: "16px" }}>
+                  <Stack direction="row" sx={{ gap: "16px", "@media (max-width: 640px)": {
+                      flexDirection: 'column',
+                    }, }}>
                     <FormControl fullWidth variant="filled" required>
                       <InputLabel id="client-select-label">
                         Select client
@@ -409,6 +411,11 @@ const EditWebsitePage = () => {
                   sx={{
                     justifyContent: "space-between !important",
                     alignItems: "center",
+                    "@media (max-width: 640px)": {
+                      flexDirection: 'column',
+                      alignItems: 'flex-start',
+                      gap: '32px !important',
+                    },
                   }}
                 >
                   <Button onClick={handleDelete} className="delete-btn">

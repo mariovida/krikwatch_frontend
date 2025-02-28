@@ -6,7 +6,7 @@ import axios from "axios";
 import AddUserModal from "./AddUserModal";
 import ChevronUp from "../../assets/icons/arrow-up-right.svg";
 
-import { Snackbar } from "@mui/material";
+import { Snackbar, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Box } from "@mui/material";
 
 import { formatDateWithClock } from "../../helpers/formatDateWithClock";
 
@@ -193,7 +193,63 @@ const UsersPage = () => {
             <div className="wrapper">
               <div className="row">
                 <div className="col-12">
-                  <table className="custom-table">
+                  <TableContainer component={Paper} className="custom-table">
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell>Status</TableCell>
+                          <TableCell>First name</TableCell>
+                          <TableCell>Last name</TableCell>
+                          <TableCell>Email</TableCell>
+                          <TableCell>Created at</TableCell>
+                          <TableCell style={{ width: "100px" }}></TableCell>
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {filteredUsers.length > 0 ? (
+                          filteredUsers.map((user) => (
+                            <TableRow key={user.id}>
+                              <TableCell>
+                                {user ? (
+                                  user.verified === false ? (
+                                    <span className="status-badge status-badge_closed">
+                                      NOT VERIFIED
+                                    </span>
+                                  ) : user.is_verified === 1 ? (
+                                    <span className="status-badge status-badge_active">
+                                      ACTIVE
+                                    </span>
+                                  ) : (
+                                    <span className="status-badge status-badge_inactive">
+                                      INACTIVE
+                                    </span>
+                                  )
+                                ) : null}
+                              </TableCell>
+                              <TableCell>{user.first_name}</TableCell>
+                              <TableCell>{user.last_name}</TableCell>
+                              <TableCell>{user.email}</TableCell>
+                              <TableCell>{formatDateWithClock(user.date_created)}</TableCell>
+                              <TableCell>
+                                <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+                                  <button onClick={() => handleEditUser(user)}>
+                                    <img src={ChevronUp} />
+                                  </button>
+                                </Box>
+                              </TableCell>
+                            </TableRow>
+                          ))
+                        ) : (
+                          <TableRow>
+                            <TableCell colSpan={6} style={{ textAlign: "center" }}>
+                              No users found with the query
+                            </TableCell>
+                          </TableRow>
+                        )}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                  {/* <table className="custom-table">
                     <thead>
                       <tr>
                         <th>Status</th>
@@ -244,7 +300,7 @@ const UsersPage = () => {
                         </tr>
                       )}
                     </tbody>
-                  </table>
+                  </table> */}
                 </div>
               </div>
             </div>

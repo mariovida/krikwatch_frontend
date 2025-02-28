@@ -142,6 +142,7 @@ const EditIncidentPage = () => {
   const handleClose = () => {
     setSuccessModal(false);
     navigate(`/incidents`);
+    //navigate(`/incident/${id}`);
   };
 
   return (
